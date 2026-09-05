@@ -1,0 +1,8 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "framework": "vite",
+  "installCommand": "cd shield-ai-india-source/frontend && npx --yes yarn@1.22.22 install --frozen-lockfile --non-interactive",
+  "buildCommand": "cd shield-ai-india-source/frontend && npm run build",
+  "outputDirectory": "shield-ai-india-source/frontend/dist",
+  "rewrites": [{ "source": "/(.*)", "destination": "/index.html" }]
+}
