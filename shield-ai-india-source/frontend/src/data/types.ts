@@ -1,4 +1,4 @@
-export type EvidenceClass = 'official' | 'shield' | 'industry' | 'modelled';
+export type EvidenceClass = 'official' | 'company' | 'shield' | 'industry' | 'modelled';
 export type Confidence = 'High' | 'Medium' | 'Low';
 export type Horizon = 'execute' | 'build' | 'seed';
 

@@ -8,6 +8,7 @@ import { useStore } from '@/store';
 
 export const CLS_META: Record<EvidenceClass, { label: string; badge: string; border: string; dot: string }> = {
   official: { label: 'Official', badge: 'bg-slate-700/60 text-slate-200 border-slate-400/60', border: 'ev-official', dot: 'bg-slate-300' },
+  company: { label: 'Official company', badge: 'bg-cyan-500/10 text-cyan-200 border-cyan-400/50', border: 'border border-cyan-400/60', dot: 'bg-cyan-300' },
   shield: { label: 'Shield AI ✓', badge: 'bg-emerald-500/15 text-emerald-300 border-emerald-500/50', border: 'ev-shield', dot: 'bg-emerald-400' },
   industry: { label: 'Industry', badge: 'bg-amber-500/15 text-amber-300 border-amber-500/50', border: 'ev-industry', dot: 'bg-amber-400' },
   modelled: { label: 'Modelled', badge: 'bg-violet-500/15 text-violet-300 border-violet-400/60 border-dashed', border: 'ev-modelled', dot: 'bg-violet-400' },

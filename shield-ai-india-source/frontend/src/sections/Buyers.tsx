@@ -1,119 +1,111 @@
-import { useState } from 'react';
-import { ArrowDown, MapPin } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import { ArrowRight, FileText, X } from 'lucide-react';
 import { cn } from '@/lib/cn';
-import { Headline, Pill, Screen, accessTone, chainTone } from '@/components/ui';
+import { Headline, Pill, Screen } from '@/components/ui';
 import { SourceButton } from '@/components/Evidence';
-import { PrecedentTag } from '@/components/AccountDrawer';
-import { ACCOUNTS, ACCOUNT_MAP, PRODUCTS } from '@/data/accounts';
 import { useStore } from '@/store';
+import { ACCOUNTS_V2, ACCOUNT_MAP_V2, ANALOGUES, CUSTOMER_PROGRAMMES, PLATFORMS, PLATFORM_MAP, WATCH_ACCOUNTS, type Domain, type Platform, type Posture } from '@/data/platform-ecosystem';
+import './buyers.css';
 
-type Tab = 'product' | 'customer' | 'oem';
+type Tab = 'product' | 'customer' | 'platform';
+const DOMAINS: { id: Domain; label: string }[] = [{ id: 'air', label: 'Air' }, { id: 'maritime', label: 'Maritime' }, { id: 'weapons', label: 'Weapons' }, { id: 'systems', label: 'Sensors / systems' }];
+const SATELLITES = [[20, 23], [50, 15], [80, 23], [80, 68], [50, 76], [20, 68]];
+const postureTone = (p: Posture): 'green' | 'blue' | 'amber' | 'grey' | 'neutral' => p === 'PURSUE' ? 'green' : p === 'CO-DEVELOP' ? 'blue' : p === 'SHAPE' || p === 'COMPLEMENT' ? 'amber' : p === 'WATCH' || p === 'DEPRIORITISE' ? 'grey' : 'neutral';
 
-function AccountChip({ id }: { id: string }) {
-  const { setAccount } = useStore();
-  const a = ACCOUNT_MAP[id];
-  return (
-    <button data-testid={`account-chip-${id}`} onClick={() => setAccount(id)} className="panel panel-hover px-3 py-2 text-left flex items-center gap-3 w-full">
-      <div className="min-w-0 flex-1"><div className="text-sm font-medium truncate">{a.name}</div><div className="text-[11px] text-paper-3 truncate flex items-center gap-1"><MapPin className="h-3 w-3" />{a.city}</div></div>
-      <Pill tone={accessTone(a.access)}>{a.access}</Pill>
-    </button>
-  );
+function EvidenceDot({ claimIds, title }: { claimIds: string[]; title: string }) {
+  const { openEvidence } = useStore();
+  return <button className="account-source-dot" aria-label={`Sources for ${title}`} title="Sources & assumptions" onClick={(e) => { e.stopPropagation(); openEvidence(claimIds, title); }}><FileText size={10} /></button>;
 }
+
+function OpportunityChain({ platform, onBack }: { platform: Platform; onBack: () => void }) {
+  const fit = platform.shieldFit[0];
+  const steps = [
+    { over: 'Government mission', main: platform.endUser, sub: platform.mission },
+    { over: 'Programme', main: platform.programme, sub: platform.pathway },
+    { over: 'Platform prime', main: ACCOUNT_MAP_V2[platform.accountId].name, sub: platform.name },
+    { over: 'Current architecture', main: platform.autonomyIncumbent, sub: platform.existingAutonomy },
+    { over: 'Shield insertion', main: fit.product, sub: fit.insertionPoint, shield: true },
+    { over: 'Next decision', main: platform.nextDecision, sub: 'Management action' },
+  ];
+  return <div className="opportunity-path" data-testid="opportunity-chain">
+    <button className="path-back" onClick={onBack}>← {ACCOUNT_MAP_V2[platform.accountId].name} platforms</button>
+    <div className="path-track">{steps.map((step, i) => <div className="contents" key={step.over}>
+      <div className={cn('path-step', step.shield && 'path-shield')}><span>{step.over}</span><strong>{step.main}</strong><small>{step.sub}</small>{step.shield && <Pill tone="purple">Hypothesis</Pill>}</div>
+      {i < steps.length - 1 && <ArrowRight className="path-arrow" size={16} />}
+    </div>)}</div>
+  </div>;
+}
+
+function PlatformDrawer({ platform, onClose }: { platform: Platform; onClose: () => void }) {
+  const f = platform.shieldFit[0];
+  const analogue = f.analogueId ? ANALOGUES[f.analogueId] : null;
+  const rows = [['Mission', platform.mission], ['Government user', platform.endUser], ['Programme pathway', platform.pathway], ['Platform maturity', platform.maturity], ['Existing autonomy', platform.existingAutonomy], ['Shield insertion', `${f.product} · ${f.insertionPoint}`], ['Why now', platform.whyNow], ['What could block it', platform.blocker], ['Next decision', platform.nextDecision]];
+  return <aside className="platform-drawer" data-testid="platform-drawer" aria-label={`${platform.name} opportunity detail`}>
+    <div className="platform-drawer-head"><div><span>{ACCOUNT_MAP_V2[platform.accountId].name} · opportunity cell</span><h2>{platform.name}</h2></div><button aria-label="Close platform detail" onClick={onClose}><X size={17} /></button></div>
+    <div className="drawer-signals"><Pill tone={postureTone(platform.strategicPosture)}>{platform.strategicPosture}</Pill><Pill>{platform.architectureOpenness} openness</Pill><Pill>{platform.confidence} confidence</Pill></div>
+    <dl>{rows.map(([k, v]) => <div key={k}><dt>{k}</dt><dd>{v}</dd></div>)}</dl>
+    {analogue && <div className="drawer-analogue"><span>Global precedent</span><strong>{analogue.label}</strong><p>{analogue.lesson}</p><SourceButton claimIds={analogue.claimIds} title={analogue.label} size="xs" /></div>}
+    <SourceButton claimIds={platform.claimIds} title={`${ACCOUNT_MAP_V2[platform.accountId].name} · ${platform.name}`} className="drawer-source-link" />
+  </aside>;
+}
+
+function EcosystemView() {
+  const { mode } = useStore();
+  const [accountId, setAccountId] = useState<string | null>(null);
+  const [platformId, setPlatformId] = useState<string | null>(null);
+  const [whyNot, setWhyNot] = useState(false);
+  const account = accountId ? ACCOUNT_MAP_V2[accountId] : null;
+  const platform = platformId ? PLATFORM_MAP[platformId] : null;
+  const platforms = account ? PLATFORMS.filter((p) => p.accountId === account.id).slice(0, 6) : [];
+  const selectAccount = (id: string) => { setAccountId(accountId === id ? null : id); setPlatformId(null); setWhyNot(false); };
+  useEffect(() => {
+    const closeLocal = (event: KeyboardEvent) => {
+      if (event.key !== 'Escape') return;
+      if (platformId) setPlatformId(null);
+      else if (accountId) setAccountId(null);
+      else if (whyNot) setWhyNot(false);
+    };
+    window.addEventListener('keydown', closeLocal);
+    return () => window.removeEventListener('keydown', closeLocal);
+  }, [accountId, platformId, whyNot]);
+  return <div className="ecosystem-shell">
+    <div className="ecosystem-toolbar"><div className="ecosystem-legend"><span><i className="priority-dot" />priority</span><span><i className="source-dot" />source</span><span>posture = hypothesis</span></div><button data-testid="why-not-toggle" className={cn('why-not-toggle', whyNot && 'active')} disabled={mode !== 'explore'} title={mode !== 'explore' ? 'Available in Explore mode' : undefined} onClick={() => { setWhyNot(!whyNot); setAccountId(null); setPlatformId(null); }}>Why not now?</button></div>
+    <div className="ecosystem-workspace"><div className={cn('ecosystem-canvas', account && 'account-active', platform && 'platform-active')} data-testid="ecosystem-canvas">
+      {!platform && <>
+        {DOMAINS.map((d) => <div key={d.id} className={`domain-region domain-${d.id}`}><span>{d.label}</span></div>)}
+        <svg className="account-lines" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">{account && platforms.map((p, i) => <line key={p.id} x1="50" y1="46" x2={SATELLITES[i][0]} y2={SATELLITES[i][1]} />)}</svg>
+        {ACCOUNTS_V2.map((a) => { const active = a.id === accountId; return <div key={a.id} role="button" tabIndex={0} aria-pressed={active} data-testid={`ecosystem-account-${a.id}`} className={cn('ecosystem-node', `priority-${a.priority}`, active && 'active', account && !active && 'dimmed')} style={{ left: `${active ? 50 : a.x}%`, top: `${active ? 46 : a.y}%` }} onClick={() => selectAccount(a.id)} onKeyDown={(e) => (e.key === 'Enter' || e.key === ' ') && selectAccount(a.id)}><strong>{a.name}</strong><small>{a.posture}</small><EvidenceDot claimIds={a.claimIds} title={a.name} /></div>; })}
+        {!account && <button className="watch-cluster" data-testid="watch-cluster" disabled={mode !== 'explore'} title={mode !== 'explore' ? 'Open Explore mode to inspect' : undefined} onClick={() => setWhyNot(true)}><strong>+7</strong><span>Watch / incumbent autonomy</span></button>}
+        {account && platforms.map((p, i) => <div key={p.id} role="button" tabIndex={0} data-testid={`platform-node-${p.id}`} className="platform-satellite" style={{ left: `${SATELLITES[i][0]}%`, top: `${SATELLITES[i][1]}%` }} onClick={() => setPlatformId(p.id)} onKeyDown={(e) => (e.key === 'Enter' || e.key === ' ') && setPlatformId(p.id)}><strong>{p.name}</strong><span>{p.maturity}</span><small>{p.shieldFit[0]?.product ?? 'Discovery'}</small><EvidenceDot claimIds={p.claimIds} title={`${account.name} · ${p.name}`} /></div>)}
+        {whyNot && <div className="why-not-layer" data-testid="why-not-view">{WATCH_ACCOUNTS.map((a) => <div className="why-not-node" key={a.id}><div><strong>{a.name}</strong><Pill tone={postureTone(a.posture)}>{a.posture}</Pill></div><span>{a.reason}</span><EvidenceDot claimIds={a.claimIds} title={a.name} /></div>)}</div>}
+      </>}
+      {platform && <OpportunityChain platform={platform} onBack={() => setPlatformId(null)} />}
+    </div>{platform && <PlatformDrawer platform={platform} onClose={() => setPlatformId(null)} />}</div>
+    <p className="ecosystem-caption">Government pull <span>×</span> platform value <span>×</span> architectural openness <span>×</span> genuine Shield gap</p>
+  </div>;
+}
+
+const PRODUCT_GROUPS: Record<string, { label: string; ids: string[] }[]> = {
+  Hivemind: [{ label: 'Best insertion', ids: ['grse', 'bel'] }, { label: 'Strategic shape', ids: ['hal', 'bdl', 'kssl', 'mdl'] }, { label: 'Partner / competitor', ids: ['newspace'] }, { label: 'Incumbent / low priority', ids: ['lt', 'adani', 'ideaforge', 'raphe', 'ayaan'] }],
+  Tracker: [{ label: 'Best insertion', ids: ['bel', 'paras'] }, { label: 'Validate', ids: ['bdl'] }, { label: 'Low relevance', ids: ['grse', 'hal', 'mdl'] }],
+  Vision: [{ label: 'Best insertion', ids: ['bel', 'paras', 'grse'] }, { label: 'Validate', ids: ['hal', 'kssl'] }, { label: 'Low relevance', ids: ['bdl', 'newspace'] }],
+  Aechelon: [{ label: 'Development gap', ids: ['hal', 'newspace'] }, { label: 'Validate', ids: ['bel', 'bdl'] }, { label: 'Monitor', ids: ['grse', 'mdl'] }],
+};
 
 function ProductView() {
-  const [pid, setPid] = useState('hivemind');
-  const p = PRODUCTS.find((x) => x.id === pid)!;
-  return (
-    <div className="grid md:grid-cols-4 gap-3 flex-1 min-h-0">
-      <div className="flex flex-col gap-1">
-        {PRODUCTS.map((x) => <button key={x.id} data-testid={`product-${x.id}`} onClick={() => setPid(x.id)} className={cn('text-left rounded px-3 py-2 text-sm transition-colors duration-200 border', pid === x.id ? 'bg-ink-3 border-sig-blue/60 text-paper' : 'border-transparent text-paper-2 hover:bg-ink-2')}>{x.name}</button>)}
-      </div>
-      <div className="md:col-span-3 grid md:grid-cols-2 gap-3 animate-rise" key={pid}>
-        <div className="panel p-4">
-          <div className="flex items-center justify-between"><span className="eyebrow">{p.name} · mission areas</span>{p.claimIds.length > 0 && <SourceButton claimIds={p.claimIds} title={p.name} size="xs" />}</div>
-          <div className="mt-3 flex flex-col gap-1.5">{p.missions.map((m) => <div key={m} className="flex items-center gap-2 text-sm"><span className="h-px w-4 bg-sig-blue" />{m}</div>)}</div>
-          {p.id === 'benchmark' && <div className="mt-3 text-xs text-paper-3 italic">India demand not publicly established — monitor only.</div>}
-        </div>
-        <div className="panel p-4"><div className="eyebrow mb-3">Likely accounts · click to inspect</div><div className="flex flex-col gap-1.5">{p.accounts.map((a) => <AccountChip key={a} id={a} />)}</div></div>
-      </div>
-    </div>
-  );
-}
-
-function Chain({ id }: { id: string }) {
-  const a = ACCOUNT_MAP[id];
-  if (!a.chain) return <div className="text-xs text-paper-3">Decision chain not mapped for this account.</div>;
-  return (
-    <ol className="flex flex-col gap-1 stagger" data-testid={`decision-chain-${id}`}>
-      {a.chain.map((c, i) => (
-        <li key={c.stage} className="flex flex-col items-stretch">
-          <div className="panel px-3 py-1.5 flex items-center gap-3">
-            <div className="min-w-0 flex-1"><div className="text-xs font-medium">{c.stage}</div><div className="text-[11px] text-paper-2 truncate">{c.who}</div></div>
-            <Pill tone={chainTone(c.label)}>{c.label}</Pill>
-          </div>
-          {i < a.chain!.length - 1 && <ArrowDown className="h-3 w-3 text-paper-3 self-center my-0.5" />}
-        </li>
-      ))}
-    </ol>
-  );
+  const [product, setProduct] = useState('Hivemind');
+  const name = (id: string) => ACCOUNTS_V2.find((a) => a.id === id)?.name ?? WATCH_ACCOUNTS.find((a) => a.id === id)?.name ?? id;
+  return <div className="product-view-v2"><div className="product-rail">{Object.keys(PRODUCT_GROUPS).map((p) => <button key={p} className={cn(product === p && 'active')} onClick={() => setProduct(p)}>{p}</button>)}</div><div className="product-rings" data-testid="product-rings"><div className="product-centre"><span>Shield product</span><strong>{product}</strong></div>{PRODUCT_GROUPS[product].map((g, i) => <section key={g.label} className={`product-ring ring-${i}`}><h3>{g.label}</h3><div>{g.ids.map((id) => <span key={id}>{name(id)}</span>)}</div></section>)}</div></div>;
 }
 
 function CustomerView() {
-  const { setAccount } = useStore();
-  const [sel, setSel] = useState('a-army');
-  const primary = ACCOUNTS.filter((a) => a.kind !== 'oem' && a.id !== 'a-icg');
-  return (
-    <div className="grid md:grid-cols-5 gap-3 flex-1 min-h-0">
-      <div className="md:col-span-2 flex flex-col gap-1.5">
-        <div className="eyebrow">Primary</div>
-        {primary.map((a) => <button key={a.id} data-testid={`customer-${a.id}`} onClick={() => setSel(a.id)} className={cn('panel px-3 py-2 text-left flex items-center gap-2 transition-colors duration-200', sel === a.id && 'border-sig-blue/60 bg-ink-3')}><div className="flex-1 min-w-0"><div className="text-sm font-medium">{a.name}</div><div className="text-[11px] text-paper-3 truncate">{a.wedge}</div></div><Pill tone={accessTone(a.access)}>{a.access}</Pill></button>)}
-        <div className="eyebrow mt-2">Secondary</div>
-        <button data-testid="customer-a-icg" onClick={() => setSel('a-icg')} className={cn('panel px-3 py-2 text-left opacity-80', sel === 'a-icg' && 'border-sig-blue/60')}><div className="text-sm">Indian Coast Guard</div><div className="text-[11px] text-paper-3">After Navy reference · no general policing</div></button>
-      </div>
-      <div className="md:col-span-3 panel p-4 overflow-y-auto animate-rise" key={sel}>
-        <div className="flex items-start justify-between gap-2 mb-3">
-          <div><div className="eyebrow">Decision chain</div><div className="text-base font-medium">{ACCOUNT_MAP[sel].name}</div><div className="text-xs text-paper-3 flex items-center gap-1 mt-0.5"><MapPin className="h-3 w-3" />{ACCOUNT_MAP[sel].geography}</div></div>
-          <div className="flex items-center gap-2"><SourceButton claimIds={ACCOUNT_MAP[sel].claimIds} title={ACCOUNT_MAP[sel].name} /><button data-testid="open-account-detail" onClick={() => setAccount(sel)} className="rounded border border-line px-2.5 py-1 text-xs text-paper-2 hover:text-paper">Account detail</button></div>
-        </div>
-        <Chain id={sel} />
-        <div className="mt-3"><PrecedentTag id={ACCOUNT_MAP[sel].precedentId} /></div>
-      </div>
-    </div>
-  );
-}
-
-function OemView() {
-  const { setAccount } = useStore();
-  const oems = ACCOUNTS.filter((a) => a.kind === 'oem');
-  return (
-    <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3 stagger">
-      {oems.map((a) => (
-        <div key={a.id} role="button" tabIndex={0} data-testid={`oem-card-${a.id}`} onClick={() => setAccount(a.id)} onKeyDown={(e) => e.key === 'Enter' && setAccount(a.id)} className="panel panel-hover p-4 text-left flex flex-col gap-2 cursor-pointer">
-          <div className="flex items-start justify-between gap-2"><div className="text-base font-medium">{a.name}</div><Pill tone={accessTone(a.access)}>Access {a.access}</Pill></div>
-          <div className="text-[11px] text-paper-3 flex items-center gap-1"><MapPin className="h-3 w-3" />{a.city}</div>
-          <div className="flex flex-wrap gap-1">{a.platforms.slice(0, 2).map((p) => <Pill key={p}>{p}</Pill>)}</div>
-          <div className="text-sm text-sig-blue">{a.wedge}</div>
-          <div className="mt-auto pt-1"><PrecedentTag id={a.precedentId} /></div>
-        </div>
-      ))}
-      <div className="panel p-4 border-dashed opacity-60 text-xs text-paper-3 flex flex-col gap-1"><span className="eyebrow">Monitor only</span>MDL · BDL · L&T · Adani Defence</div>
-    </div>
-  );
+  const [customer, setCustomer] = useState<keyof typeof CUSTOMER_PROGRAMMES>('navy');
+  const labels = { navy: 'Indian Navy', army: 'Indian Army', airforce: 'Indian Air Force' };
+  return <div className="customer-view-v2"><div className="customer-selector">{(Object.keys(labels) as (keyof typeof labels)[]).map((id) => <button key={id} className={cn(customer === id && 'active')} onClick={() => setCustomer(id)}>{labels[id]}</button>)}</div><div className="customer-map" data-testid="customer-map"><div className="customer-centre"><span>Government mission</span><strong>{labels[customer]}</strong></div>{CUSTOMER_PROGRAMMES[customer].map((p, i) => <div className={`customer-programme cp-${i}`} key={p.id}><span>{p.maturity}</span><strong>{p.name}</strong><small>{p.primes}</small><ArrowRight size={13} /><em>{p.insertion}</em><EvidenceDot claimIds={p.claimIds} title={`${labels[customer]} · ${p.name}`} /></div>)}</div><p className="ecosystem-caption">Government demand → programme → prime candidate → Shield insertion</p></div>;
 }
 
 export default function Buyers() {
-  const [tab, setTab] = useState<Tab>('product');
-  return (
-    <Screen>
-      <Headline title="Services · platforms · primes" sub="Product → platform → organisation → decision chain → programme. There is no single decision maker." right={
-        <div data-testid="buyers-tabs" className="flex rounded border border-line overflow-hidden text-xs">
-          {([['product', 'By Shield product'], ['customer', 'By customer'], ['oem', 'By Indian platform / OEM']] as [Tab, string][]).map(([t, l]) => <button key={t} data-testid={`tab-${t}`} onClick={() => setTab(t)} className={cn('px-3 py-1 transition-colors duration-200', tab === t ? 'bg-ink-4 text-paper' : 'text-paper-3 hover:text-paper-2')}>{l}</button>)}
-        </div>
-      } />
-      <div className="md:hidden flex gap-1 text-xs">{(['product', 'customer', 'oem'] as Tab[]).map((t) => <button key={t} onClick={() => setTab(t)} className={cn('px-2 py-1 rounded border border-line capitalize', tab === t && 'bg-ink-4')}>{t}</button>)}</div>
-      {tab === 'product' && <ProductView />}
-      {tab === 'customer' && <CustomerView />}
-      {tab === 'oem' && <OemView />}
-    </Screen>
-  );
+  const [tab, setTab] = useState<Tab>('platform');
+  const tabs: [Tab, string][] = [['product', 'By Shield product'], ['customer', 'By customer'], ['platform', 'By platform / prime']];
+  return <Screen className="buyers-screen"><Headline title="Find the insertion point" sub="Sell into specific platforms where customer pull, value, openness and a real capability gap intersect." /><div className="buyers-topline"><div data-testid="buyers-tabs" className="buyers-tabs">{tabs.map(([id, label]) => <button key={id} data-testid={`tab-${id}`} aria-pressed={tab === id} onClick={() => setTab(id)} className={cn(tab === id && 'active')}>{label}</button>)}</div><div className="buyers-thesis"><span>B2B2G</span> Platform value × openness × customer pull</div></div>{tab === 'platform' && <EcosystemView />}{tab === 'product' && <ProductView />}{tab === 'customer' && <CustomerView />}</Screen>;
 }
