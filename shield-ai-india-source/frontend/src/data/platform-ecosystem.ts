@@ -105,4 +105,14 @@ export const CUSTOMER_PROGRAMMES = {
     { id: 'haps', name: 'HAPS', maturity: 'AoN signal', primes: 'HAL · ecosystem', insertion: 'Vision / autonomy', claimIds: ['c-haps','c-hal-platforms'] },
     { id: 'swarm', name: 'Swarm systems', maturity: 'Competitions', primes: 'Ayaan · NewSpace', insertion: 'Competitive overlap', claimIds: ['c-ayaan-incumbency','c-newspace-incumbency'] },
   ],
+  coastguard: [
+    { id: 'cg-isr', name: 'Maritime ISR / SAR', maturity: 'Follow-on pathway', primes: 'Platform route open', insertion: 'V-BAT + ViDAR', claimIds: ['c-vbat','c-vidar','c-vidar-usmc'] },
+  ],
+  drdo: [
+    { id: 'ade-autonomy', name: 'Autonomy development', maturity: 'Discovery', primes: 'ADE / lab ecosystem', insertion: 'Hivemind Enterprise', claimIds: ['c-hivemind-agnostic','c-sg'] },
+    { id: 'ade-sim', name: 'Simulation / T&E', maturity: 'Discovery', primes: 'DRDO / ADE', insertion: 'Aechelon', claimIds: ['c-aechelon'] },
+  ],
+  space: [
+    { id: 'space-autonomy', name: 'Defence-space autonomy', maturity: 'Long horizon', primes: 'Ecosystem unconfirmed', insertion: 'Hivemind · on-orbit precedent', claimIds: ['c-novi'] },
+  ],
 };
