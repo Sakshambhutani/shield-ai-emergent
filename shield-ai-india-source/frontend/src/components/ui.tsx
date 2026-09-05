@@ -54,6 +54,7 @@ export const HORIZON_META = {
 };
 
 export function SideDrawer({ open, onClose, title, eyebrow, children, testId, width = 'sm:w-[460px]' }: { open: boolean; onClose: () => void; title: string; eyebrow?: string; children: ReactNode; testId: string; width?: string }) {
+  if (!open) return null;
   return (
     <>
       <div onClick={onClose} className={cn('fixed inset-0 z-30 bg-black/40 transition-opacity duration-250', open ? 'opacity-100' : 'opacity-0 pointer-events-none')} />

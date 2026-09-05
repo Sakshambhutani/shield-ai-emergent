@@ -36,7 +36,7 @@ function TopBar() {
   return (
     <header className="flex items-center justify-between gap-3 px-4 lg:px-6 h-12 border-b border-line bg-ink-1 shrink-0">
       <div className="flex items-center gap-3 min-w-0">
-        <span className="md:hidden eyebrow text-sig-blue">Shield AI India</span>
+        <span className="md:hidden eyebrow text-sig-blue whitespace-nowrap">Shield AI<span className="hidden sm:inline"> India</span></span>
         <span className="hidden md:inline text-xs text-paper-3 truncate">{s.num} · {s.label}</span>
       </div>
       <div className="flex items-center gap-2">
@@ -48,13 +48,13 @@ function TopBar() {
           </div>
         )}
         {mode === 'explore' && !present && (
-          <button data-testid="assumptions-btn" onClick={() => setCalc(!calc)} className="inline-flex items-center gap-1.5 rounded border border-violet-400/50 border-dashed px-2.5 py-1 text-xs text-violet-300 hover:bg-violet-500/10 transition-colors duration-200"><SlidersHorizontal className="h-3.5 w-3.5" /> Assumptions</button>
+          <button aria-label="Assumptions" data-testid="assumptions-btn" onClick={() => setCalc(!calc)} className="inline-flex items-center gap-1.5 rounded border border-violet-400/50 border-dashed px-2.5 py-1 text-xs text-violet-300 hover:bg-violet-500/10 transition-colors duration-200"><SlidersHorizontal className="h-3.5 w-3.5" /><span className="hidden sm:inline">Assumptions</span></button>
         )}
-        <button data-testid="sources-btn" onClick={() => openEvidence()} className="inline-flex items-center gap-1.5 rounded border border-line px-2.5 py-1 text-xs text-paper-2 hover:text-paper hover:border-line-2 transition-colors duration-200">
-          <FileText className="h-3.5 w-3.5" /> Sources & Assumptions <span className="num text-sig-blue">({s.claimIds.length})</span>
+        <button aria-label="Sources & Assumptions" data-testid="sources-btn" onClick={() => openEvidence()} className="inline-flex items-center gap-1.5 rounded border border-line px-2.5 py-1 text-xs text-paper-2 hover:text-paper hover:border-line-2 transition-colors duration-200">
+          <FileText className="h-3.5 w-3.5" /><span className="hidden sm:inline">Sources &amp; Assumptions <span className="num text-sig-blue">({s.claimIds.length})</span></span>
         </button>
-        <button data-testid="present-btn" onClick={() => setPresent(!present)} className={cn('inline-flex items-center gap-1.5 rounded px-2.5 py-1 text-xs transition-colors duration-200', present ? 'bg-sig-blue text-white' : 'border border-line text-paper-2 hover:text-paper')}>
-          {present ? <Minimize2 className="h-3.5 w-3.5" /> : <Maximize2 className="h-3.5 w-3.5" />} {present ? 'Exit' : 'Present'}
+        <button aria-label={present ? 'Exit presentation' : 'Present'} data-testid="present-btn" onClick={() => setPresent(!present)} className={cn('inline-flex items-center gap-1.5 rounded px-2.5 py-1 text-xs transition-colors duration-200', present ? 'bg-sig-blue text-white' : 'border border-line text-paper-2 hover:text-paper')}>
+          {present ? <Minimize2 className="h-3.5 w-3.5" /> : <Maximize2 className="h-3.5 w-3.5" />}<span className="hidden sm:inline">{present ? 'Exit' : 'Present'}</span>
         </button>
       </div>
     </header>

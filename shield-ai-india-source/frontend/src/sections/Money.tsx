@@ -8,6 +8,7 @@ import { EvidenceBadge, SourceButton } from '@/components/Evidence';
 import { fmtCr, modelledLayer } from '@/components/AssumptionCalc';
 import { BUDGET_TREE, MISSION_TREE, type BudgetNode } from '@/data/budget';
 import { useStore } from '@/store';
+import FuturePossibility from '@/components/FuturePossibility';
 
 const COLW = 205, ROW = 118;
 const PRO_OPTIONS = { hideAttribution: true };
@@ -124,6 +125,7 @@ function NodePanel({ sel, onClose }: { sel: BudgetNode; onClose: () => void }) {
 
 export default function Money() {
   const { mode } = useStore();
+  const [marketView, setMarketView] = useState<'core' | 'future'>('core');
   const [view, setView] = useState<'budget' | 'mission'>('budget');
   const tree = view === 'budget' ? BUDGET_TREE : MISSION_TREE;
   const root = tree[0].id;
@@ -139,6 +141,16 @@ export default function Money() {
   const sel = tree.find((n) => n.id === selected) ?? null;
   return (
     <Screen>
+      <div className="flex flex-wrap items-center justify-between gap-3 shrink-0">
+        <div className="inline-flex rounded border border-line p-1 gap-1" role="group" aria-label="Market view">
+          {(['core', 'future'] as const).map((v) => <button key={v} data-testid={`market-view-${v}`} aria-pressed={marketView === v} onClick={() => setMarketView(v)} className={cn('rounded px-3 py-2 text-[10px] sm:text-xs uppercase tracking-wider transition-colors focus-visible:outline focus-visible:outline-sig-blue', marketView === v ? 'bg-ink-4 text-paper' : 'text-paper-3 hover:text-paper')}>{v === 'core' ? 'Core Today' : 'Future Possibility'}</button>)}
+        </div>
+        <span className="text-[10px] font-mono tracking-wider text-paper-3 uppercase">{marketView === 'core' ? '18-month planning universe' : '3–5+ year option space'}</span>
+      </div>
+      {marketView === 'future' ? <>
+        <div className="shrink-0"><h1 className="text-2xl sm:text-3xl lg:text-4xl font-semibold tracking-tight leading-tight" data-testid="screen-headline">Where else can Shield’s autonomy stack travel?</h1></div>
+        <FuturePossibility />
+      </> : <>
       <Headline title="Money is moving toward autonomy" sub="Official pools are context, not TAM. Only Shield-relevant capability universes branch out." right={
         <div className="flex gap-2">
           <div data-testid="view-toggle" className="flex rounded border border-line overflow-hidden text-xs">
@@ -158,6 +170,7 @@ export default function Money() {
         </div>
         {sel && <NodePanel sel={sel} onClose={() => setSelected(null)} />}
       </div>
+      </>}
     </Screen>
   );
 }
