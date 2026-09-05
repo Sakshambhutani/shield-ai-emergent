@@ -1,0 +1,33 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root { color-scheme: dark; }
+html, body, #root { height: 100%; }
+body { @apply bg-ink text-paper font-sans antialiased; overflow-x: hidden; }
+::selection { background: rgba(59, 130, 246, 0.35); }
+* { scrollbar-width: thin; scrollbar-color: #2e3546 transparent; }
+*::-webkit-scrollbar { width: 8px; height: 8px; }
+*::-webkit-scrollbar-thumb { background: #2e3546; border-radius: 4px; }
+
+.num { @apply font-mono tabular-nums tracking-tight; }
+.eyebrow { @apply font-mono text-[11px] uppercase tracking-[0.18em] text-paper-3; }
+.panel { @apply bg-ink-2 border border-line rounded-md; }
+.panel-hover { @apply transition-colors duration-200 hover:bg-ink-3 hover:border-line-2; }
+
+.ev-official { @apply border border-solid border-slate-400/70; }
+.ev-shield { @apply border border-solid border-emerald-500/70; }
+.ev-industry { @apply border border-solid border-amber-500/70; }
+.ev-modelled { @apply border border-dashed border-violet-400/80; }
+
+.stagger > * { animation: rise 300ms ease-out both; }
+.stagger > *:nth-child(2) { animation-delay: 60ms; }
+.stagger > *:nth-child(3) { animation-delay: 120ms; }
+.stagger > *:nth-child(4) { animation-delay: 180ms; }
+.stagger > *:nth-child(5) { animation-delay: 240ms; }
+.stagger > *:nth-child(6) { animation-delay: 300ms; }
+
+.react-flow__attribution { display: none; }
+.react-flow__node { cursor: pointer; }
+.react-flow__edge-path { stroke: #2e3546; stroke-width: 1.25; }
+.react-flow__handle { opacity: 0; }
