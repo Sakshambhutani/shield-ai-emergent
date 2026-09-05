@@ -1,55 +1,99 @@
-export const ACTORS = [
-  { id: 'india', name: 'Shield AI India', owns: ['Indian customer relationship', 'India programme execution', 'Customer success', 'Indian engineering / integration', 'Government & OEM ecosystem', 'Local hiring · escalation', 'India strategy & pipeline'], claimIds: ['c-india-sub', 'm-opmodel'] },
-  { id: 'hq', name: 'Shield AI HQ', owns: ['Core product architecture', 'Hivemind core roadmap', 'V-BAT / X-BAT global product', 'Safety & airworthiness', 'Export controls · platform IP', 'Global prioritisation'], claimIds: ['m-opmodel', 'c-hivemind-agnostic'] },
-  { id: 'jsw', name: 'JSW Defence', owns: ['V-BAT manufacturing', 'Industrialisation · facility', 'Supply chain · localisation', 'Sustainment / MRO — scope not publicly established'], claimIds: ['c-jsw'] },
-  { id: 'prime', name: 'Indian OEM / Prime', owns: ['Platform ownership', 'System engineering', 'Local integration', 'Customer delivery', 'Mission application IP (commercial structure)'], claimIds: ['c-army-sdk', 'c-catalyst', 'm-opmodel'] },
+export interface MissionTeam { id: string; bet: string; service: string; mandate: string; capabilityIds: string[]; color: string }
+export const MISSION_TEAMS: MissionTeam[] = [
+  { id: 'scale', bet: 'SCALE', service: 'Army', mandate: 'V-BAT + Hivemind reference and expansion', capabilityIds: ['growth', 'programmes', 'autonomy', 'industrialisation', 'finance', 'people', 'legal'], color: '#34D399' },
+  { id: 'embed', bet: 'EMBED', service: 'Hivemind', mandate: 'Indian platform / OEM integrations', capabilityIds: ['growth', 'programmes', 'autonomy', 'finance', 'people', 'legal'], color: '#3B82F6' },
+  { id: 'expand', bet: 'EXPAND', service: 'Navy', mandate: 'V-BAT + ViDAR + maritime autonomy', capabilityIds: ['growth', 'programmes', 'autonomy', 'industrialisation', 'finance', 'legal'], color: '#A78BFA' },
 ];
 
-export type Right = 'D' | 'O' | 'C' | '';
-export interface RightsRow { row: string; india: Right; hq: Right; jsw: Right; prime: Right; rationale: string }
+export interface OperatingCapability { id: string; short: string; name: string; owns: string[]; notOwns: string[]; kpis: string[]; global: string[]; claimIds: string[] }
+export const OPERATING_CAPABILITIES: OperatingCapability[] = [
+  { id: 'growth', short: 'GROWTH', name: 'Growth, BD & Capture', owns: ['Customer relationships and requirement shaping', 'Capture, partnerships and market development'], notOwns: ['Programme delivery', 'Final product commitments'], kpis: ['Qualified programme positions', 'Stage conversion', 'Sponsor coverage', 'Forecast quality'], global: ['Aircraft / V-BAT / X-BAT', 'Hivemind Core'], claimIds: ['m-opmodel'] },
+  { id: 'programmes', short: 'PROGRAMMES', name: 'Programmes, Delivery & Mission Success', owns: ['Mobilisation, trials and acceptance', 'Deployment, customer success and follow-on'], notOwns: ['Product roadmap', 'Independent customer promises'], kpis: ['Critical gates', 'Acceptance', 'Blocker ageing', 'Follow-on stage'], global: ['Aircraft / V-BAT / X-BAT', 'Hivemind Core', 'Vision Systems'], claimIds: ['c-army-select', 'm-opmodel'] },
+  { id: 'autonomy', short: 'AUTONOMY', name: 'Autonomy & Solutions Engineering', owns: ['India mission engineering', 'Reusable global product contribution'], notOwns: ['Hivemind core architecture', 'Global product prioritisation'], kpis: ['Time-to-autonomy', 'Integration success', 'Reuse', 'Global reuse'], global: ['Hivemind Core', 'Vision Systems', 'Aechelon / Simulation'], claimIds: ['c-india-sub', 'c-army-sdk', 'c-hivemind-agnostic', 'm-opmodel'] },
+  { id: 'industrialisation', short: 'INDUSTRIAL', name: 'Supply Chain, Procurement & Industrialisation', owns: ['JSW execution interface and supplier readiness', 'Localisation, fulfilment, spares and sustainment'], notOwns: ['Global aircraft design authority', 'Unvalidated JSW sustainment scope'], kpis: ['Readiness gates', 'Supplier risk', 'Fulfilment', 'Sustainment readiness'], global: ['Aircraft / V-BAT / X-BAT', 'Global corporate standards'], claimIds: ['c-jsw', 'm-opmodel'] },
+  { id: 'finance', short: 'FINANCE', name: 'Finance & Commercial', owns: ['Programme economics and forecast', 'Pricing support, cost / cash visibility and planning'], notOwns: ['Customer requirement shaping', 'Product roadmap'], kpis: ['Forecast accuracy', 'Programme variance', 'Cash / commercial milestone health'], global: ['Global corporate standards'], claimIds: ['m-opmodel'] },
+  { id: 'people', short: 'PEOPLE', name: 'People / HR', owns: ['Workforce and capacity planning', 'Critical hiring, talent and organisation health'], notOwns: ['Mission priorities', 'Functional execution'], kpis: ['Critical-role coverage', 'Capacity vs commitment', 'Priority hiring'], global: ['Global corporate standards'], claimIds: ['c-india-sub', 'm-opmodel'] },
+  { id: 'legal', short: 'LEGAL NETWORK', name: 'Legal / Contracts / Compliance Network', owns: ['Route specialist advice and global standards', 'Clear material contract, export and compliance gates'], notOwns: ['A large internal India legal department', 'Programme execution'], kpis: ['Material contract / export / compliance gates blocking programmes'], global: ['Global corporate standards'], claimIds: ['m-opmodel'] },
+];
 
+export const GLOBAL_CENTRES = [
+  { id: 'aircraft', name: 'Aircraft / V-BAT / X-BAT', sub: 'Global aircraft & product organisation', claimIds: ['c-vbat', 'c-xbat'] },
+  { id: 'hivemind', name: 'Hivemind Core', sub: 'Autonomy platform, architecture & roadmap', claimIds: ['c-hivemind-agnostic'] },
+  { id: 'vision', name: 'Vision Systems', sub: 'Australia · vision, simulation & systems engineering', claimIds: ['c-vision-australia'] },
+  { id: 'aechelon', name: 'Aechelon / Simulation', sub: 'Global simulation & synthetic reality', claimIds: ['c-aechelon'] },
+  { id: 'standards', name: 'Global corporate standards', sub: 'Legal · export · security', claimIds: ['m-opmodel'] },
+];
+
+export type Right = 'D' | 'O' | 'C' | 'V' | '';
+export interface RightsRow { row: string; india: Right; global: Right; jsw: Right; prime: Right; rationale: string }
 export const RIGHTS: RightsRow[] = [
-  { row: 'India customer commitment', india: 'D', hq: 'C', jsw: 'C', prime: 'C', rationale: 'India is accountable to the customer; HQ consulted on deliverability.' },
-  { row: 'Platform roadmap (V-BAT / X-BAT)', india: 'C', hq: 'D', jsw: '', prime: '', rationale: 'Global product coherence; India feeds requirements.' },
-  { row: 'Hivemind core product', india: 'C', hq: 'D', jsw: '', prime: '', rationale: 'Core IP stays global; India consulted on Indian mission needs.' },
-  { row: 'India-specific mission behaviour', india: 'D', hq: 'C', jsw: '', prime: 'O', rationale: 'Built locally on the SDK — the sovereign-autonomy promise of the Army deal.' },
-  { row: 'V-BAT manufacturing', india: 'C', hq: 'C', jsw: 'O', prime: '', rationale: 'JSW owns production; design authority remains with Shield AI.' },
-  { row: 'Field support & sustainment', india: 'O', hq: 'C', jsw: 'C', prime: '', rationale: 'India owns customer-facing support; JSW role depends on verified scope.' },
-  { row: 'Hiring (India)', india: 'D', hq: 'C', jsw: '', prime: '', rationale: 'Local accountability for local capacity; HQ sets standards.' },
-  { row: 'Commercial terms', india: 'O', hq: 'D', jsw: 'C', prime: 'C', rationale: 'India negotiates; HQ approves within global policy and export limits.' },
-  { row: 'Customer escalation', india: 'D', hq: 'C', jsw: 'C', prime: 'C', rationale: 'Single accountable owner in India; HQ engaged on product-root causes.' },
-  { row: 'Strategic partnerships', india: 'O', hq: 'D', jsw: '', prime: 'C', rationale: 'India shapes and runs; HQ decides given IP and export implications.' },
+  { row: 'India customer commitment', india: 'D', global: 'C', jsw: 'C', prime: 'C', rationale: 'India decides only after programme, engineering, finance and relevant compliance inputs.' },
+  { row: 'Global platform / product roadmap', india: 'C', global: 'D', jsw: '', prime: '', rationale: 'India supplies requirements; the relevant global product centre protects coherence.' },
+  { row: 'Hivemind core product', india: 'C', global: 'D', jsw: '', prime: '', rationale: 'India contributes reusable work; Hivemind Core decides the product baseline.' },
+  { row: 'India mission integration', india: 'O', global: 'C', jsw: '', prime: 'C', rationale: 'India mission engineering owns integration; final decision right requires programme-specific validation.' },
+  { row: 'V-BAT industrialisation', india: 'C', global: 'C', jsw: 'O', prime: '', rationale: 'JSW executes local industrialisation; design authority remains global.' },
+  { row: 'Field support / sustainment', india: 'O', global: 'C', jsw: 'V', prime: 'V', rationale: 'India owns the customer interface; partner scope must be validated per programme.' },
+  { row: 'India hiring', india: 'D', global: 'C', jsw: '', prime: '', rationale: 'India owns capability formation within global people standards.' },
+  { row: 'Commercial commitment', india: 'O', global: 'V', jsw: 'C', prime: 'C', rationale: 'Approval thresholds and final commercial decision rights require internal confirmation.' },
+  { row: 'Customer escalation', india: 'D', global: 'C', jsw: 'C', prime: 'C', rationale: 'India is the single customer-facing escalation owner.' },
+  { row: 'Strategic partnerships', india: 'O', global: 'V', jsw: '', prime: 'C', rationale: 'India shapes partnerships; final approval rights depend on IP, export and commercial scope.' },
+  { row: 'India / global engineering capacity', india: 'C', global: 'V', jsw: '', prime: '', rationale: 'Scarce capacity allocation needs explicit India–global governance.' },
 ];
 
-export interface Cadence {
-  id: string; ring: number; name: string; freq: string; duration: string;
-  purpose: string; inputs: string[]; attendees: string[]; decisions: string[];
-}
-
-export const CADENCES: Cadence[] = [
-  { id: 'weekly', ring: 0, name: 'India Operating Review', freq: 'Weekly', duration: '25–40 min', purpose: 'Execution exceptions across the top 3 bets. Not status.', inputs: ['Milestones slipping', 'Customer dependencies', 'Engineering & partner blockers', 'Decisions needed'], attendees: ['India MD', 'Chief of Staff', 'Programme lead', 'Engineering lead', 'BD lead'], decisions: ['Owners assigned', 'Escalations raised', 'Decisions taken or routed'] },
-  { id: 'programme', ring: 1, name: 'V-BAT / Programme Review', freq: 'Milestone-driven', duration: 'As needed', purpose: 'Delivery, industrialisation, acceptance, integration, sustainment, risk.', inputs: ['Delivery schedule', 'JSW readiness gates', 'Acceptance dependencies', 'Risk register'], attendees: ['Programme lead', 'JSW programme', 'HQ product', 'Customer success'], decisions: ['Gate pass / hold', 'Risk mitigation', 'Resource requests'] },
-  { id: 'monthly', ring: 2, name: 'MD India Business Review', freq: 'Monthly', duration: '60 min', purpose: 'Are the top 3 bets advancing? What must the MD decide?', inputs: ['MD Dashboard (Section 08)', 'KPI scorecard', 'Decision cards', 'Top risks'], attendees: ['India MD', 'Leadership team', 'HQ liaison'], decisions: ['MD decisions logged', 'Resource shifts', 'HQ asks'] },
-  { id: 'product', ring: 3, name: 'India × Global Product / Engineering', freq: 'Monthly / 6-weekly', duration: '45 min', purpose: 'Resolve India requirements, integrations, engineering allocation, export dependencies.', inputs: ['India requirement backlog', 'Integration pipeline', 'Export / compliance queue'], attendees: ['India engineering lead', 'HQ product leads', 'Export compliance'], decisions: ['Prioritisation calls', 'Allocation commitments', 'Compliance path'] },
-  { id: 'quarterly', ring: 4, name: 'India Strategic Review', freq: 'Quarterly', duration: '90 min', purpose: 'Still the right 3 bets? Which seed matured? Which bet loses resources?', inputs: ['Convergence model refresh', 'Seed discovery memos', 'Market evidence'], attendees: ['India MD', 'Global leadership', 'Chief of Staff'], decisions: ['Bets confirmed / changed', 'Seeds promoted or parked', 'Resource re-allocation'] },
+export interface WorkStage { id: string; name: string; owner: string; support: string; decision: string; kpis: string[] }
+export const WORK_STAGES: WorkStage[] = [
+  { id: 'need', name: 'MISSION NEED', owner: 'Customer + mission owner', support: 'Growth · mission experts', decision: 'Is the mission need clear enough to shape?', kpis: ['Sponsor signal'] },
+  { id: 'shape', name: 'SHAPE', owner: 'Growth / BD', support: 'Mission + technical experts', decision: 'Is this a strategic problem worth shaping?', kpis: ['Sponsor coverage', 'Problem clarity'] },
+  { id: 'qualify', name: 'QUALIFY', owner: 'Growth / Capture', support: 'Programme · Engineering · Finance', decision: 'Pursue / Shape / Stop', kpis: ['Stage conversion', 'Qualified position'] },
+  { id: 'capture', name: 'CAPTURE', owner: 'Growth / Capture', support: 'Mission owner · partner leads', decision: 'Is there a winnable route and accountable team?', kpis: ['Capture gate', 'Partner readiness'] },
+  { id: 'commit', name: 'COMMIT', owner: 'Mission owner', support: 'Engineering · Programme · Finance · Legal', decision: 'Can Shield responsibly make this commitment?', kpis: ['Decision latency', 'Capacity coverage'] },
+  { id: 'mobilise', name: 'MOBILISE', owner: 'Programmes / Mission Success', support: 'All required capability owners', decision: 'Scope, acceptance, team and dependencies locked', kpis: ['Mobilisation gate', 'Blocker age'] },
+  { id: 'integrate', name: 'INTEGRATE / INDUSTRIALISE', owner: 'Autonomy or Industrialisation', support: 'Global product · JSW / prime', decision: 'Is the solution ready to test?', kpis: ['Integration success', 'Readiness gates'] },
+  { id: 'accept', name: 'TEST / ACCEPT', owner: 'Programmes / Mission Success', support: 'Engineering · Industrialisation · Customer', decision: 'Pass / correct / hold', kpis: ['Acceptance', 'Critical defects'] },
+  { id: 'field', name: 'FIELD', owner: 'Programmes / Mission Success', support: 'Engineering · field operations', decision: 'Release and deploy', kpis: ['Operational milestone', 'Mission blockers'] },
+  { id: 'sustain', name: 'SUSTAIN', owner: 'Programmes / Mission Success', support: 'Operations · Industrialisation', decision: 'Support posture and improvement priority', kpis: ['Availability', 'Blocker ageing'] },
+  { id: 'expand', name: 'EXPAND', owner: 'Growth / BD', support: 'Mission owner · Programmes', decision: 'Where does operational proof unlock scale?', kpis: ['Follow-on stage', 'Reference strength'] },
+  { id: 'productise', name: 'PRODUCTISE LEARNING', owner: 'India Engineering + Global Product', support: 'Programmes · field teams', decision: 'What becomes reusable Shield capability?', kpis: ['Reuse', 'Subsequent integration time'] },
 ];
 
-export interface Kpi {
-  id: string; dim: string; name: string; target: string; status: 'verified' | 'proposed' | 'placeholder';
-  current: string; trend: string; rag: 'none'; owner: string; claimIds: string[]; detail: string;
-}
+export const DECISION_RHYTHMS = [
+  { id: 'event', freq: 'EVENT-DRIVEN', name: 'Critical escalation', output: 'Escalation', detail: 'Safety, deployed mission, customer-critical, compliance or production blocker.' },
+  { id: 'weekly', freq: 'WEEKLY', name: 'Mission Review', output: 'Decision', detail: 'SCALE / EMBED / EXPAND exceptions, gates and dependencies.' },
+  { id: 'milestone', freq: 'MILESTONE-DRIVEN', name: 'Programme / Integration Review', output: 'Gate outcome', detail: 'Only the team required for the live programme, integration or trial.' },
+  { id: 'product', freq: 'BIWEEKLY / 4–6 WEEKLY', name: 'India × Global Product & Engineering', output: 'Resource shift', detail: 'Customer-specific vs product, global dependencies, reuse and scarce capacity.' },
+  { id: 'monthly', freq: 'MONTHLY', name: 'MD Business Review', output: 'Decision', detail: 'Three bets, roadmap exceptions, capacity, active risks and decisions.' },
+  { id: 'quarterly', freq: 'QUARTERLY', name: 'Portfolio & Resource Review', output: 'Resource shift', detail: 'Accelerate / Maintain / Seed / Stop.' },
+];
 
-export const KPI_DIMS = ['Customer / programme', 'Hivemind embedding', 'Service expansion', 'Industrialisation', 'Organisational health'];
+export type EvidenceStatus = 'verified' | 'internal' | 'proposed' | 'modelled';
+export const SCORECARD_OUTCOMES = [
+  { id: 'army', label: 'ARMY REFERENCE', question: 'Trusted operational reference with a credible scale path?', drivers: [
+    { id: 'army-gates', name: 'Critical programme gates', value: 'Baseline required', status: 'internal' as EvidenceStatus, owner: 'Programmes + Industrialisation', stage: 'accept', capability: 'programmes', definition: 'Customer-agreed delivery and acceptance gates reached on time.', claimIds: ['c-army-select'] },
+    { id: 'army-proof', name: 'Operational / reference milestone', value: 'Baseline required', status: 'internal' as EvidenceStatus, owner: 'Programmes / Mission Success', stage: 'field', capability: 'programmes', definition: 'Army confirms credible operational use or a referenceable proof point.', claimIds: ['c-army-select', 'm-kpis'] },
+    { id: 'army-follow', name: 'Follow-on programme stage', value: 'Baseline required', status: 'internal' as EvidenceStatus, owner: 'Growth + Programmes', stage: 'expand', capability: 'growth', definition: 'Next Army decision advances beyond unqualified interest.', claimIds: ['m-kpis'] },
+  ]},
+  { id: 'autonomy', label: 'AUTONOMY FOOTPRINT', question: 'Is Hivemind embedded across meaningful Indian-built platforms?', target: '3–4 meaningful integrations', drivers: [
+    { id: 'integration-maturity', name: 'Integrations by maturity', value: 'Proposed Month-18 ambition: 3–4', status: 'proposed' as EvidenceStatus, owner: 'Autonomy & Solutions Engineering', stage: 'integrate', capability: 'autonomy', definition: 'Selected → Integration → SIL/HIL → Autonomous Operation → Customer Demo → Programme-Linked.', claimIds: ['m-integrations', 'c-catalyst'] },
+    { id: 'time-autonomy', name: 'Time-to-autonomy', value: 'Baseline required', status: 'internal' as EvidenceStatus, owner: 'Autonomy & Solutions Engineering', stage: 'integrate', capability: 'autonomy', definition: 'Elapsed time from locked scope to autonomous operation on the platform.', claimIds: ['c-catalyst', 'c-mhi'] },
+    { id: 'integration-reuse', name: 'Reuse across integrations', value: 'Baseline required', status: 'internal' as EvidenceStatus, owner: 'Autonomy & Solutions Engineering', stage: 'productise', capability: 'autonomy', definition: 'Adapters, behaviours or tests used by more than one India integration.', claimIds: ['m-kpis'] },
+  ]},
+  { id: 'navy', label: 'SECOND SERVICE', question: 'Has Navy reached a credible evaluation, trial or programme position?', drivers: [
+    { id: 'navy-stage', name: 'Navy engagement stage', value: 'Baseline required', status: 'internal' as EvidenceStatus, owner: 'Growth + Mission Owner', stage: 'qualify', capability: 'growth', definition: 'Discovery → Sponsor → Technical Path → Demo → Evaluation → Programme.', claimIds: ['c-nsuas', 'm-navy-pen'] },
+    { id: 'navy-decision', name: 'Next customer decision', value: 'Baseline required', status: 'internal' as EvidenceStatus, owner: 'Programmes + Growth', stage: 'commit', capability: 'programmes', definition: 'The named customer decision required to advance the Navy position.', claimIds: ['m-navy-pen'] },
+    { id: 'navy-path', name: 'Trial / evaluation path', value: 'Baseline required', status: 'internal' as EvidenceStatus, owner: 'Mission Owner + Autonomy', stage: 'accept', capability: 'autonomy', definition: 'A technically credible path with platform, mission and acceptance logic.', claimIds: ['c-nsuas', 'c-rnln'] },
+  ]},
+  { id: 'reuse', label: 'GLOBAL REUSE', question: 'Is India-created capability improving another Shield deployment?', drivers: [
+    { id: 'global-component', name: 'India-created capability reused', value: 'Baseline required', status: 'internal' as EvidenceStatus, owner: 'Autonomy + Global Product', stage: 'productise', capability: 'autonomy', definition: 'An India-originated adapter, tool, behaviour or test ships elsewhere.', claimIds: ['m-kpis', 'c-vision-australia'] },
+    { id: 'global-baseline', name: 'Incorporated into global baseline', value: 'Baseline required', status: 'internal' as EvidenceStatus, owner: 'Global Product / Capability Centre', stage: 'productise', capability: 'autonomy', definition: 'The relevant global product owner accepts the contribution into baseline.', claimIds: ['m-kpis'] },
+    { id: 'global-speed', name: 'Subsequent integration improves', value: 'Baseline required', status: 'internal' as EvidenceStatus, owner: 'Autonomy & Solutions Engineering', stage: 'productise', capability: 'autonomy', definition: 'Reuse measurably reduces effort or elapsed time on a later integration.', claimIds: ['m-kpis'] },
+  ]},
+];
 
-export const KPIS: Kpi[] = [
-  { id: 'k1', dim: 'Customer / programme', name: 'Critical delivery milestones on time', target: '100% of agreed gates', status: 'proposed', current: 'Not publicly disclosed', trend: '—', rag: 'none', owner: 'India programme lead', claimIds: ['c-army-select', 'm-kpis'], detail: 'Measured against the customer-agreed delivery schedule for the Army programme.' },
-  { id: 'k2', dim: 'Customer / programme', name: 'Operational reference achieved', target: 'By month 12', status: 'proposed', current: 'Not publicly disclosed', trend: '—', rag: 'none', owner: 'India MD', claimIds: ['m-kpis'], detail: 'Army agrees to referenceable operational use.' },
-  { id: 'k3', dim: 'Hivemind embedding', name: 'Meaningful Indian platform integrations', target: '3–4 in 18 months', status: 'proposed', current: '0 public (Army SDK licensed)', trend: '—', rag: 'none', owner: 'India engineering lead', claimIds: ['m-integrations', 'c-army-sdk'], detail: 'Integration = SIL/HIL complete plus autonomous flight or sail on an Indian-built platform.' },
-  { id: 'k4', dim: 'Hivemind embedding', name: 'Time to first autonomous flight / sail', target: '≤ 3 months per Catalyst cycle', status: 'proposed', current: 'Not publicly disclosed', trend: '—', rag: 'none', owner: 'India engineering lead', claimIds: ['c-catalyst', 'c-mhi'], detail: 'Benchmarked on MHI (8 weeks) and Catalyst (3 months).' },
-  { id: 'k5', dim: 'Service expansion', name: 'Navy engagement stage', target: 'Trial pathway by month 12', status: 'proposed', current: 'Not publicly disclosed', trend: '—', rag: 'none', owner: 'India BD (Navy)', claimIds: ['c-nsuas', 'm-navy-pen'], detail: 'Stages: mapped → engaged → demo → trial pathway → programme position.' },
-  { id: 'k6', dim: 'Industrialisation', name: 'JSW production-readiness gates', target: 'Gates met toward reported late-2026 start', status: 'verified', current: 'Facility under construction (reported)', trend: '—', rag: 'none', owner: 'JSW · India industrialisation lead', claimIds: ['c-jsw'], detail: 'Externally reported: $90M Hyderabad facility; production start reported for late 2026.' },
-  { id: 'k7', dim: 'Organisational health', name: 'Critical roles filled', target: '100% of critical roles', status: 'placeholder', current: 'Not publicly disclosed', trend: '—', rag: 'none', owner: 'India MD', claimIds: ['c-india-sub'], detail: 'Programme, engineering, Navy BD, industrialisation leads.' },
-  { id: 'k8', dim: 'Organisational health', name: 'Unresolved HQ dependencies > 30 days', target: '0', status: 'proposed', current: 'Not publicly disclosed', trend: '—', rag: 'none', owner: 'Chief of Staff', claimIds: ['m-kpis'], detail: 'Counts product, export or engineering asks open beyond 30 days.' },
+export const EXECUTION_HEALTH = [
+  { id: 'industrial', name: 'Industrialisation Health', sub: 'Production · fulfilment · sustainment gate', status: 'Baseline required', owners: 'Industrialisation', capability: 'industrialisation' },
+  { id: 'capacity', name: 'Capacity Health', sub: 'Qualified capacity vs committed work', status: 'Baseline required', owners: 'People + MD Office', capability: 'people' },
+  { id: 'dependency', name: 'Global Dependency Health', sub: 'Roadmap dependencies and ageing', status: 'Baseline required', owners: 'MD Office + functional leaders', capability: 'autonomy' },
+  { id: 'commercial', name: 'Commercial / Compliance Health', sub: 'Only when a programme is affected', status: 'Baseline required', owners: 'Finance + Legal network', capability: 'finance' },
 ];
 
 export const DASHBOARD = {
