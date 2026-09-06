@@ -1,6 +1,8 @@
 import type { Claim } from './types';
 
 export const CLAIMS: Claim[] = [
+  { id: 'c-market-innovation-routes', label: 'Defence innovation routes and ownership', cls: 'official', sourceIds: ['s-market-innovation-routes'], confidence: 'High', interpretation: 'TDF is executed by DRDO; iDEX / ADITI are related DIO / DDP routes, not subdivisions of DRDO capital. Capability associations indicate areas for investigation, not separable funded allocations.' },
+  { id: 'c-market-coast-uas', label: 'Coast Guard aerial-surveillance requirements', cls: 'official', sourceIds: ['s-market-coast-rfi', 's-market-coast-retraction'], confidence: 'High', interpretation: 'MALE RPA RFI dated 15 July 2026; shipborne UAS RFP retracted 1 September 2026. Maritime ISR is capability context. No programme value is inferred.' },
   // ---------- OFFICIAL BUDGET ----------
   { id: 'c-budget-total', label: 'Total MoD allocation FY2026-27', value: '₹7.85 lakh crore', horizon: 'FY27 · annual', cls: 'official', sourceIds: ['s-pib-budget', 's-ddnews-budget'], confidence: 'High', interpretation: '+15.19% over BE 2025-26; 14.67% of central government expenditure. Not Shield-addressable in itself.' },
   { id: 'c-budget-capital', label: 'Capital outlay for Defence Forces', value: '₹2.19 lakh crore', horizon: 'FY27 · annual', cls: 'official', sourceIds: ['s-pib-budget'], confidence: 'High', interpretation: 'Modernisation pool. Includes acquisition plus land, works and other capital heads.' },

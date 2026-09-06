@@ -1,0 +1,27 @@
+.cadence-screen { --cadence-green: #6ee7b7; --cadence-blue: #80b4fa; --cadence-purple: #c0b0e8; }
+.cadence-visual { flex: 1; min-height: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px; margin: 0; }
+.cadence-circles { display: block; flex-shrink: 0; width: min(100%, calc(100dvh - 220px), 850px); height: auto; }
+.cadence-ring { stroke-width: 1.5; }
+.cadence-steer { fill: #c0b0e807; stroke: #c0b0e85e; }
+.cadence-align { fill: #80b4fa09; stroke: #80b4fa75; }
+.cadence-operate { fill: #6ee7b70b; stroke: #6ee7b78c; }
+.cadence-core { fill: #122722; stroke: #6ee7b7a0; stroke-width: 1.8; }
+.cadence-steer-copy { fill: var(--cadence-purple); }
+.cadence-align-copy { fill: var(--cadence-blue); }
+.cadence-operate-copy { fill: var(--cadence-green); }
+.cadence-horizon-name { font: 600 28px ui-monospace, monospace; letter-spacing: 4px; }
+.cadence-period { font: 21px system-ui, sans-serif; fill: #a6aeb9; }
+.cadence-question { font: 23px system-ui, sans-serif; fill: #e0e2de; }
+.cadence-topics { font: 20px system-ui, sans-serif; }
+.cadence-center { font: 600 20px system-ui, sans-serif; fill: #f0f2ec; }
+.cadence-escalation { max-width: 850px; color: #9199a4; text-align: center; font-size: 12px; line-height: 1.6; }
+@media (max-width: 600px) {
+  .cadence-screen { height: auto; min-height: 100%; }
+  .cadence-visual { padding: 20px 0; }
+  .cadence-circles { width: 100%; }
+  .cadence-escalation { max-width: 340px; font-size: 11px; }
+}
+@media (max-height: 600px) and (min-width: 601px) {
+  .cadence-screen { height: auto; min-height: 100%; }
+  .cadence-circles { width: min(100%, 460px); }
+}

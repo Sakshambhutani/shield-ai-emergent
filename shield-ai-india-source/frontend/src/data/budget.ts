@@ -10,6 +10,7 @@ export interface BudgetNode {
   products?: string[];
   buyer?: string;
   claimIds: string[];
+  drillThrough?: boolean;
   modelKey?: 'tactical' | 'male';
 }
 
@@ -30,8 +31,8 @@ export const BUDGET_TREE: BudgetNode[] = [
   { id: 'acq-naval', parent: 'acq', title: 'Naval Fleet', value: '₹25,023.63 Cr', tag: 'FY27 · annual · broad pool', cls: 'official', relevant: true, why: 'Broad naval acquisition head — not maritime autonomy TAM.', claimIds: ['c-cap-naval'] },
   { id: 'p-nsuas', parent: 'acq-naval', title: 'Shipborne UAS', value: 'Value not publicly separable', tag: 'AoN approved', cls: 'official', relevant: true, why: 'Public Navy requirement signal; individual value is not disclosed.', claimIds: ['c-nsuas'] },
   { id: 'p-maritime', parent: 'acq-naval', title: 'Maritime ISR / unmanned systems', value: 'Value not publicly separable', tag: 'Programme signal', cls: 'industry', relevant: true, why: 'Maritime programme signals supported by Navy, BEL and shipbuilder activity.', claimIds: ['c-bel-a2ncs', 'c-grse', 'c-vidar'] },
-  { id: 'acq-vehicles', parent: 'acq', title: 'Heavy & Medium Vehicles', value: '₹4,580.16 Cr', tag: 'FY27 · annual · broad pool', cls: 'official', relevant: true, why: 'Broad vehicle acquisition head — no autonomy content assumed.', claimIds: ['c-cap-vehicles'] },
-  { id: 'acq-dockyard', parent: 'acq', title: 'Naval Dockyard / Projects', value: '₹4,333.70 Cr', tag: 'FY27 · annual · broad pool', cls: 'official', relevant: true, why: 'Broad naval infrastructure/project head — no autonomy content assumed.', claimIds: ['c-cap-dockyard'] },
+  { id: 'acq-vehicles', parent: 'acq', title: 'Heavy & Medium Vehicles', value: '₹4,580.16 Cr', tag: 'FY27 · annual · broad pool', cls: 'official', relevant: false, why: 'Broad vehicle acquisition head — no autonomy content assumed.', claimIds: ['c-cap-vehicles'] },
+  { id: 'acq-dockyard', parent: 'acq', title: 'Naval Dockyard / Projects', value: '₹4,333.70 Cr', tag: 'FY27 · annual · broad pool', cls: 'official', relevant: false, why: 'Broad naval infrastructure/project head — no autonomy content assumed.', claimIds: ['c-cap-dockyard'] },
   { id: 'acq-joint', parent: 'acq', title: 'Joint Staff', value: '₹3,138.72 Cr', tag: 'FY27 · annual · broad pool', cls: 'official', relevant: true, why: 'Joint-services head — no autonomy content assumed.', claimIds: ['c-cap-joint'] },
   { id: 'acq-special', parent: 'acq', title: 'Special Projects', value: '₹1,989.12 Cr', tag: 'FY27 · annual · broad pool', cls: 'official', relevant: true, why: 'Special-projects head — programme content is not publicly separable.', claimIds: ['c-cap-special'] },
 ];
@@ -63,21 +64,29 @@ const MOD_TREE: BudgetNode[] = [
   ...BUDGET_TREE.filter((node) => node.parent === 'acq' || node.parent === 'acq-other' || node.parent === 'acq-aircraft' || node.parent === 'acq-naval').map((node) => ({ ...node, id: `mod-${node.id}`, parent: node.parent === 'acq' ? 'mod' : `mod-${node.parent}` })),
 ];
 
+// Preserve administrative ancestors for Explore breadcrumbs; smart expansion skips clicks, not evidence.
 const FUTURE_POOLS: BudgetNode[] = FUTURE_BUDGET_TREE
-  .filter((node) => node.id !== 'future-root' && node.id !== 'future-mod' && !node.id.startsWith('future-mod-'))
-  .filter((node) => !['future-drdo-cap', 'future-coastguard-revenue', 'future-coastguard-capital', 'future-police', 'future-police-capital', 'future-capf-modernisation', 'future-dos-capital'].includes(node.id))
-  .map((node) => {
-    if (node.id === 'future-drdo') return { ...node, parent: 'market-root', title: 'DRDO capital / defence innovation', value: '₹17,250.25 Cr', tag: 'FY27 · capital R&D' };
-    if (node.id === 'future-coastguard') return { ...node, parent: 'market-root', title: 'Indian Coast Guard · capital', value: '₹4,000 Cr', tag: 'FY27 · capital budget' };
-    if (node.id === 'future-coastguard-programmes') return { ...node, parent: 'future-coastguard' };
-    if (node.id === 'future-mha') return { ...node, parent: 'market-root', title: 'MHA / CAPF · Modernisation Plan IV', value: '₹343.66 Cr', tag: 'FY27 · modernisation budget', why: 'Relevant CAPF equipment and IT modernisation pool. The wider MHA budget is not autonomy TAM.' };
-    if (node.id === 'future-dos') return { ...node, parent: 'market-root', title: 'Department of Space · capital context', value: '₹6,375.92 Cr', tag: 'FY27 · capital context' };
-    return { ...node, parent: node.parent === 'future-root' ? 'market-root' : node.parent };
-  });
+  .filter(node => !['future-root', 'future-mod', 'future-mod-cap', 'future-mod-revenue', 'future-idex', 'future-coastguard-programmes'].includes(node.id))
+  .map(node => ({ ...node, parent: node.parent === 'future-root' ? 'market-root' : node.parent }));
+
+const capability = (id: string, parent: string, title: string, why: string, claimIds: string[]): BudgetNode => ({
+  id, parent, title, why, claimIds, tag: 'Capability area · value undisclosed', cls: 'context', relevant: true, drillThrough: false,
+});
 
 export const MARKET_TREE: BudgetNode[] = [
-  { id: 'market-root', parent: null, title: 'India autonomy-relevant public spend', tag: 'Budget owners · values not additive', cls: 'context', relevant: true, why: 'A single public-spend canvas. Drill from owner to budget head to programme; annual budgets and programme values are not additive.', claimIds: ['c-budget-total'] },
-  ...MOD_TREE,
-  { id: 'future-revenue', parent: 'market-root', title: 'MoD revenue procurement · ICT / services', value: '≈₹1 L Cr', tag: 'Annual · DPM 2025 · reported', cls: 'industry', relevant: true, why: 'Revenue procurement can fund software, ICT, services, integration and sustainment. It is not autonomy TAM.', claimIds: ['c-dpm-revenue'] },
+  { id: 'market-root', parent: null, title: 'India autonomy-relevant public spend', tag: 'Budget owners · values not additive', cls: 'context', relevant: true, why: 'Budget owners and programme signals. Associations are not accounting allocations; values are not additive.', claimIds: ['c-budget-total'] },
+  ...MOD_TREE.map(n => ['mod-acq-joint', 'mod-acq-special'].includes(n.id) ? { ...n, relevant: false } : n),
+  { id: 'future-revenue', parent: 'market-root', title: 'MoD revenue procurement · ICT / services', value: '≈₹1 L Cr', tag: 'Annual · DPM 2025 · reported', cls: 'industry', relevant: true, why: 'Procurement universe only, not autonomy TAM.', claimIds: ['c-dpm-revenue'] },
   ...FUTURE_POOLS,
+  capability('future-idex', 'future-drdo', 'iDEX / ADITI · DIO / DDP', 'Related defence-innovation route, not a subdivision of DRDO capital. iDEX and ADITI are administered through DIO / Department of Defence Production. Eligibility and specific challenges determine access.', ['c-market-innovation-routes']),
+  capability('future-tdf', 'future-drdo-cap', 'TDF · DRDO technology development', 'DRDO-executed innovation route. No separable autonomy allocation is inferred from the parent capital budget.', ['c-market-innovation-routes']),
+  capability('future-autonomy-rd', 'future-drdo-cap', 'Autonomy R&D / sensing / mission planning', 'Potential capability relevance for research and technology-development calls; not a verified funded autonomy programme or Shield allocation.', ['c-drdo-budget', 'c-market-innovation-routes']),
+  capability('future-cg-shipborne', 'future-coastguard-capital', 'Shipborne UAS', 'Requirement history: the four-system Coast Guard RFP was retracted on 1 September 2026. Not an active award.', ['c-market-coast-uas']),
+  capability('future-cg-male', 'future-coastguard-capital', 'MALE RPAS', 'Coast Guard RFI dated 15 July 2026. RFI establishes a requirement, not a contract or disclosed programme value.', ['c-market-coast-uas']),
+  capability('future-cg-isr', 'future-coastguard-capital', 'Maritime ISR', 'Capability supported by maritime aerial-surveillance requirements; no separate budget is assumed.', ['c-market-coast-uas']),
+  capability('future-capf-isr', 'future-capf-modernisation', 'Border / persistent ISR · UAVs', 'Potential surveillance and equipment uses within CAPF modernisation. Specific tenders and eligibility must be verified; no autonomy earmark assumed.', ['c-capf-modernisation']),
+  capability('future-capf-cuas', 'future-capf-modernisation', 'Counter-UAS / sensing / communications', 'Capability relevance to inspect within modernisation, not an identified funded counter-UAS programme.', ['c-capf-modernisation']),
+  capability('future-revenue-software', 'future-revenue', 'Software / ICT / integration', 'Relevant procurement forms under DPM 2025; no separable autonomy value or assured Shield share.', ['c-dpm-revenue']),
+  capability('future-revenue-services', 'future-revenue', 'Services / sustainment', 'Services and sustainment procurement routes, subject to individual requirements.', ['c-dpm-revenue']),
+  capability('future-dos-context', 'future-dos-capital', 'Space missions / infrastructure · context', 'No military-autonomy allocation established. Inspect SBS-III for the separately reported military surveillance programme.', ['c-dos-capital']),
 ];

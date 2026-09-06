@@ -1,6 +1,9 @@
 import type { Source } from './types';
 
 export const SOURCES: Source[] = [
+  { id: 's-market-innovation-routes', title: 'Defence innovation: iDEX, ADITI and TDF', publisher: 'Ministry of Defence / PIB', date: '2026 · checked 2026-09-06', url: 'https://www.pib.gov.in/PressNoteDetails.aspx?ModuleId=3&NoteId=158925&lang=1&reg=1', cls: 'official' },
+  { id: 's-market-coast-rfi', title: 'MALE RPA Request for Information', publisher: 'Indian Coast Guard', date: '2026-07-15', url: 'https://www.indiancoastguard.gov.in/news', cls: 'official' },
+  { id: 's-market-coast-retraction', title: 'Retraction of RFP for four Coast Guard Shipborne UAS', publisher: 'Indian Coast Guard', date: '2026-09-01', url: 'https://indiancoastguard.gov.in/hi/node/2159', cls: 'official' },
   // OFFICIAL
   { id: 's-pib-budget', title: 'Defence in Union Budget 2026-27 (explainer)', publisher: 'Press Information Bureau, Govt of India', date: '2026-02-01', url: 'https://static.pib.gov.in/WriteReadData/specificdocs/documents/2026/feb/doc202623778301.pdf', cls: 'official' },
   { id: 's-ddnews-budget', title: 'Defence Ministry allocated record ₹7.85 lakh crore in Union Budget 2026-27', publisher: 'DD News (Prasar Bharati)', date: '2026-02-01', url: 'https://ddnews.gov.in/en/defence-ministry-allocated-record-rs-7-85-lakh-crore-in-union-budget-2026-27/', cls: 'official' },
