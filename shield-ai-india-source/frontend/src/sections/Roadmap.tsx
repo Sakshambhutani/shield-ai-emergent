@@ -1,108 +1,63 @@
 import { useEffect, useState } from 'react';
-import { useSearchParams } from 'react-router-dom';
-import { Flag } from 'lucide-react';
-import { cn } from '@/lib/cn';
-import { Field, Headline, Screen } from '@/components/ui';
+import type { CSSProperties } from 'react';
+import { ArrowUpRight, Navigation } from 'lucide-react';
+import { Headline, Screen, SideDrawer } from '@/components/ui';
 import { SourceButton } from '@/components/Evidence';
 import { useStore } from '@/store';
-import { BLOCKS, LANES, MILESTONES, type Milestone } from '@/data/roadmap';
+import { GROWTH_ROUTES, MILESTONES } from '@/data/roadmap';
+import './roadmap.css';
 
-const ROADMAP_CLAIMS = ['m-roadmap', 'm-integrations', 'c-catalyst'];
-const LANE_KEYS = Object.keys(LANES) as (keyof typeof LANES)[];
-const CELL: Record<string, Milestone[]> = {};
-MILESTONES.forEach((m) => { (CELL[`${m.lane}${m.block}`] ||= []).push(m); });
-const STORY_ROWS = [
-  { id: 'scale', label: 'SCALE Army', color: LANES.scale.color, values: ['Programme, acceptance & support model locked', 'Operational proof + local production readiness', 'Operational reference + follow-on/Hivemind expansion shaped', 'Follow-on + sustainment pathway'] },
-  { id: 'embed', label: 'EMBED Hivemind', color: LANES.embed.color, values: ['Select first 2 platform integrations', 'First Indian-platform SIL/HIL demo', 'First autonomous flight/sail', '3–4 meaningful integrations + programme pathway'] },
-  { id: 'expand', label: 'EXPAND Navy', color: LANES.expand.color, values: ['Priority Navy mission + entry path agreed', 'Demo pathway + partner agreed', 'Shipborne trial / maritime demo', 'Second-service reference position'] },
-] as const;
-const ENABLER_ROWS = [
-  { label: 'Governance / industrialisation', values: ['Governance locked', 'Production readiness', 'Repeatable delivery', 'Sustainment model'] },
-  { label: 'Capacity', values: ['Gaps identified', 'Critical capacity in place', 'Multi-programme capacity', 'Scalable India team'] },
-] as const;
-
-function EnablerBand({ compact = false }: { compact?: boolean }) {
-  return <>
-    <div className={cn('col-span-5 border-b border-line bg-ink-1 px-4 font-mono uppercase tracking-[0.16em] text-paper-3', compact ? 'py-1.5 text-[9px]' : 'py-2 text-[10px]')}>Execution enablers</div>
-    {ENABLER_ROWS.flatMap((row) => [
-      <div key={`${row.label}-label`} className={cn('border-b border-line px-4 font-medium text-paper-3', compact ? 'py-2 text-[10px]' : 'py-3 text-xs')}>{row.label}</div>,
-      ...row.values.map((value, index) => <div key={`${row.label}-${index}`} className={cn('border-b border-l border-line px-4 text-paper-3', compact ? 'py-2 text-[10px]' : 'py-3 text-xs')}>{value}</div>),
-    ])}
-  </>;
-}
-
-function StoryRoadmap({ focusedLane }: { focusedLane: string | null }) {
-  return <div data-testid="roadmap-story" className="flex-1 min-h-0 overflow-x-auto">
-    <div className="grid min-w-[1000px] h-full" style={{ gridTemplateColumns: '190px repeat(4, minmax(180px, 1fr))', gridTemplateRows: 'auto repeat(3, minmax(92px, 1fr)) auto repeat(2, minmax(42px, .36fr))' }}>
-      <div className="border-b border-line" />
-      {BLOCKS.map((block) => <div key={block.name} className="border-b border-line px-4 py-3 text-sm font-semibold">{block.label.replace(' months', '')} {block.name}</div>)}
-      {STORY_ROWS.flatMap((row) => [
-        <div key={`${row.id}-label`} aria-current={focusedLane === row.id ? 'true' : undefined} className={cn('border-b border-line px-4 py-5 text-sm font-semibold', focusedLane === row.id && 'bg-sig-blue/10')} style={{ color: row.color }}>{row.label}</div>,
-        ...row.values.map((value, index) => <div key={`${row.id}-${index}`} className={cn('border-b border-l border-line px-4 py-5 text-sm leading-relaxed', focusedLane === row.id && 'bg-sig-blue/[.06]')}>{value}</div>),
-      ])}
-      <EnablerBand />
-    </div>
-  </div>;
-}
+// Three mission legs: outbound, return, then the final approach.
+const MISSION_COURSE = 'M80 160 H840 C950 160 950 382 840 382 H200 C90 382 90 604 200 604 H900';
+const CHECKPOINTS = [
+  { x: 80, y: 160 }, { x: 620, y: 160 },
+  { x: 720, y: 382 }, { x: 240, y: 382 },
+  { x: 280, y: 604 }, { x: 900, y: 604 },
+];
 
 export default function Roadmap() {
-  const [params] = useSearchParams();
-  const focusedLane = params.get('lane');
-  const [sel, setSel] = useState<string | null>(null);
+  const [selected, setSelected] = useState<number | null>(null);
   const { mode, present } = useStore();
-  useEffect(() => { if (present) setSel(null); }, [present]);
-  const m = MILESTONES.find((x) => x.id === sel) ?? null;
-  const lanes = LANE_KEYS;
-  return (
-    <Screen>
-       <Headline title="Establish → Prove → Expand → Scale" sub="Uncertain items are gates, not dates." right={<SourceButton claimIds={ROADMAP_CLAIMS} title="Roadmap" />} />
-      {mode === 'story' ? <StoryRoadmap focusedLane={focusedLane} /> : <>
-       <div className="overflow-x-auto shrink-0">
-        <div className="grid min-w-[880px]" style={{ gridTemplateColumns: '150px repeat(4, minmax(0, 1fr))' }} data-testid="roadmap-grid">
-          <div />
-          {BLOCKS.map((b, i) => <div key={b.name} className="px-2 pb-2 border-b border-line"><div className="eyebrow">{b.label}</div><div className="text-sm font-medium"><span className="num text-paper-3 mr-1">{i + 1}</span>{b.name}</div></div>)}
-          {lanes.filter((l) => l !== 'seed').map((l) => {
-            return [
-              <div data-testid={`roadmap-lane-${l}`} aria-current={focusedLane === l ? 'true' : undefined} key={l + '-h'} className={cn('py-3 pr-3 border-b border-line flex items-start', focusedLane === l && 'bg-sig-blue/10')}><div><div className="text-[11px] font-mono uppercase tracking-wider" style={{ color: LANES[l].color }}>{LANES[l].label}</div></div></div>,
-              ...BLOCKS.map((_, bi) => (
-                <div key={l + bi} className={cn('border-b border-l border-line p-2 flex flex-col gap-1.5 relative min-h-[88px]', focusedLane === l && 'bg-sig-blue/10')}>
-                  <div className="absolute left-0 top-0 h-full w-px" style={{ background: LANES[l].color, opacity: 0.35 }} />
-                  {(CELL[`${l}${bi}`] ?? []).map((x, i) => (
-                    <button key={x.id} data-testid={`milestone-${x.id}`} onClick={() => setSel(x.id === sel ? null : x.id)} style={{ animationDelay: `${bi * 80 + i * 40}ms` }} className={cn('animate-rise text-left rounded border px-2 py-1.5 text-xs transition-colors duration-200 relative z-10 bg-ink-2 border-line hover:border-line-2 text-paper', sel === x.id && 'border-sig-blue/70 bg-ink-3')}>
-                      <span className="flex items-center gap-1.5">{x.gate && <Flag className="h-3 w-3 text-sig-amber shrink-0" />}<span className="leading-snug">{x.title}</span></span>
-                    </button>
-                  ))}
-                </div>
-              )),
-            ];
-          })}
-          <EnablerBand compact />
-          {lanes.filter((l) => l === 'seed').map((l) => [
-            <div data-testid={`roadmap-lane-${l}`} key={l + '-h'} className="py-3 pr-3 border-b border-line flex items-start opacity-60"><div><div className="text-[11px] font-mono uppercase tracking-wider" style={{ color: LANES[l].color }}>{LANES[l].label}</div><div className="text-[10px] text-paper-3 mt-0.5">Minimal activity</div></div></div>,
-            ...BLOCKS.map((_, bi) => (
-              <div key={l + bi} className="border-b border-l border-line p-2 py-2 flex flex-col gap-1.5 relative">
-                <div className="absolute left-2 right-2 top-1/2 h-px" style={{ background: LANES[l].color, opacity: 0.5 }} />
-                {(CELL[`${l}${bi}`] ?? []).map((x, i) => (
-                  <button key={x.id} data-testid={`milestone-${x.id}`} onClick={() => setSel(x.id === sel ? null : x.id)} style={{ animationDelay: `${bi * 80 + i * 40}ms` }} className={cn('animate-rise text-left rounded border px-2 py-1 text-xs transition-colors duration-200 relative z-10 bg-ink-2 border-line text-paper-3', sel === x.id && 'border-sig-blue/70 bg-ink-3')}>
-                    <span className="leading-snug">{x.title}</span>
-                  </button>
-                ))}
-              </div>
-            )),
-          ])}
+  const interactive = mode === 'explore' && !present;
+  useEffect(() => { if (!interactive) setSelected(null); }, [interactive]);
+  const milestone = MILESTONES.find((item) => item.month === selected);
+
+  return <Screen className={`company-roadmap${present ? ' company-roadmap-present' : ''}`}>
+    <Headline title="18-Month Company Roadmap" sub="Proposed company checkpoints across delivery, growth and India capability." right={<SourceButton claimIds={['m-roadmap', 'c-army-select', 'c-jsw', 'c-catalyst']} title="India company roadmap" />} />
+    <div className="company-roadmap-scroll" role="region" aria-label="18-month mission corridor; scroll horizontally on smaller screens" tabIndex={0}>
+      <div className="company-roadmap-canvas" data-testid="company-roadmap">
+        <div className="mission-corridor">
+          <div className="mission-grid" aria-hidden="true" />
+          <div className="mission-path-area">
+            <svg className="mission-path" viewBox="0 0 1000 629" preserveAspectRatio="none" aria-hidden="true">
+              <defs><linearGradient id="mission-gradient" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="0" y2="629"><stop stopColor="#3b82f6" /><stop offset=".65" stopColor="#60a5fa" /><stop offset="1" stopColor="#34d399" /></linearGradient></defs>
+              <path className="mission-halo" d={MISSION_COURSE} />
+              <path className="mission-center" d="M80 160 H840 C950 160 950 382 840 382 H630 M410 382 H200 C90 382 90 604 200 604 H900" />
+              <path className="mission-branch direct" d="M630 382 C600 382 605 363 580 363 H460 C435 363 440 382 410 382" />
+              <path className="mission-branch partner" d="M630 382 C600 382 605 401 580 401 H460 C435 401 440 382 410 382" />
+              <path className="mission-direction" d="M425 152 L437 160 L425 168 M680 374 L668 382 L680 390 M570 596 L582 604 L570 612" />
+            </svg>
+            <div className="mission-routes" data-testid="commercial-growth-routes" aria-label="Parallel growth routes between M6 and M12">
+              {GROWTH_ROUTES.map((route, index) => <div className={`mission-route route-${index}`} key={route.title}><strong>{route.title}</strong></div>)}
+            </div>
+            <ol className="company-milestones" aria-label="Company milestones">
+              {MILESTONES.map((item, index) => {
+                const content = <><span className="company-month">{item.label}{interactive && <ArrowUpRight aria-hidden="true" />}</span><h3>{item.title}</h3><ul>{item.lines.map((line) => <li key={line}>{line}</li>)}</ul></>;
+                return <li key={item.month} className={`company-milestone above ${index === 0 ? 'first' : ''} ${index === MILESTONES.length - 1 ? 'last' : ''} ${selected === item.month ? 'selected' : ''}`} style={{ '--position': `${CHECKPOINTS[index].x / 10}%`, '--altitude': `${CHECKPOINTS[index].y}px` } as CSSProperties}>
+                  <span className="company-milestone-dot" aria-hidden="true">{index === MILESTONES.length - 1 && <Navigation />}</span>
+                  {interactive ? <button data-testid={`milestone-m${item.month}`} className="company-milestone-copy" onClick={() => setSelected(item.month)} aria-expanded={selected === item.month} aria-label={`${item.label}: ${item.title}. Explore details and assumptions`}>{content}</button> : <div className="company-milestone-copy" data-testid={`milestone-m${item.month}`}>{content}</div>}
+                </li>;
+              })}
+            </ol>
+          </div>
         </div>
-       </div>
-       <div className="flex items-center gap-3 text-[11px] text-paper-3"><Flag className="h-3 w-3 text-sig-amber" /> Gate · external timing</div>
-       {m && (
-         <div data-testid="milestone-detail" className="panel p-4 grid md:grid-cols-6 gap-3 animate-rise shrink-0">
-           <div className="md:col-span-2"><div className="text-base font-medium flex items-center gap-2">{m.gate && <Flag className="h-4 w-4 text-sig-amber" />}{m.title}</div><div className="text-xs text-paper-2 mt-1">{m.outcome}</div></div>
-           <Field label="Owner">{m.owner}</Field>
-           <Field label="Dependency">{m.dependency}</Field>
-           <Field label="Decision required">{m.decision}</Field>
-           <div><Field label="Evidence of completion">{m.evidence}</Field><div className="mt-2"><span className="eyebrow text-sig-red">Risk</span><div className="text-sm">{m.risk}</div></div></div>
-         </div>
-       )}
-      </>}
-    </Screen>
-  );
+      </div>
+    </div>
+    <SideDrawer open={interactive && !!milestone} onClose={() => setSelected(null)} title={milestone?.title ?? ''} eyebrow={`${milestone?.label ?? ''} · Company checkpoint`} testId="milestone-detail">
+      <div className="milestone-panel-section"><h3>Company state</h3><ul className="company-milestone-details">{milestone?.details.map((detail) => <li key={detail}>{detail}</li>)}</ul></div>
+      {(selected === 6 || selected === 12) && <div className="milestone-panel-section"><h3>Growth routes · M6–M12</h3>{GROWTH_ROUTES.map((route) => <p key={route.title}><strong>{route.title}</strong><br />{route.detail}</p>)}</div>}
+      <div className="milestone-panel-section"><h3>Planning assumption</h3><p>{milestone?.assumption}</p></div>
+      <div className="milestone-panel-section"><h3>Supporting note</h3><p>{milestone?.note}</p><p className="milestone-planning-note">Month markers are proposed planning checkpoints, not confirmed customer or procurement commitments.</p></div>
+    </SideDrawer>
+  </Screen>;
 }

@@ -1,53 +1,45 @@
-export interface Milestone {
-  id: string;
-  lane: 'scale' | 'embed' | 'expand' | 'seed';
-  block: 0 | 1 | 2 | 3;
-  title: string;
-  gate?: boolean;
-  outcome: string;
-  owner: string;
-  dependency: string;
-  decision: string;
-  evidence: string;
-  risk: string;
-}
-
-export const BLOCKS = [
-  { label: '0–3 months', name: 'Establish' },
-  { label: '4–6 months', name: 'Prove' },
-  { label: '7–12 months', name: 'Expand' },
-  { label: '13–18 months', name: 'Scale' },
+export const STAGES = [
+  { months: '0–3 months', name: 'Establish', span: 1 },
+  { months: '3–6 months', name: 'Prove', span: 1 },
+  { months: '6–12 months', name: 'Expand', span: 2 },
+  { months: '12–18 months', name: 'Scale', span: 2 },
 ];
 
-export const LANES = {
-  scale: { label: 'BET 1 — SCALE ARMY', color: '#34D399' },
-  embed: { label: 'BET 2 — EMBED HIVEMIND', color: '#3B82F6' },
-  expand: { label: 'BET 3 — EXPAND NAVY', color: '#60A5FA' },
-  seed: { label: 'SEED LANE', color: '#6B7280' },
-};
+export const GROWTH_ROUTES = [
+  { title: 'Direct / B2G', summary: 'Army → next service → programmes', detail: 'Existing Army programme → next government / service channel → additional programmes' },
+  { title: 'Partner-led / B2B2G', summary: 'OEM / prime → SDK integration → joint programmes', detail: 'Indian OEM / defence prime → Hivemind SDK / Solutions integration → joint programme opportunities' },
+];
 
-export const MILESTONES: Milestone[] = [
-  { id: 'r1', lane: 'scale', block: 0, title: 'Programme governance locked', outcome: 'India / HQ / JSW responsibilities and escalation paths agreed in writing.', owner: 'India MD · Chief of Staff', dependency: 'HQ programme office; JSW leadership', decision: 'Approve governance charter', evidence: 'Signed charter; RACI published', risk: 'Ambiguous ownership slows delivery' },
-  { id: 'r2', lane: 'scale', block: 0, title: 'Acceptance and support plan', outcome: 'Acceptance dependencies and training/support model mapped with Army users.', owner: 'India programme lead', dependency: 'Army trial & acceptance schedule (not public)', decision: 'Approve support staffing', evidence: 'Plan reviewed with customer', risk: 'Acceptance criteria unclear' },
-  { id: 'r3', lane: 'scale', block: 1, title: 'Delivery / operational proof', gate: true, outcome: 'First deliveries accepted; operational use begins.', owner: 'India programme lead · HQ product', dependency: 'Export licences; customer readiness', decision: 'Release deliveries', evidence: 'Customer acceptance record', risk: 'Slip in delivery or acceptance' },
-  { id: 'r4', lane: 'scale', block: 1, title: 'Local production readiness', gate: true, outcome: 'JSW Hyderabad facility gates tracked toward reported late-2026 start.', owner: 'JSW · India industrialisation lead', dependency: 'Facility, supply chain, tech transfer', decision: 'Confirm readiness gates', evidence: 'Gate reviews passed', risk: 'Industrialisation delay' },
-  { id: 'r5', lane: 'scale', block: 2, title: 'Referenceable operational proof', outcome: 'Army use documented as referenceable proof for Navy and OEMs.', owner: 'India MD', dependency: 'Customer permission', decision: 'Approve reference use', evidence: 'Reference agreed', risk: 'Customer sensitivity' },
-  { id: 'r6', lane: 'scale', block: 2, title: 'Follow-on shaping · deeper Hivemind use', outcome: 'SDK-based mission apps in use; follow-on requirement conversations opened.', owner: 'India engineering · India sales', dependency: 'SDK enablement; Army units', decision: 'Fund SDK enablement team', evidence: 'Apps deployed; requirement dialogue', risk: 'SDK adoption slower than planned' },
-  { id: 'r7', lane: 'scale', block: 3, title: 'Follow-on shaped · sustainment model defined', gate: true, outcome: 'Recurring support model live; expansion beyond initial formations positioned.', owner: 'India MD · JSW', dependency: 'Procurement cycle (not invented)', decision: 'Commit sustainment investment', evidence: 'Support contract path defined', risk: 'Procurement timing outside control' },
-
-  { id: 'e1', lane: 'embed', block: 0, title: 'Force-rank 5–6 OEM accounts', outcome: 'HAL, NewSpace, BEL, GRSE, TASL, DRDO/ADE scored; 2 initial platforms chosen.', owner: 'India BD · Chief of Staff', dependency: 'HQ Catalyst team', decision: 'Choose 2 platforms', evidence: 'Ranked list; 2 LOIs / agreements', risk: 'Picking slow DPSU first' },
-  { id: 'e2', lane: 'embed', block: 0, title: 'India Catalyst programme defined', outcome: 'Repeatable 3-month SIL→HIL→flight offer localised for India.', owner: 'India engineering lead', dependency: 'Export controls on SDK scope', decision: 'Approve India Catalyst offer', evidence: 'Programme pack ready', risk: 'Export scope limits' },
-  { id: 'e3', lane: 'embed', block: 1, title: 'SIL/HIL integration · first demo', outcome: 'First platform through SIL/HIL; first customer developers trained.', owner: 'India engineering', dependency: 'OEM hardware access', decision: 'Approve demo scope', evidence: 'Demo delivered', risk: 'Partner engineering bandwidth' },
-  { id: 'e4', lane: 'embed', block: 2, title: 'Autonomous first flight / sail', gate: true, outcome: 'Hivemind flies or sails on an Indian-built platform; second/third integration started.', owner: 'India engineering · OEM', dependency: 'Range/test permissions', decision: 'Bring service customer in', evidence: 'Flight/sail record', risk: 'Test-range access' },
-  { id: 'e5', lane: 'embed', block: 3, title: '3–4 integrations · programme pathway', gate: true, outcome: 'At least one integration enters a formal procurement/programme pathway; playbook repeatable.', owner: 'India MD', dependency: 'Service sponsorship', decision: 'Scale or cut accounts', evidence: 'Programme position documented', risk: 'Integrations without buyers' },
-
-  { id: 'x1', lane: 'expand', block: 0, title: 'Navy mission & stakeholder map', outcome: 'NSUAS / maritime ISR stakeholders, Indian maritime OEMs and ViDAR fit assessed.', owner: 'India BD (Navy)', dependency: 'Navy access', decision: 'Approve Navy pursuit', evidence: 'Map and fit note', risk: 'Wrong entry point' },
-  { id: 'x2', lane: 'expand', block: 1, title: 'Maritime demo strategy · partner selected', outcome: 'Indian maritime-autonomy partner chosen; demo pathway agreed.', owner: 'India MD', dependency: 'GRSE / BEL / shipyard engagement', decision: 'Select partner', evidence: 'Partner agreement', risk: 'Incumbent navigation-autonomy provider' },
-  { id: 'x3', lane: 'expand', block: 2, title: 'Shipborne trial pathway · first maritime demo', gate: true, outcome: 'V-BAT/ViDAR trial pathway agreed; first Hivemind maritime integration/demo.', owner: 'India programme · HQ maritime', dependency: 'Ship availability; trial approvals', decision: 'Fund trial', evidence: 'Trial plan; demo record', risk: 'Trial slot timing' },
-  { id: 'x4', lane: 'expand', block: 3, title: 'Second-service reference position', gate: true, outcome: 'Navy programme pathway defined; Navy as second anchor service.', owner: 'India MD', dependency: 'DAC/procurement steps (not invented)', decision: 'Commit Navy resourcing', evidence: 'Documented pathway', risk: 'Procurement timing' },
-
-  { id: 's1', lane: 'seed', block: 0, title: 'CCA / X-BAT requirement shaping', outcome: 'Light-touch dialogue only.', owner: 'India MD (part-time)', dependency: '—', decision: 'None', evidence: 'Notes', risk: 'Distraction' },
-  { id: 's2', lane: 'seed', block: 1, title: 'Military-space & weapons discovery', outcome: 'Identify mission, buyer, pathway — or park.', owner: 'Chief of Staff', dependency: '—', decision: 'Park or continue', evidence: 'Discovery memo', risk: 'Distraction' },
-  { id: 's3', lane: 'seed', block: 2, title: 'MALE architecture influence', outcome: 'Autonomy-layer conversation with winning OEM if any.', owner: 'India BD', dependency: 'Tender outcome', decision: 'None', evidence: 'Notes', risk: 'Low' },
-  { id: 's4', lane: 'seed', block: 3, title: 'Aechelon customer discovery', outcome: 'Qualify IAF/DRDO simulation demand.', owner: 'India BD', dependency: 'HQ Aechelon team', decision: 'Promote to bet or park', evidence: 'Qualified or parked', risk: 'Low' },
+export const MILESTONES = [
+  { month: 0, label: 'M0', title: 'India operation in motion', lines: ['Existing Army programme', 'JSW partnership', 'Initial India team in place'], details: [
+    'The existing Army programme and JSW partnership anchor the India business.',
+    'The initial India team provides the starting point for local execution and customer support.',
+  ], assumption: 'Current commitments provide the foundation; delivery sequencing and the initial capacity baseline must be confirmed.', note: 'Starting position, rather than a new programme award.' },
+  { month: 3, label: 'M3', title: 'Delivery readiness established', lines: ['V-BAT delivery & trial support', 'India Hivemind environment live', 'Bangalore setup & execution model'], details: [
+    'V-BAT delivery and trial support available in India.',
+    'Hivemind configured and validated for the Indian operating environment.',
+    'Bangalore setup operational, with an agreed Shield AI / JSW execution model and critical capacity in place.',
+  ], assumption: 'Readiness depends on product access, required approvals, local infrastructure and critical hiring.', note: 'Readiness is the company state; customer acceptance and trial dates remain externally dependent.' },
+  { month: 6, label: 'M6', title: 'India model proven', lines: ['First India Hivemind proof', 'First OEM / prime pathway active', 'Direct government pipeline advancing'], details: [
+    'A successful India Hivemind technical proof demonstrates that local execution works.',
+    'A serious Indian OEM / defence-prime engagement establishes a Hivemind SDK / Solutions integration pathway.',
+    'The direct government opportunity pipeline is actively progressing alongside the partner route.',
+  ], assumption: 'A suitable proof scope, partner engineering access and customer engagement can be secured.', note: 'Technical proof and an active partner pathway do not imply a contracted programme.' },
+  { month: 12, label: 'M9 / M12', title: 'Growth engines activated', lines: ['Next government / service channel', 'Indian OEM / prime B2B2G route active', 'India integration capability deepening'], details: [
+    'M9: the next government / service channel reaches meaningful evaluation, demo or programme definition.',
+    'M9: additional platform / partner opportunities are qualified.',
+    'M12: both direct B2G and partner-led B2B2G growth routes are active.',
+    'M12: at least one meaningful Indian-platform Hivemind integration progresses, with deeper India ownership.',
+  ], assumption: 'Customer sponsorship, partner bandwidth and platform access support progression across the M9–M12 window.', note: 'This is a combined growth window, shown at its M12 checkpoint. No specific next service is prescribed.' },
+  { month: 15, label: 'M15', title: 'Operating scale taking shape', lines: ['Production / supply-chain readiness', 'Multi-programme support developing', 'Sustainment model taking shape'], details: [
+    'JSW production and supply-chain readiness advance toward repeatable customer delivery.',
+    'India develops the capacity and systems to support multiple programmes concurrently.',
+    'A defined sustainment model supports the transition from individual deliveries to an enduring operation.',
+  ], assumption: 'Industrial readiness and support capacity mature in step with programme demand.', note: 'Readiness milestones should be validated against actual facility, supplier and delivery dependencies.' },
+  { month: 18, label: 'M18', title: 'Repeatable India operation', lines: ['Multiple programme pathways', 'Capture → integration → delivery', 'Local growth + selected global Hivemind'], details: [
+    'Multiple active customer / programme pathways develop through both direct and partner routes.',
+    'A repeatable capture → integration → delivery model is backed by sustainment capability.',
+    'India engineering supports local growth and selected global Hivemind contribution.',
+    'India leadership, operating cadence and P&L visibility support a repeatable multi-programme business.',
+  ], assumption: 'Demand, engineering depth and delivery capacity justify scaling beyond the initial commitment.', note: 'The target is repeatability across programmes, rather than a fixed number of procurement awards.' },
 ];

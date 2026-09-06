@@ -1,0 +1,33 @@
+.mission-priorities { @apply flex-1 min-h-0 overflow-y-auto; }
+.mission-blueprint { @apply relative w-full; height: 100%; min-height: 580px; }
+.mission-aircraft { @apply absolute; left: 30%; top: 7%; width: 40%; height: 62%; }
+.mission-construction { @apply stroke-line; opacity: .7; }
+.mission-airframe { @apply stroke-paper-3; opacity: .65; }
+.mission-airframe-detail { @apply stroke-line-2; }
+.mission-connectors { @apply absolute inset-0 w-full h-full stroke-line-2; }
+.mission-system-nodes { @apply stroke-sig-blue fill-ink; }
+.mission-centre-label { @apply absolute text-center text-paper-2; top: 73%; left: 30%; width: 40%; font-size: 10px; }
+.mission-callouts { @apply list-none m-0 p-0; }
+.mission-callout { @apply absolute flex items-start gap-3; width: 25%; }
+.mission-callout-number { @apply text-sig-blue text-2xl leading-none font-medium; }
+.mission-callout h2 { @apply text-paper text-base lg:text-lg font-semibold leading-snug; }
+.mission-callout p { @apply text-paper-2 text-sm leading-relaxed mt-2; }
+.mission-callout--01 { left: 1%; top: 10%; }
+.mission-callout--02 { right: 1%; top: 10%; }
+.mission-callout--03 { left: 1%; top: 44%; }
+.mission-callout--04 { right: 1%; top: 44%; }
+.mission-callout--05 { left: 33%; top: 83%; width: 36%; }
+@media (max-width: 1000px) {
+  .mission-blueprint { @apply h-auto min-h-0 pb-4; }
+  .mission-aircraft { @apply relative; left: 20%; top: auto; width: 60%; height: 300px; }
+  .mission-connectors { @apply hidden; }
+  .mission-centre-label { @apply relative left-auto w-full mt-2 mb-8; top: auto; }
+  .mission-callouts { @apply grid grid-cols-2 gap-x-6 gap-y-8; }
+  .mission-callout { @apply static w-auto; }
+  .mission-callout--05 { @apply col-span-2 max-w-md; }
+}
+@media (max-width: 600px) {
+  .mission-callouts { @apply grid-cols-1; }
+  .mission-callout--05 { @apply col-span-1; }
+  .mission-aircraft { left: 5%; width: 90%; height: 260px; }
+}

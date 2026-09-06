@@ -130,7 +130,7 @@ export default function Money() {
   const sel = tree.find((n) => n.id === selected) ?? null;
   return (
     <Screen>
-       <Headline title="India’s defence demand is moving toward autonomy" titleClassName="lg:text-4xl xl:text-5xl lg:whitespace-nowrap" sub="Government budget owners, official heads and emerging programme pools. Values are not additive." />
+       <Headline title="India’s defence demand is moving toward autonomy" sub="Government budget owners, official heads and emerging programme pools. Values are not additive." />
        <div className="flex flex-wrap justify-end gap-2 shrink-0">
          <button data-testid="budget-focus-toggle" aria-label="Focus market canvas" onClick={() => setCanvasFocus(true)} className="inline-flex items-center gap-1.5 rounded border border-line px-3 py-1 text-xs text-paper-3 hover:text-paper-2"><Maximize2 className="h-3.5 w-3.5" /><span className="hidden sm:inline">Focus canvas</span></button>
        </div>

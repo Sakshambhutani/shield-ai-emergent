@@ -30,35 +30,18 @@ function Nav() {
   );
 }
 
-function TopBar() {
-  const { mode, setMode, present, setPresent, sectionIndex, openEvidence, calc, setCalc } = useStore();
-  const s = SECTIONS[sectionIndex];
-  return (
-    <header className="relative z-[60] flex items-center justify-between gap-3 px-4 lg:px-6 h-12 border-b border-line bg-ink-1 shrink-0">
-      <div className="flex items-center gap-3 min-w-0">
-        <span className="md:hidden eyebrow text-sig-blue whitespace-nowrap">Shield AI<span className="hidden sm:inline"> India</span></span>
-        <span className="hidden md:inline text-xs text-paper-3 truncate">{s.num} · {s.label}</span>
-      </div>
-      <div className="flex items-center gap-2">
-        {!present && (
-          <div data-testid="mode-toggle" className="flex rounded border border-line overflow-hidden text-xs">
-            {(['story', 'explore'] as const).map((m) => (
-              <button key={m} data-testid={`mode-${m}`} onClick={() => setMode(m)} className={cn('px-2.5 py-1 capitalize transition-colors duration-200', mode === m ? 'bg-ink-4 text-paper' : 'text-paper-3 hover:text-paper-2')}>{m}</button>
-            ))}
-          </div>
-        )}
-        {mode === 'explore' && !present && (
-          <button aria-label="Assumptions" data-testid="assumptions-btn" onClick={() => setCalc(!calc)} className="inline-flex items-center gap-1.5 rounded border border-violet-400/50 border-dashed px-2.5 py-1 text-xs text-violet-300 hover:bg-violet-500/10 transition-colors duration-200"><SlidersHorizontal className="h-3.5 w-3.5" /><span className="hidden sm:inline">Assumptions</span></button>
-        )}
-        {!present && <button aria-label="Sources & Assumptions" data-testid="sources-btn" onClick={() => openEvidence()} className="inline-flex items-center gap-1.5 rounded border border-line px-2.5 py-1 text-xs text-paper-2 hover:text-paper hover:border-line-2 transition-colors duration-200">
-          <FileText className="h-3.5 w-3.5" /><span className="hidden sm:inline">Sources &amp; Assumptions <span className="num text-sig-blue">({s.claimIds.length})</span></span>
-        </button>}
-        <button aria-label={present ? 'Exit presentation' : 'Present'} data-testid="present-btn" onClick={() => setPresent(!present)} className={cn('inline-flex items-center gap-1.5 rounded px-2.5 py-1 text-xs transition-colors duration-200', present ? 'bg-sig-blue text-white' : 'border border-line text-paper-2 hover:text-paper')}>
-          {present ? <Minimize2 className="h-3.5 w-3.5" /> : <Maximize2 className="h-3.5 w-3.5" />}<span className="hidden sm:inline">{present ? 'Exit' : 'Present'}</span>
-        </button>
-      </div>
-    </header>
-  );
+function ViewControls() {
+  const { present, setPresent, openEvidence, calc, setCalc } = useStore();
+  const buttonClass = 'inline-flex items-center gap-1.5 rounded px-2 py-1 text-xs text-paper-2 hover:text-paper hover:bg-ink-3';
+  return <div className="flex items-center gap-1">
+    {!present && <>
+      <button aria-label="Sources" title="Sources" data-testid="sources-btn" onClick={() => openEvidence()} className={buttonClass}><FileText className="h-3.5 w-3.5" /><span className="hidden lg:inline">Sources</span></button>
+      <button aria-label="Assumptions" title="Assumptions" data-testid="assumptions-btn" onClick={() => setCalc(!calc)} className={buttonClass}><SlidersHorizontal className="h-3.5 w-3.5" /><span className="hidden sm:inline">Assumptions</span></button>
+    </>}
+    <button aria-label={present ? 'Exit presentation' : 'Present'} title={present ? 'Exit presentation' : 'Present'} data-testid="present-btn" onClick={() => setPresent(!present)} className={buttonClass}>
+      {present ? <Minimize2 className="h-3.5 w-3.5" /> : <Maximize2 className="h-3.5 w-3.5" />}<span className="hidden sm:inline">{present ? 'Exit' : 'Present'}</span>
+    </button>
+  </div>;
 }
 
 const progressDot = (i: number, current: number): string => {
@@ -70,12 +53,13 @@ const progressDot = (i: number, current: number): string => {
 function Footer() {
   const { sectionIndex, go } = useStore();
   return (
-    <footer className="relative z-[60] flex items-center justify-between gap-3 px-4 lg:px-6 h-12 border-t border-line bg-ink-1 shrink-0">
+    <footer className="relative z-[60] flex items-center justify-between gap-2 px-3 lg:px-6 h-12 border-t border-line bg-ink-1 shrink-0">
       <button data-testid="prev-btn" disabled={sectionIndex === 0} onClick={() => go(sectionIndex - 1)} className="inline-flex items-center gap-1 text-xs text-paper-2 hover:text-paper disabled:opacity-30 transition-colors duration-200"><ChevronLeft className="h-4 w-4" /> Previous</button>
       <div className="flex items-center gap-3">
-        <div className="hidden sm:flex gap-1">{SECTIONS.map((x, i) => <button key={x.id} onClick={() => go(i)} aria-label={x.label} className={cn('h-1 rounded-full transition-all duration-300', progressDot(i, sectionIndex))} />)}</div>
+        <div className="hidden xl:flex gap-1">{SECTIONS.map((x, i) => <button key={x.id} onClick={() => go(i)} aria-label={x.label} className={cn('h-1 rounded-full transition-all duration-300', progressDot(i, sectionIndex))} />)}</div>
         <span data-testid="section-progress" className="num text-[11px] text-paper-3">{sectionIndex + 1} / {SECTIONS.length}</span>
       </div>
+      <ViewControls />
       <button data-testid="next-btn" disabled={sectionIndex === SECTIONS.length - 1} onClick={() => go(sectionIndex + 1)} className="inline-flex items-center gap-1 text-xs text-paper-2 hover:text-paper disabled:opacity-30 transition-colors duration-200">Next <ChevronRight className="h-4 w-4" /></button>
     </footer>
   );
@@ -87,7 +71,6 @@ export function Shell({ children }: { children: ReactNode }) {
     <div className="h-full flex bg-ink text-paper">
       <Nav />
       <div className="flex-1 flex flex-col min-w-0 h-full">
-        <TopBar />
         <main data-testid="main-content" className={cn('flex-1 min-h-0 overflow-y-auto overflow-x-hidden', present ? 'p-6 lg:p-10' : 'p-4 lg:p-6')}>{children}</main>
         <Footer />
       </div>

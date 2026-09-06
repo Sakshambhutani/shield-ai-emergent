@@ -9,18 +9,19 @@ export function Screen({ children, className }: { children: ReactNode; className
   return <div className={cn('h-full flex flex-col gap-3 lg:gap-4 min-h-0', className)}>{children}</div>;
 }
 
-export function Headline({ title, sub, right, titleClassName }: { title: string; sub?: string; right?: ReactNode; titleClassName?: string }) {
-  const { sectionIndex, mode } = useStore();
+// All section headers share the thesis typography and hierarchy.
+export function Headline({ title, sub, right }: { title: string; sub?: string; right?: ReactNode }) {
+  const { sectionIndex } = useStore();
   const s = SECTIONS[sectionIndex];
   return (
-    <div className="flex items-end justify-between gap-6 shrink-0">
-      <div className="animate-rise">
-        <div className="eyebrow text-sig-blue">{s.num} · {s.label} <span className="text-paper-3 normal-case tracking-normal ml-2">{s.question}</span></div>
-        <h1 data-testid="screen-headline" className={cn('text-3xl sm:text-4xl lg:text-5xl font-semibold tracking-tight mt-1 leading-tight', titleClassName)}>{title}</h1>
-        {sub && mode === 'explore' && <p data-testid="screen-subhead" className="text-sm md:text-base text-paper-2 mt-1.5 max-w-3xl">{sub}</p>}
+    <header className="screen-heading" data-testid="screen-heading">
+      <div className="screen-heading-copy animate-rise">
+        <div className="eyebrow">{s.num} · {s.label}</div>
+        <h1 data-testid="screen-headline" className="screen-title">{title}</h1>
+        {sub && <p data-testid="screen-subhead" className="screen-subhead">{sub}</p>}
       </div>
-      {right && <div className="shrink-0 hidden md:block">{right}</div>}
-    </div>
+      {right && <div className="screen-heading-actions">{right}</div>}
+    </header>
   );
 }
 

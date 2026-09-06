@@ -33,7 +33,7 @@ export function AssumptionCalc() {
   const { calc, setCalc, assumptions, setAssumptions, reset } = useStore();
   const set = (k: keyof Assumptions) => (v: number) => setAssumptions({ ...assumptions, [k]: v });
   return (
-    <SideDrawer open={calc} onClose={() => setCalc(false)} title="Assumption calculator" eyebrow="Explore mode" testId="assumption-drawer" width="sm:w-[400px]">
+    <SideDrawer open={calc} onClose={() => setCalc(false)} title="Assumption calculator" eyebrow="Scenario planning" testId="assumption-drawer" width="sm:w-[400px]">
       <div className="space-y-5">
         <div className="flex items-center justify-between"><EvidenceBadge cls="modelled" /><span className="font-mono text-[10px] text-paper-3">Scenario planning, not company guidance.</span></div>
         <div className="space-y-3">

@@ -8,6 +8,7 @@ import { WeightSliders } from '@/components/AssumptionCalc';
 import { PrecedentTag } from '@/components/AccountDrawer';
 import { OPPORTUNITIES, BET_META } from '@/data/opportunities';
 import { useStore, type Weights } from '@/store';
+import './priorities.css';
 
 function score(o: (typeof OPPORTUNITIES)[number], w: Weights) {
   const s = o.scores;
@@ -31,11 +32,11 @@ const HORIZON_KEYS = Object.keys(HORIZON_META) as HorizonKey[];
 const xTick = (v: number): string => { if (v <= 1.5) return 'Hard to enter'; if (v >= 5) return 'Easy to enter'; return ''; };
 const yTick = (v: number): string => { if (v <= 1.5) return 'Low'; if (v >= 5) return 'High'; return ''; };
 const PRIORITIES = [
-  { number: '01', type: 'Growth bet', title: 'Deliver Army V-BAT + Hivemind successfully', tone: 'green' as const },
-  { number: '02', type: 'Growth bet', title: 'Embed Hivemind across selected Indian platforms', tone: 'blue' as const },
-  { number: '03', type: 'Growth bet', title: 'Establish the Navy pathway through V-BAT, ViDAR and maritime autonomy', tone: 'blue' as const },
-  { number: '04', type: 'Execution enabler', title: 'Establish India–HQ–JSW governance and industrialisation', tone: 'purple' as const },
-  { number: '05', type: 'Execution enabler', title: 'Build mission-ready engineering and programme capacity in India', tone: 'purple' as const },
+  { number: '01', title: 'Army reference programme', description: 'Deliver, prove and expand V-BAT + Hivemind' },
+  { number: '02', title: 'Win the next India programmes', description: 'Focus on the highest-fit opportunities across services' },
+  { number: '03', title: 'Hivemind across Indian platforms', description: 'Build OEM / prime pathways' },
+  { number: '04', title: 'India production & sustainment', description: 'Turn JSW into scalable industrial capability' },
+  { number: '05', title: 'Global Hivemind engineering hub', description: 'Build autonomy in India for India + global programmes' },
 ];
 
 function BubbleTip({ payload }: { payload?: readonly { payload: Row }[] }) {
@@ -98,14 +99,55 @@ function WeightsPanel() {
   return null;
 }
 
+function AircraftSchematic() {
+  return <svg className="mission-aircraft" viewBox="0 0 480 420" fill="none" aria-hidden="true">
+    <g className="mission-construction" strokeWidth="1">
+      <path d="M240 12V408 M24 187H456" strokeDasharray="3 8" />
+      <path d="M30 164V146H450V164 M30 139V153 M450 139V153 M210 34H194V368H210 M187 34H201 M187 368H201" />
+      <path d="M224 18H212V30 M256 18H268V30 M212 388V400H224 M256 400H268V388" />
+    </g>
+    <g className="mission-airframe" strokeWidth="1.4" strokeLinejoin="round">
+      {/* Straight high-aspect-ratio wing, fuselage and aft duct in plan view. */}
+      <path d="M226 170L34 178L26 203L225 211 M254 170L446 178L454 203L255 211" />
+      <path d="M52 181L49 199L224 201 M428 181L431 199L256 201 M116 175L113 205 M364 175L367 205" />
+      <path d="M240 34C228 43 222 66 222 96L224 246L230 282H250L256 246L258 96C258 66 252 43 240 34Z" />
+      <path d="M228 83Q240 70 252 83L252 119Q240 125 228 119Z M224 148H256 M225 218H255 M229 250H251" />
+      <path d="M230 270L202 286L199 346Q240 366 281 346L278 286L250 270 M207 291Q240 280 273 291L275 340Q240 354 205 340Z" />
+      <path d="M204 305H276 M203 326H277 M240 285V351 M202 318L177 340V357L201 346 M278 318L303 340V357L279 346 M234 350L232 376H248L246 350" />
+      <ellipse cx="240" cy="317" rx="9" ry="13" />
+    </g>
+    <g className="mission-airframe-detail" strokeWidth="1">
+      <path d="M234 133H246 M234 138H246 M234 143H246 M234 229H246 M234 234H246 M234 239H246" />
+      <circle cx="240" cy="58" r="3" />
+    </g>
+  </svg>;
+}
+
 function PriorityLedger() {
-  return <section data-testid="priority-ledger" className="panel p-3 shrink-0">
-    <div className="flex items-center justify-between gap-3"><span className="eyebrow text-sig-blue">18-month priorities</span><span className="font-mono text-[10px] text-paper-3">3 strategic bets · 2 execution enablers</span></div>
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-2 mt-2">
-      {PRIORITIES.map((p) => <div key={p.number} className="rounded border border-line bg-ink-2 px-2.5 py-2">
-        <div className="flex items-center justify-between gap-2"><span className="num text-sm text-paper-3">{p.number}</span><Pill tone={p.tone}>{p.type}</Pill></div>
-        <div className="text-xs leading-snug mt-2">{p.title}</div>
-      </div>)}
+  return <section data-testid="priority-ledger" aria-label="18-month mission priorities" className="mission-priorities">
+    <div className="mission-blueprint">
+      <AircraftSchematic />
+      <svg className="mission-connectors" viewBox="0 0 1200 620" preserveAspectRatio="none" fill="none" aria-hidden="true">
+        <g strokeWidth="1">
+          <path d="M310 130H420L600 144" />
+          <path d="M890 130H817L748 220" />
+          <path d="M310 337H398L516 229" />
+          <path d="M890 337H803L634 335" />
+          <path d="M600 496V470 M600 440V390" />
+        </g>
+        <g className="mission-system-nodes">
+          <circle cx="600" cy="144" r="3" /><circle cx="748" cy="220" r="3" />
+          <circle cx="516" cy="229" r="3" /><circle cx="634" cy="335" r="3" />
+          <circle cx="600" cy="390" r="3" />
+        </g>
+      </svg>
+      <div className="eyebrow mission-centre-label">SHIELD AI INDIA · 18-MONTH MISSION</div>
+      <ol className="mission-callouts">
+        {PRIORITIES.map((priority) => <li key={priority.number} className={`mission-callout mission-callout--${priority.number}`}>
+          <span aria-hidden="true" className="num mission-callout-number">{priority.number}</span>
+          <div><h2>{priority.title}</h2><p>{priority.description}</p></div>
+        </li>)}
+      </ol>
     </div>
   </section>;
 }
@@ -117,13 +159,11 @@ export default function Convergence() {
   useEffect(() => { if (present) setSel(null); }, [present]);
   useEffect(() => { if (sel) detailRef.current?.scrollIntoView({ behavior: 'smooth', block: 'nearest' }); }, [sel]);
   const all = useMemo<Row[]>(() => OPPORTUNITIES.map((o) => ({ ...o, ...score(o, weights), z: o.size * 40 })).sort((a, b) => b.total - a.total), [weights]);
-  const rows = useMemo(() => (mode === 'explore' ? all : all.filter((r) => !r.component)), [all, mode]);
-  const top = useMemo(() => new Set(rows.slice(0, 3).map((r) => r.id)), [rows]);
   const s = all.find((r) => r.id === sel) ?? null;
   return (
     <Screen>
-      <Headline title="Three strategic bets. Two execution enablers." titleClassName="lg:text-4xl xl:text-5xl lg:whitespace-nowrap" sub="Large budgets do not automatically equal attractive opportunities; accessibility, architecture and timing matter." />
-      <PriorityLedger />
+      <Headline title="Five 18-month priorities." sub="Large budgets do not automatically equal attractive opportunities; accessibility, architecture and timing matter." />
+      {mode === 'story' ? <PriorityLedger /> : <>
       <div className="grid lg:grid-cols-3 gap-3 flex-1 min-h-0">
         <div className="lg:col-span-2 panel p-3 flex flex-col min-h-[420px]" data-testid="bubble-chart">
           <div className="flex items-center justify-between text-[11px]">
@@ -138,17 +178,18 @@ export default function Convergence() {
                 <YAxis type="number" dataKey="y" domain={DOMAIN} tick={TICK_STYLE} tickFormatter={yTick} ticks={TICKS} stroke="#2E3546" width={40} />
                 <ZAxis type="number" dataKey="z" range={Z_RANGE} />
                 <Tooltip cursor={false} content={BubbleTip} />
-                <Scatter data={rows} onClick={(d: any) => setSel(d?.id ?? d?.payload?.id ?? null)} isAnimationActive shape={(p: any) => <Bubble cx={p.cx} cy={p.cy} size={p.size} payload={p.payload} on={sel === p.payload.id} faded={mode === 'story' && !top.has(p.payload.id)} />} />
+                <Scatter data={all} onClick={(d: any) => setSel(d?.id ?? d?.payload?.id ?? null)} isAnimationActive shape={(p: any) => <Bubble cx={p.cx} cy={p.cy} size={p.size} payload={p.payload} on={sel === p.payload.id} faded={false} />} />
               </ScatterChart>
             </ResponsiveContainer>
           </div>
         </div>
         <div className="flex flex-col gap-3 min-h-0 overflow-y-auto">
-          <RankList rows={rows} sel={sel} onSelect={setSel} />
+          <RankList rows={all} sel={sel} onSelect={setSel} />
           <WeightsPanel />
         </div>
       </div>
       {s && <div ref={detailRef}><OpportunityDetail s={s} onClose={() => setSel(null)} /></div>}
+      </>}
     </Screen>
   );
 }

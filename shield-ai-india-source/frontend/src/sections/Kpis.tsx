@@ -106,7 +106,7 @@ export default function Kpis() {
   const selectOutcome = (id: string) => { setOutcomeId((current) => current === id ? null : id); setDriver(null); setHealth(null); };
   const openStoryOutcome = (outcome: Outcome) => { setOutcomeDrawer(outcome); setDriver(null); setHealth(null); };
   return <Screen>
-    <Headline title="Local mission impact. Global product leverage." titleClassName="lg:text-4xl xl:text-5xl lg:whitespace-nowrap" sub="Four outcomes define the proposed organisational North Star; execution health shows whether the system can deliver them." right={mode === 'explore' ? <SourceButton claimIds={['m-kpis', 'm-integrations', 'c-vision-australia']} title="Company scorecard" /> : undefined} />
+    <Headline title="Local mission impact. Global product leverage." sub="Four outcomes define the proposed organisational North Star; execution health shows whether the system can deliver them." right={mode === 'explore' ? <SourceButton claimIds={['m-kpis', 'm-integrations', 'c-vision-australia']} title="Company scorecard" /> : undefined} />
     {mode === 'story' ? <StoryOutcomes onOpen={openStoryOutcome} /> : <ExploreScorecard selected={selected} outcomeId={outcomeId} health={health} onOutcome={selectOutcome} onDriver={(item) => { setDriver(item); setHealth(null); }} onHealth={(item) => { setHealth(item); setDriver(null); }} />}
     <OutcomeDrawer outcome={outcomeDrawer} onClose={() => setOutcomeDrawer(null)} />
     <DriverDrawer driver={driver} onClose={() => setDriver(null)} />
