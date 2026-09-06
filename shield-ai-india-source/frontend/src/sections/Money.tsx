@@ -166,15 +166,14 @@ export default function Money() {
         <div className="shrink-0"><h1 className="text-2xl sm:text-3xl lg:text-4xl font-semibold tracking-tight leading-tight" data-testid="screen-headline">Where else can Shield’s autonomy stack travel?</h1></div>
         <FuturePossibility />
       </> : <>
-       <Headline title="India’s defence demand is moving toward autonomy" titleClassName="lg:text-4xl xl:text-5xl lg:whitespace-nowrap" sub="Official pools are context, not TAM. Only Shield-relevant capability universes branch out." right={
-        <div className="flex gap-2">
-          <div data-testid="view-toggle" className="flex rounded border border-line overflow-hidden text-xs">
-            {(['budget', 'mission'] as const).map((v) => <button key={v} data-testid={`view-${v}`} onClick={() => setView(v)} className={cn('px-3 py-1 capitalize transition-colors duration-200', view === v ? 'bg-ink-4 text-paper' : 'text-paper-3 hover:text-paper-2')}>{v} view</button>)}
-          </div>
-           <button data-testid="uas-toggle" onClick={() => setUas(!uas)} className="rounded border border-line px-3 py-1 text-xs text-paper-3 hover:text-paper-2">UAS classes</button>
-           {view === 'budget' && <button data-testid="budget-focus-toggle" aria-label="Focus budget canvas" onClick={() => setCanvasFocus(true)} className="inline-flex items-center gap-1.5 rounded border border-line px-3 py-1 text-xs text-paper-3 hover:text-paper-2"><Maximize2 className="h-3.5 w-3.5" /><span className="hidden sm:inline">Focus canvas</span></button>}
-        </div>
-       } />
+       <Headline title="India’s defence demand is moving toward autonomy" titleClassName="lg:text-4xl xl:text-5xl lg:whitespace-nowrap" sub="Official pools are context, not TAM. Only Shield-relevant capability universes branch out." />
+       <div className="flex flex-wrap justify-end gap-2 shrink-0">
+         <div data-testid="view-toggle" className="flex rounded border border-line overflow-hidden text-xs">
+           {(['budget', 'mission'] as const).map((v) => <button key={v} data-testid={`view-${v}`} onClick={() => setView(v)} className={cn('px-3 py-1 capitalize transition-colors duration-200', view === v ? 'bg-ink-4 text-paper' : 'text-paper-3 hover:text-paper-2')}>{v} view</button>)}
+         </div>
+         <button data-testid="uas-toggle" onClick={() => setUas(!uas)} className="rounded border border-line px-3 py-1 text-xs text-paper-3 hover:text-paper-2">UAS classes</button>
+         {view === 'budget' && <button data-testid="budget-focus-toggle" aria-label="Focus budget canvas" onClick={() => setCanvasFocus(true)} className="inline-flex items-center gap-1.5 rounded border border-line px-3 py-1 text-xs text-paper-3 hover:text-paper-2"><Maximize2 className="h-3.5 w-3.5" /><span className="hidden sm:inline">Focus canvas</span></button>}
+       </div>
        <ExploreNote>Explore adds sourced market callouts, model assumptions and supporting UAS classification detail.</ExploreNote>
       {mode === 'explore' && <div className="grid grid-cols-4 gap-3 shrink-0 stagger">{CALLOUTS.map((c) => <Callout key={c.testId} {...c} />)}</div>}
       {uas && <UasPanel />}

@@ -105,7 +105,7 @@ export default function OperatingModel() {
   const [view, setView] = useState<View>('system');
   return <Screen>
      <Headline title="Three missions. One India operating system." sub="Mission owners coordinate the capabilities they consume; India pulls from global centres without recreating them." right={<div className="flex items-center gap-2"><Pill tone="purple">Proposed operating model</Pill><SourceButton claimIds={['m-opmodel', 'c-india-sub', 'c-vision-australia']} title="Operating model" /></div>} />
-     <div className="flex items-center justify-between shrink-0"><Toggle view={view} setView={setView} />{view === 'system' && <span className="hidden sm:inline text-[10px] font-mono text-paper-3"><Check className="inline h-3 w-3 mr-1 text-emerald-300" />one accountable mission owner per bet</span>}</div>
+     <div className="flex items-center justify-between gap-4 shrink-0"><Toggle view={view} setView={setView} />{view === 'system' && <div className="hidden sm:flex items-center gap-3 text-[10px] font-mono text-paper-3"><span className="text-paper">● Core</span><span className="text-paper-2">○ Support</span><span className="text-paper-3">· As needed</span><span className="ml-2"><Check className="inline h-3 w-3 mr-1 text-emerald-300" />one accountable mission owner per bet</span></div>}</div>
      <ExploreNote>Click a mission or capability to inspect ownership, KPIs and global interfaces.</ExploreNote>
     {view === 'system' ? <OperatingSystem /> : <RightsMatrix />}
   </Screen>;
