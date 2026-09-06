@@ -48,7 +48,7 @@ function OptionDrawer({ option, horizon, onHorizon, onClose }: {
         <div><dt>What must become true?</dt><dd>{option.gate}</dd></div>
       </dl>
       <details className="future-evidence" key={option.id}>
-        <summary>Sources &amp; Assumptions <ChevronRight size={14} /></summary>
+        <summary>Sources &amp; Evidence <ChevronRight size={14} /></summary>
         <div className="future-evidence-content">
           <div><h3>Shield capability proof</h3><a href={option.proofSource.url} target="_blank" rel="noreferrer">{option.proofSource.label} ↗</a></div>
           <div><h3>Indian market signal</h3><a href={option.indiaSource.url} target="_blank" rel="noreferrer">{option.indiaSource.label} ↗</a></div>

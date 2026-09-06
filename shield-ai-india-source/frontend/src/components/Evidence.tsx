@@ -25,7 +25,7 @@ export function SourceButton({ claimIds, title, className, size = 'sm' }: { clai
     <button
       type="button"
       data-testid={`source-btn-${(title ?? claimIds[0] ?? 'x').toLowerCase().replace(/[^a-z0-9]+/g, '-').slice(0, 40)}`}
-      title="Show sources & assumptions"
+      title="Show sources & evidence notes"
       onClick={(e) => { e.stopPropagation(); openEvidence(claimIds, title); }}
       className={cn('inline-flex items-center gap-1 rounded-sm text-paper-3 hover:text-sig-blue transition-colors duration-200', size === 'xs' ? 'text-xs' : 'text-xs', className)}
     >
@@ -52,7 +52,7 @@ function Entry({ c }: { c: Claim }) {
         {!c.value && c.horizon && <div className="mt-1"><span className="font-mono text-xs uppercase tracking-wider text-paper-3 border border-line rounded-sm px-1 py-0.5">{c.horizon}</span></div>}
       </div>
       <div className="mt-2 text-xs text-paper-2">{c.interpretation}</div>
-      {c.assumption && <div className="mt-2 text-xs"><span className="eyebrow text-paper-2">Assumption</span><div className="text-paper-2 mt-0.5">{c.assumption}</div></div>}
+      {c.assumption && <div className="mt-2 text-xs"><span className="eyebrow text-paper-2">Planning basis</span><div className="text-paper-2 mt-0.5">{c.assumption}</div></div>}
       {c.formula && <div className="mt-2 text-xs"><span className="eyebrow text-paper-2">Formula</span><div className="num text-paper-2 mt-0.5 text-xs leading-relaxed">{c.formula}</div></div>}
       {c.sourceIds.length > 0 && (
         <div className="mt-3 space-y-1.5 border-t border-line pt-2">
@@ -67,7 +67,7 @@ function Entry({ c }: { c: Claim }) {
             </div>) : null; })}
         </div>
       )}
-      {c.sourceIds.length === 0 && <div className="mt-2 text-xs text-paper-3 font-mono">Analyst model — no external source; see assumption.</div>}
+      {c.sourceIds.length === 0 && <div className="mt-2 text-xs text-paper-3 font-mono">Management judgement — not a reported company fact.</div>}
     </div>
   );
 }
@@ -84,7 +84,7 @@ export function EvidenceDrawer() {
       <aside data-testid="evidence-drawer" aria-hidden={!evidence.open || present} className={cn('fixed right-0 top-0 z-[70] h-full w-full sm:w-[440px] bg-ink-1 border-l border-line shadow-2xl transition-transform duration-250 ease-out flex flex-col', evidence.open && !present ? 'translate-x-0' : 'translate-x-full')}>
         <div className="flex items-start justify-between p-4 border-b border-line">
           <div>
-            <div className="eyebrow">Sources & Assumptions</div>
+            <div className="eyebrow">Sources & Evidence</div>
             <div className="text-base font-medium mt-0.5">{evidence.title || `${section.num} · ${section.label}`}</div>
             <div className="mt-2 flex flex-wrap gap-1.5">{(Object.keys(counts) as EvidenceClass[]).map((k) => <span key={k} className="inline-flex items-center gap-1 text-xs font-mono text-paper-3"><span className={cn('h-1.5 w-1.5 rounded-full', CLS_META[k].dot)} />{counts[k]} {CLS_META[k].label}</span>)}</div>
           </div>

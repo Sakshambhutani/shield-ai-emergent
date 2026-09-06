@@ -4,7 +4,7 @@ import { X } from 'lucide-react';
 import { cn } from '@/lib/cn';
 import { Field, Headline, HORIZON_META, Pill, Screen } from '@/components/ui';
 import { SourceButton } from '@/components/Evidence';
-import { WeightSliders } from '@/components/AssumptionCalc';
+import { WeightSliders } from '@/components/WeightSliders';
 import { PrecedentTag } from '@/components/AccountDrawer';
 import { OPPORTUNITIES, BET_META } from '@/data/opportunities';
 import { useStore, type Weights } from '@/store';
@@ -94,8 +94,8 @@ function OpportunityDetail({ s, onClose }: { s: Row; onClose: () => void }) {
 }
 
 function WeightsPanel() {
-  const { mode, setCalc } = useStore();
-  if (mode === 'explore') return <div className="panel p-3 border-dashed border-violet-400/50" data-testid="weights-panel"><div className="flex items-center justify-between mb-2"><span className="eyebrow text-violet-300">Weights · recalculates instantly</span><button onClick={() => setCalc(true)} className="text-[11px] text-violet-300 hover:underline">Full calculator</button></div><WeightSliders /></div>;
+  const { mode } = useStore();
+  if (mode === 'explore') return <div className="panel p-3 border-dashed border-violet-400/50" data-testid="weights-panel"><div className="flex items-center justify-between mb-2"><span className="eyebrow text-violet-300">Weights · recalculates instantly</span></div><WeightSliders /></div>;
   return null;
 }
 

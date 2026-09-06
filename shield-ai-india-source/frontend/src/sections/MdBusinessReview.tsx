@@ -1,0 +1,11 @@
+import { useState } from 'react';
+import { MD_SOURCES, PROGRAMMES } from '@/data/md-planning';
+export default function MdBusinessReview() {
+  const [offering, setOffering] = useState('All');
+  const [customer, setCustomer] = useState('All');
+  const rows = PROGRAMMES.filter(p => (offering === 'All' || p.offerings.includes(offering)) && (customer === 'All' || p.customer === customer));
+  return <div className="md-business-review"><div className="md-filters"><label>Scope<select aria-label="Programme scope" value={offering} onChange={e => setOffering(e.target.value)}>{['All', 'Product', 'Software', 'Services'].map(o => <option key={o} value={o}>{o === 'All' ? 'All scopes' : o}</option>)}</select></label><label>Customer / partner<select aria-label="Customer or partner" value={customer} onChange={e => setCustomer(e.target.value)}>{['All', ...PROGRAMMES.map(p => p.customer)].map(o => <option key={o} value={o}>{o === 'All' ? 'All relationships' : o}</option>)}</select></label>{(offering !== 'All' || customer !== 'All') && <button onClick={() => { setOffering('All'); setCustomer('All'); }}>Reset filters</button>}</div><p className="md-footnote">Filters select programme scope; they do not allocate bundled contract value. Services on an OEM route are prospective, not an awarded service contract.</p>
+    {rows.length ? <div className="md-table-wrap"><table className="md-deals"><thead><tr>{['Programme / relationship', 'Evidence status', 'Shield value', 'Next gate'].map(h => <th key={h} scope="col">{h}</th>)}</tr></thead><tbody>{rows.map(p => <tr key={p.id}><th scope="row">{p.name}<small>{p.horizon}</small></th><td>{p.status}{p.source && <small><a href={MD_SOURCES.find(s => s.id === p.source)!.url} target="_blank" rel="noreferrer">Announcement ↗</a></small>}</td><td>{p.value}</td><td>{p.gate}<small>{p.owner}</small></td></tr>)}</tbody></table></div> : <p role="status" className="md-footnote">No mapped programme in this selection.</p>}
+    <p className="md-footnote">Navy and OEM routes come from the opportunity / customer map; neither is represented as a qualified dollar pipeline. JSW capex, optional follow-ons, renewals and potential export orders are excluded from the model.</p>
+  </div>;
+}

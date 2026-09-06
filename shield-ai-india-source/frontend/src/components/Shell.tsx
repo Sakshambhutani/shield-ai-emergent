@@ -1,11 +1,10 @@
-import { ChevronLeft, ChevronRight, FileText, Maximize2, Minimize2, SlidersHorizontal } from 'lucide-react';
+import { ChevronLeft, ChevronRight, FileText, Maximize2, Minimize2 } from 'lucide-react';
 import { useLayoutEffect, useRef, type ReactNode } from 'react';
 import { cn } from '@/lib/cn';
 import { SECTIONS } from '@/data/sections';
 import { useStore } from '@/store';
 import { EvidenceDrawer } from './Evidence';
 import { AccountDrawer } from './AccountDrawer';
-import { AssumptionCalc } from './AssumptionCalc';
 
 function Nav() {
   const { sectionIndex, go, present } = useStore();
@@ -31,12 +30,11 @@ function Nav() {
 }
 
 function ViewControls() {
-  const { present, setPresent, openEvidence, calc, setCalc } = useStore();
+  const { present, setPresent, openEvidence } = useStore();
   const buttonClass = 'inline-flex items-center gap-1.5 rounded px-2 py-1 text-xs text-paper-2 hover:text-paper hover:bg-ink-3';
   return <div className="flex items-center gap-1">
     {!present && <>
       <button aria-label="Sources" title="Sources" data-testid="sources-btn" onClick={() => openEvidence()} className={buttonClass}><FileText className="h-3.5 w-3.5" /><span className="hidden lg:inline">Sources</span></button>
-      <button aria-label="Assumptions" title="Assumptions" data-testid="assumptions-btn" onClick={() => setCalc(!calc)} className={buttonClass}><SlidersHorizontal className="h-3.5 w-3.5" /><span className="hidden sm:inline">Assumptions</span></button>
     </>}
     <button aria-label={present ? 'Exit presentation' : 'Present'} title={present ? 'Exit presentation' : 'Present'} data-testid="present-btn" onClick={() => setPresent(!present)} className={buttonClass}>
       {present ? <Minimize2 className="h-3.5 w-3.5" /> : <Maximize2 className="h-3.5 w-3.5" />}<span className="hidden sm:inline">{present ? 'Exit' : 'Present'}</span>
@@ -78,7 +76,6 @@ export function Shell({ children }: { children: ReactNode }) {
       </div>
       <EvidenceDrawer />
       <AccountDrawer />
-      <AssumptionCalc />
     </div>
   );
 }

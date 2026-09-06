@@ -1,53 +1,55 @@
-import { useEffect, useRef, useState } from 'react';
-import { ArrowRight, ArrowUpRight, X } from 'lucide-react';
+import { useState } from 'react';
 import { Headline, Screen } from '@/components/ui';
-import { DEALS, FUNCTIONS, FUNNEL, METRICS, PNL, RISKS, type Detail } from '@/data/md-dashboard';
+import { DEFAULT_INPUTS, dollars, MD_SOURCES, SCHEDULE, simulate } from '@/data/md-planning';
+import { OPERATING_FUNCTIONS } from '@/data/operating-model';
+import MdAssumptions from './MdAssumptions';
+import MdBusinessReview from './MdBusinessReview';
 import './md-dashboard.css';
 
-function SectionTitle({ title, note }: { title: string; note: string }) {
-  return <div className="md-section-title"><h2>{title}</h2><span>{note}</span></div>;
-}
-function DetailDialog({ item, onClose }: { item: Detail | null; onClose: () => void }) {
-  const ref = useRef<HTMLDialogElement>(null);
-  useEffect(() => { if (item) ref.current?.showModal(); else ref.current?.close(); }, [item]);
-  return <dialog ref={ref} className="md-detail" onCancel={onClose} onClick={e => { if (e.target === e.currentTarget) onClose(); }} onKeyDown={e => e.stopPropagation()} aria-labelledby="md-detail-title">
-    {item && <div><header><div><div className="eyebrow">Illustrative · June 2026 review</div><h2 id="md-detail-title">{item.title}</h2></div><button autoFocus onClick={onClose} aria-label="Close detail"><X size={20} /></button></header>
-      <div className="md-detail-body"><div className="eyebrow">Monthly trend · {item.unit}</div><div className="md-months">{item.trend.map((v, i) => <div key={i}><div className="md-month-bar"><i style={{ height: `${Math.max(4, v / Math.max(...item.trend, 1) * 100)}%` }} /></div><strong>{v}</strong><span>{['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'][i]}</span></div>)}</div>
-        <dl>{[['Underlying programmes / deals', item.programmes], ['Owner', item.owner], ['Target', item.target], ['Variance explanation', item.explanation], ['Next action', item.action]].map(([label, value]) => <div key={label}><dt>{label}</dt><dd>{value}</dd></div>)}</dl>
-      </div></div>}
-  </dialog>;
-}
 export default function MdDashboard() {
-  const [selected, setSelected] = useState<Detail | null>(null);
-  const exceptions = RISKS.filter(r => r.value > r.threshold).slice(0, 4);
-  const headlineMetrics = METRICS.filter(m => ['bookings', 'revenue', 'margin', 'ebitda'].includes(m.id));
-  const interventions: Record<string, { action: string; owner: string }> = {
-    'army-risk': { action: 'Assign acceptance ownership', owner: 'MD decision · 03 Jul' },
-    'capacity-risk': { action: 'Prioritise 2 integrations; approve critical hiring', owner: 'MD decisions · 03–06 Jul' },
-    'concentration-risk': { action: 'Diversify qualified pursuits', owner: 'BD & Ops lead' },
-    'industrial-risk': { action: 'Confirm supplier recovery dates', owner: 'Industrialisation lead' },
+  const [inputs, setInputs] = useState(DEFAULT_INPUTS);
+  const [assumptionsOpen, setAssumptionsOpen] = useState(false);
+  const [delay, setDelay] = useState(0);
+  const model = simulate(inputs, delay), base = simulate(inputs);
+  const priced = inputs.contract !== null;
+  const moneyOrUnknown = (amount: number) => priced ? dollars(amount) : 'Unpriced';
+  const checks: Record<string,string> = {
+    growth: 'Firm orders and executable scope; optional follow-ons kept separate.',
+    programmes: 'Accepted delivery lots, next gate and value exposed to slippage.',
+    engineering: 'Committed engineering months versus available specialist capacity.',
+    industrialisation: 'Technology-transfer, supplier and JSW commissioning gates.',
+    industrial: 'Technology-transfer, supplier and JSW commissioning gates.',
+    people: `${inputs.headcount} planning posts; validate roster and phased hiring.`,
+    finance: 'Customer receipts, cost-to-complete and cash needed before acceptance.',
   };
   return <Screen className="md-dashboard">
-    <Headline title="MD Operating Dashboard" sub="Are we selling, delivering, industrialising and operating within financial capacity?" />
-    <div className="md-period"><span>YTD · 30 Jun 2026</span><span>Weekly operating review / Monthly finance close</span><span>Illustrative / assumed · USD</span></div>
-    <section aria-label="MD Business Scorecard"><SectionTitle title="Business performance" note="Actual against YTD plan" />
-      <div className="md-kpis">{headlineMetrics.map(m => <button key={m.id} className="panel panel-hover md-kpi" onClick={() => setSelected(m)} aria-haspopup="dialog"><span className="md-kpi-label">{m.title}<ArrowUpRight size={12} /></span><strong className="md-actual">{m.actual}</strong><div className="md-kpi-comparison"><span>Actual</span><span>Plan <b>{m.plan}</b></span></div><div className="md-kpi-bottom"><span><span className={`md-status ${m.status}`}>{m.variance}</span></span><span className="md-kpi-detail-link">Detail ↗</span></div></button>)}</div>
+    <Headline title="MD Operating Dashboard" sub="Deliver the Army commitment. Build the JSW partnership. Fund the next programme." />
+    <div className="md-period"><span>Contract-led planning · 4-year cash view</span><span>Sources reviewed 06 Sep 2026 · Actuals not loaded</span><button className="md-register-button" onClick={() => setAssumptionsOpen(true)} aria-haspopup="dialog">Assumptions & evidence ↗</button></div>
+    <div className="md-grounding"><span><strong>Army</strong> V-BAT + Hivemind selection announced</span><span><strong>JSW</strong> $90M partner investment · excluded from Shield sales</span></div>
+    <section aria-label="Planning economics"><div className="md-section-title"><h2>What can we commit to?</h2><span>Scenario outputs · not actuals or guidance</span></div><div className="md-kpis">
+      {[['Firm Shield contract value', priced ? dollars(inputs.contract!) : 'Unpriced', 'Full contract term; optional orders excluded'], ['Year 1 acceptance revenue', moneyOrUnknown(model.years[0].revenue), 'Recognised at modelled acceptance gates'], ['Annual local cost envelope', dollars(model.annualRunCost), `${inputs.headcount} planning posts + non-people overhead`], ['Peak funding needed', model.peakFunding === null ? 'Unpriced' : dollars(model.peakFunding), '48 months · before opening cash / financing']].map(([label, value, note]) => <button className="panel panel-hover md-kpi" key={label} onClick={() => setAssumptionsOpen(true)} aria-haspopup="dialog"><span className="md-kpi-label">{label}<span>↗</span></span><strong className="md-actual">{value}</strong><p className="md-footnote">{note}</p></button>)}
+    </div><p className="md-footnote">{priced ? 'Entered contract value is a scenario input, not a verified award amount.' : 'No defensible contract price is established by the sources. Enter validated commercial terms in Assumptions to calculate revenue and programme cash.'} Local cost inputs remain provisional.</p></section>
+    <section aria-label="Multi-year execution"><div className="md-section-title"><h2>Contract → acceptance → cash</h2><label className="md-scenario-select">Delivery case<select aria-label="Delivery case" value={delay} onChange={e => setDelay(Number(e.target.value))}><option value={0}>Base execution case</option><option value={6}>Acceptance delayed 6 months</option></select></label></div>
+      <div className="md-gates panel">{SCHEDULE.map(g => <div key={g.month}><span>Month {g.month + delay}</span><strong>{g.share * 100}% of contract</strong><small>{g.gate}</small></div>)}</div>
+      <details className="md-disclosure md-year-details"><summary>Annual revenue, collections & funding<span>Year 1 starts at mobilisation; no award date assumed</span></summary><div className="md-table-wrap"><table className="md-pnl"><thead><tr><th scope="col">USD millions · scenario</th>{model.years.map(y => <th scope="col" key={y.year}>Year {y.year}</th>)}</tr></thead><tbody>
+        <tr><th scope="row">Acceptance-based revenue</th>{model.years.map(y => <td key={y.year}>{moneyOrUnknown(y.revenue)}</td>)}</tr>
+        <tr><th scope="row">Customer cash received</th>{model.years.map(y => <td key={y.year}>{moneyOrUnknown(y.receipts)}</td>)}</tr>
+        <tr><th scope="row">Supplier cash paid</th>{model.years.map(y => <td key={y.year}>{moneyOrUnknown(y.externalCost)}</td>)}</tr>
+        <tr><th scope="row">Local people + overhead</th>{model.years.map(y => <td key={y.year}>{dollars(y.localCost)}</td>)}</tr>
+        <tr className="md-subtotal"><th scope="row">Programme contribution after local costs</th>{model.years.map(y => <td key={y.year}>{moneyOrUnknown(y.revenue * (1-inputs.directCost/100)-y.localCost)}</td>)}</tr>
+        <tr><th scope="row">Remaining modelled contract value</th>{model.years.map(y => <td key={y.year}>{y.remainingValue === null ? 'Unpriced' : dollars(y.remainingValue)}</td>)}</tr>
+        <tr className="md-subtotal"><th scope="row">Cumulative cash before financing</th>{model.years.map(y => <td key={y.year}>{moneyOrUnknown(y.closingCash)}</td>)}</tr>
+      </tbody></table></div><p className="md-footnote">{priced ? `${dollars(model.futureReceipts)} receipts fall after Year 4. ` : ''}Contribution matches external cost to accepted scope; supplier cash can be paid earlier. Advance and retention are cash items, not additional revenue. This regional planning view is not the India subsidiary’s statutory P&amp;L.</p></details>
+      {priced && delay > 0 && <p className="md-sensitivity" role="status">Six-month delay: Year 1 acceptance revenue changes from {dollars(base.years[0].revenue)} to {dollars(model.years[0].revenue)}. Peak funding changes from {dollars(base.peakFunding!)} to {dollars(model.peakFunding!)}.</p>}
     </section>
-    <details className="md-disclosure"><summary>Commercial engine<span>Pipeline quality, material deals & backlog</span></summary><section aria-label="Commercial Engine">
-      <div className="md-funnel panel">{FUNNEL.map(([label, value, movement], i) => <div key={label}><span>{label}</span><strong>{value}</strong><small>{movement}</small>{i < FUNNEL.length - 1 && <ArrowRight size={13} />}</div>)}</div>
-      <div className="md-table-wrap"><table className="md-deals"><caption className="sr-only">Four material illustrative opportunities</caption><thead><tr>{['Opportunity', 'Product', 'Value', 'Stage', 'Expected close', 'Movement', 'Blocker'].map(h => <th key={h}>{h}</th>)}</tr></thead><tbody>{DEALS.map(d => <tr key={d.name}><th scope="row">{d.name}</th><td>{d.product}</td><td className="num">{d.value}</td><td>{d.stage}</td><td>{d.close}</td><td>{d.movement}</td><td>{d.blocker}</td></tr>)}</tbody></table></div>
-      <p className="md-footnote">Pipeline stages are cumulative snapshots; closed and revenue are YTD flows. Backlog is a closing balance.</p>
-    </section></details>
-    <details className="md-disclosure"><summary>Functional execution<span>Six accountable functions</span></summary><section aria-label="Functional Operating Scorecard">
-      <div className="md-functions">{FUNCTIONS.map(f => <button key={f.id} className="panel panel-hover md-function" onClick={() => setSelected(f)} aria-haspopup="dialog"><h3>{f.title}<ArrowUpRight size={13} /></h3><div className="md-function-numbers">{f.numbers.map(([value, label]) => <div key={label}><strong>{value}</strong><span>{label}</span></div>)}</div></button>)}</div>
-    </section></details>
-    <section aria-label="Financial capacity"><button className="panel panel-hover md-capacity-summary" onClick={() => setSelected(METRICS[6])} aria-haspopup="dialog"><span><strong>Financial capacity</strong><span className="md-capacity-numbers">46% budget consumed <span>/ 50% time elapsed</span></span></span><span className="md-capacity-context">Hiring and delivery catch-up still to fund <ArrowUpRight size={13} /></span></button></section>
-    <details className="md-disclosure"><summary>Management P&amp;L<span>Actual, budget & cost variances</span></summary><section aria-label="Financial View">
-      <div className="md-table-wrap"><table className="md-pnl"><thead><tr><th scope="col">Management P&amp;L</th><th scope="col">Actual</th><th scope="col">Budget</th><th scope="col">Variance</th></tr></thead><tbody>{PNL.map(row => { const delta = row.actual - row.budget; const favourable = row.total ? delta >= 0 : delta <= 0; return <tr key={row.label} className={row.subtotal ? 'md-subtotal' : ''}><th scope="row">{row.label}</th><td>{row.actual.toFixed(3)}</td><td>{row.budget.toFixed(3)}</td><td className={favourable ? 'green' : 'amber'}>{delta > 0 ? '+' : '−'}{Math.abs(delta).toFixed(3)} {favourable ? 'F' : 'U'}</td></tr>; })}</tbody></table><p className="md-footnote">USD millions · YTD · Variance = actual − budget · F favourable / U unfavourable</p></div>
-    </section></details>
-    <section aria-label="Exceptions and actions"><SectionTitle title="Exceptions & actions" note="Only triggered issues · decisions shown in context" />
-      <div className="panel md-attention">{exceptions.map(r => <button key={r.id} onClick={() => setSelected(r)} aria-haspopup="dialog"><span className="md-attention-issue"><strong><i className={r.severity} />{r.title}</strong><span>{r.id === 'army-risk' ? r.impact : r.id === 'industrial-risk' ? '87% build adherence / 95% threshold' : r.summary}</span></span><span className="md-attention-action"><strong>{interventions[r.id].action}</strong><span>{interventions[r.id].owner}</span></span><ArrowUpRight size={13} /></button>)}</div>
-    </section>
-    <DetailDialog item={selected} onClose={() => setSelected(null)} />
+    <details className="md-disclosure"><summary>Programmes & strategic partnerships<span>Confirmed anchors and unawarded growth routes</span></summary><MdBusinessReview /></details>
+    <details className="md-disclosure"><summary>Functional execution<span>Six functions · evidence needed at each review</span></summary><div className="md-functions">{OPERATING_FUNCTIONS.map(f => <div key={f.id} className="panel md-function"><h3>{f.name}</h3><p className="md-functional-check">{checks[f.id] ?? f.mandate}</p><span className="md-footnote">Owner: {f.owner}</span></div>)}</div></details>
+    <section aria-label="MD decisions"><div className="md-section-title"><h2>Decisions before committing more</h2><span>Baseline gaps, not invented operational red flags</span></div><div className="panel md-attention">
+      <button onClick={() => setAssumptionsOpen(true)}><span className="md-attention-issue"><strong>Validate the Army commercial baseline</strong><span>Contract value, acceptance, invoicing entity and collections</span></span><span className="md-attention-action"><strong>Protect delivery and funding capacity</strong><span>MD + Finance + Programmes</span></span><span>↗</span></button>
+      <button onClick={() => setAssumptionsOpen(true)}><span className="md-attention-issue"><strong>Agree the JSW economic and execution boundary</strong><span>Licence fees, order releases, production gates and support scope</span></span><span className="md-attention-action"><strong>Convert partnership into executable commitments</strong><span>MD + JSW counterpart + Legal</span></span><span>↗</span></button>
+      <button onClick={() => setAssumptionsOpen(true)}><span className="md-attention-issue"><strong>Approve a phased team and funding envelope</strong><span>{dollars(model.annualRunCost)} annual local cost in the current case</span></span><span className="md-attention-action"><strong>Hire against funded work and specialist needs</strong><span>MD + People + Engineering + Finance</span></span><span>↗</span></button>
+    </div></section>
+    <details className="md-disclosure"><summary>Public fact base<span>Source links and limits of what is known</span></summary>{MD_SOURCES.map(s => <div className="md-source-row" key={s.id}><a href={s.url} target="_blank" rel="noreferrer">{s.label} ↗</a><p>{s.fact}</p><small>{s.boundary}</small></div>)}</details>
+    <MdAssumptions open={assumptionsOpen} inputs={inputs} onApply={setInputs} onClose={() => setAssumptionsOpen(false)} />
   </Screen>;
 }
