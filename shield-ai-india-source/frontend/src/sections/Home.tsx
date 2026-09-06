@@ -17,7 +17,7 @@ export default function Home() {
     <Screen className="thesis">
       <header className="thesis-heading">
         <div className="eyebrow text-sig-blue">00 · Thesis</div>
-        <h1 data-testid="screen-headline">FROM ARMY BEACHHEAD<br />TO INDIA SCALE</h1>
+        <h1 data-testid="screen-headline">FROM ARMY BEACHHEAD TO INDIA SCALE</h1>
         <p>Use the Army programme to establish trust, Hivemind to embed across Indian platforms, and the Navy to prove multi-service, multi-domain scale.</p>
       </header>
       <ExploreNote>Explore keeps the thesis clean while exposing the roadmap routes and supporting option space.</ExploreNote>

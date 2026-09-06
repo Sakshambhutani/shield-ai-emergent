@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { ReactFlow, ReactFlowProvider, Handle, Position, useReactFlow, type Node, type Edge, type NodeProps } from '@xyflow/react';
 import '@xyflow/react/dist/style.css';
-import { ChevronDown } from 'lucide-react';
+import { ChevronDown, Maximize2, Minimize2 } from 'lucide-react';
 import { cn } from '@/lib/cn';
 import { Callout, ExploreNote, Field, Headline, NotDisclosed, Pill, Screen } from '@/components/ui';
 import { EvidenceBadge, SourceButton } from '@/components/Evidence';
@@ -139,8 +139,15 @@ export default function Money() {
   const [expanded, setExpanded] = useState<Set<string>>(new Set([root]));
   const [selected, setSelected] = useState<string | null>(null);
   const [uas, setUas] = useState(false);
+  const [canvasFocus, setCanvasFocus] = useState(false);
   useEffect(() => { setExpanded(new Set([tree[0].id])); setSelected(null); }, [tree]);
   useEffect(() => { if (present) { setSelected(null); setUas(false); } }, [present]);
+  useEffect(() => {
+    if (!canvasFocus) return;
+    const close = (event: KeyboardEvent) => { if (event.key === 'Escape') setCanvasFocus(false); };
+    window.addEventListener('keydown', close);
+    return () => window.removeEventListener('keydown', close);
+  }, [canvasFocus]);
   const { nodes, edges } = useTree(tree, expanded, selected);
   const onNode = (id: string) => {
     setSelected(id);
@@ -164,7 +171,8 @@ export default function Money() {
           <div data-testid="view-toggle" className="flex rounded border border-line overflow-hidden text-xs">
             {(['budget', 'mission'] as const).map((v) => <button key={v} data-testid={`view-${v}`} onClick={() => setView(v)} className={cn('px-3 py-1 capitalize transition-colors duration-200', view === v ? 'bg-ink-4 text-paper' : 'text-paper-3 hover:text-paper-2')}>{v} view</button>)}
           </div>
-          <button data-testid="uas-toggle" onClick={() => setUas(!uas)} className="rounded border border-line px-3 py-1 text-xs text-paper-3 hover:text-paper-2">UAS classes</button>
+           <button data-testid="uas-toggle" onClick={() => setUas(!uas)} className="rounded border border-line px-3 py-1 text-xs text-paper-3 hover:text-paper-2">UAS classes</button>
+           {view === 'budget' && <button data-testid="budget-focus-toggle" aria-label="Focus budget canvas" onClick={() => setCanvasFocus(true)} className="inline-flex items-center gap-1.5 rounded border border-line px-3 py-1 text-xs text-paper-3 hover:text-paper-2"><Maximize2 className="h-3.5 w-3.5" /><span className="hidden sm:inline">Focus canvas</span></button>}
         </div>
        } />
        <ExploreNote>Explore adds sourced market callouts, model assumptions and supporting UAS classification detail.</ExploreNote>
@@ -178,8 +186,12 @@ export default function Money() {
           {tree.map((n) => <button key={n.id} onClick={() => setSelected(n.id)} className={cn('panel w-full text-left px-3 py-2', !n.relevant && 'opacity-40')}><div className="text-sm">{n.title}</div>{n.value && <div className="num text-sig-blue">{n.value}</div>}</button>)}
         </div>
          {sel && !present && <NodePanel sel={sel} onClose={() => setSelected(null)} />}
-      </div>
+       </div>
       </>}
+      {canvasFocus && marketView === 'core' && view === 'budget' && <div data-testid="budget-canvas-focus" className="fixed inset-0 z-[80] flex flex-col gap-3 bg-ink p-4 lg:p-6">
+        <div className="flex items-center justify-between gap-3 shrink-0"><div><div className="eyebrow text-sig-blue">01 · Market</div><div className="text-lg font-medium">India defence budget · canvas view</div></div><button data-testid="budget-focus-close" aria-label="Exit budget canvas focus" onClick={() => setCanvasFocus(false)} className="inline-flex items-center gap-1.5 rounded border border-line px-3 py-1.5 text-xs text-paper-2 hover:text-paper"><Minimize2 className="h-3.5 w-3.5" /><span className="hidden sm:inline">Exit focus</span></button></div>
+        <div className="panel flex-1 min-h-0 overflow-hidden"><ReactFlowProvider><Flow nodes={nodes} edges={edges} onNode={onNode} /></ReactFlowProvider></div>
+      </div>}
     </Screen>
   );
 }

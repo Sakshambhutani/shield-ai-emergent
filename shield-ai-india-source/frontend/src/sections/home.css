@@ -34,6 +34,8 @@
 .thesis-options a { font: 10px 'IBM Plex Mono', monospace; color: #a1a4ab; letter-spacing: .07em; transition: color 200ms; }
 .thesis-options a:hover { color: #f3efe6; }
 .thesis a:focus-visible { outline: 2px solid var(--thesis-blue); outline-offset: 7px; border-radius: 2px; }
+@media (min-width: 901px) { .thesis-heading h1 { white-space: nowrap; } }
+@media (min-width: 1101px) { .thesis-heading p { max-width: none; white-space: nowrap; } }
 @keyframes thesis-appear { from { opacity: 0; } to { opacity: 1; } }
 @keyframes thesis-extend { from { clip-path: inset(0 100% 0 0); } to { clip-path: inset(0 0 0 0); } }
 @keyframes thesis-options-in { from { opacity: 0; } to { opacity: .65; } }
