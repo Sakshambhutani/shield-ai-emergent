@@ -71,8 +71,8 @@ export function SideDrawer({ open, onClose, title, eyebrow, children, testId, wi
   if (!open || present) return null;
   return (
     <>
-      <div onClick={onClose} className={cn('fixed inset-0 z-30 bg-black/40 transition-opacity duration-250', open ? 'opacity-100' : 'opacity-0 pointer-events-none')} />
-      <aside data-testid={testId} className={cn('fixed right-0 top-0 z-40 h-full w-full bg-ink-1 border-l border-line shadow-2xl transition-transform duration-250 ease-out flex flex-col', width, open ? 'translate-x-0' : 'translate-x-full')}>
+      <div onClick={onClose} className={cn('fixed inset-0 z-[65] bg-black/40 transition-opacity duration-250', open ? 'opacity-100' : 'opacity-0 pointer-events-none')} />
+      <aside data-testid={testId} className={cn('fixed right-0 top-0 z-[70] h-full w-full bg-ink-1 border-l border-line shadow-2xl transition-transform duration-250 ease-out flex flex-col', width, open ? 'translate-x-0' : 'translate-x-full')}>
         <div className="flex items-start justify-between p-4 border-b border-line">
           <div>{eyebrow && <div className="eyebrow">{eyebrow}</div>}<div className="text-base font-medium mt-0.5">{title}</div></div>
           <button data-testid={`${testId}-close`} onClick={onClose} className="p-1.5 rounded hover:bg-ink-3 text-paper-2" aria-label="Close"><X className="h-4 w-4" /></button>

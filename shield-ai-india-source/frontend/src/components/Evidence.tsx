@@ -80,8 +80,8 @@ export function EvidenceDrawer() {
   const counts = claims.reduce<Record<string, number>>((a, c) => ((a[c.cls] = (a[c.cls] ?? 0) + 1), a), {});
   return (
     <>
-      <div onClick={closeEvidence} className={cn('fixed inset-0 z-40 bg-black/40 transition-opacity duration-250', evidence.open && !present ? 'opacity-100' : 'opacity-0 pointer-events-none')} />
-      <aside data-testid="evidence-drawer" aria-hidden={!evidence.open || present} className={cn('fixed right-0 top-0 z-50 h-full w-full sm:w-[440px] bg-ink-1 border-l border-line shadow-2xl transition-transform duration-250 ease-out flex flex-col', evidence.open && !present ? 'translate-x-0' : 'translate-x-full')}>
+      <div onClick={closeEvidence} className={cn('fixed inset-0 z-[65] bg-black/40 transition-opacity duration-250', evidence.open && !present ? 'opacity-100' : 'opacity-0 pointer-events-none')} />
+      <aside data-testid="evidence-drawer" aria-hidden={!evidence.open || present} className={cn('fixed right-0 top-0 z-[70] h-full w-full sm:w-[440px] bg-ink-1 border-l border-line shadow-2xl transition-transform duration-250 ease-out flex flex-col', evidence.open && !present ? 'translate-x-0' : 'translate-x-full')}>
         <div className="flex items-start justify-between p-4 border-b border-line">
           <div>
             <div className="eyebrow">Sources & Assumptions</div>
