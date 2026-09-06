@@ -204,3 +204,15 @@
   .md-numeric .md-gates { padding: 12px 16px; }
   .md-numeric .md-gates strong { margin: 5px 0; }
 }
+.md-timing-note { padding: 9px 12px; border-left: 2px solid #e3b36c; background: #12151c; color: #b8b3a8; font-size: 11px; line-height: 1.5; }
+.md-deal-counts { display: grid; grid-template-columns: repeat(3,1fr) auto; align-items: center; }
+.md-deal-counts button { text-align: left; padding: 12px 16px; display: flex; align-items: baseline; gap: 12px; }
+.md-deal-counts button:hover { background: #181c25; }
+.md-deal-counts strong { font: 500 23px 'IBM Plex Mono',monospace; }
+.md-deal-counts span,.md-deal-detail-toggle { font-size: 11px; color: #b8b3a8; }
+.md-risk-ledger > div { display: grid; grid-template-columns: 130px minmax(180px,1fr) minmax(230px,1.4fr); gap: 14px; padding: 11px 16px; align-items: baseline; border-bottom: 1px solid #232937; }
+.md-risk-ledger > div:last-child { border: 0; }
+.md-risk-ledger strong { font-size: 12px; font-weight: 500; }
+.md-risk-ledger span { font: 11px 'IBM Plex Mono',monospace; color: #e3b36c; }
+.md-risk-ledger small { font-size: 11px; color: #b8b3a8; }
+@media(max-width:650px) { .md-deal-counts { grid-template-columns: repeat(3,1fr); } .md-deal-counts button { flex-direction: column; gap: 5px; padding: 12px; } .md-deal-detail-toggle { grid-column: 1 / -1; } .md-risk-ledger > div { grid-template-columns: 1fr; gap: 5px; } }
