@@ -17,8 +17,8 @@ export default function App() {
       <Shell>
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/money" element={<Money />} />
-          <Route path="/buyers" element={<Buyers />} />
+          <Route path="/market" element={<Money />} />
+          <Route path="/opportunities" element={<Buyers />} />
           <Route path="/convergence" element={<Convergence />} />
           <Route path="/roadmap" element={<Roadmap />} />
           <Route path="/operating-model" element={<OperatingModel />} />

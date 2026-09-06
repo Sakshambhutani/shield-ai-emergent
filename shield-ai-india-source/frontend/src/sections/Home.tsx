@@ -62,7 +62,7 @@ export default function Home() {
       <div className="thesis-options" data-testid="future-options">
         <span className="eyebrow">POSITION, DON'T DISTRACT</span>
         <span className="thesis-options-line" aria-hidden="true" />
-        {OPTIONS.map((option) => <Link key={option} to="/money?view=future">{option}<span aria-hidden="true"> ↗</span></Link>)}
+        {OPTIONS.map((option) => <Link key={option} to="/market?view=future">{option}<span aria-hidden="true"> ↗</span></Link>)}
       </div>
     </Screen>
   );

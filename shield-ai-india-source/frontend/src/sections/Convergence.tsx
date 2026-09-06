@@ -3,7 +3,7 @@ import { CartesianGrid, ResponsiveContainer, Scatter, ScatterChart, Tooltip, XAx
 import { X } from 'lucide-react';
 import { cn } from '@/lib/cn';
 import { Field, Headline, HORIZON_META, Pill, Screen } from '@/components/ui';
-import { EvidenceBadge, SourceButton } from '@/components/Evidence';
+import { SourceButton } from '@/components/Evidence';
 import { WeightSliders } from '@/components/AssumptionCalc';
 import { PrecedentTag } from '@/components/AccountDrawer';
 import { OPPORTUNITIES, BET_META } from '@/data/opportunities';
@@ -22,7 +22,6 @@ function score(o: (typeof OPPORTUNITIES)[number], w: Weights) {
 
 type Row = (typeof OPPORTUNITIES)[number] & { total: number; x: number; y: number; z: number };
 type HorizonKey = keyof typeof HORIZON_META;
-const HEADLINE_CLAIMS = ['m-scores', 'm-3bets'];
 const MARGIN = { top: 16, right: 24, bottom: 24, left: 8 };
 const DOMAIN: [number, number] = [1, 5.4];
 const TICKS = [1, 3, 5];
@@ -40,9 +39,10 @@ const PRIORITIES = [
 ];
 
 function BubbleTip({ payload }: { payload?: readonly { payload: Row }[] }) {
+  const { mode } = useStore();
   const p = payload?.[0]?.payload;
   if (!p) return null;
-  return <div className="panel px-3 py-2 text-xs"><div className="font-medium">{p.title}</div><div className="num text-paper-3">score {p.total} · {HORIZON_META[p.horizon].label}</div></div>;
+  return <div className="panel px-3 py-2 text-xs"><div className="font-medium">{p.title}</div><div className="num text-paper-3">{mode === 'explore' && `score ${p.total} · `}{HORIZON_META[p.horizon].label}</div></div>;
 }
 
 function Bubble({ cx, cy, size, payload, on, faded }: { cx: number; cy: number; size: number; payload: Row; on: boolean; faded: boolean }) {
@@ -62,7 +62,7 @@ function RankList({ rows, sel, onSelect }: { rows: Row[]; sel: string | null; on
   const listed = mode === 'explore' || showAll ? rows : rows.slice(0, 3);
   return (
     <div className="panel p-3 shrink-0 max-h-[320px] overflow-y-auto" data-testid="force-rank">
-      <div className="eyebrow mb-2">Force rank · /100</div>
+       <div className="eyebrow mb-2">Force rank{mode === 'explore' && ' · /100'}</div>
       <ol className="space-y-1">
         {listed.map((r, i) => { const t = i < 3; return (
           <li key={r.id}><button data-testid={`rank-${r.id}`} onClick={() => onSelect(r.id)} className={cn('w-full flex items-center gap-2 rounded px-2 py-1.5 text-left transition-all duration-300', sel === r.id && 'bg-ink-3', !t && 'opacity-55', r.component && 'pl-5')}>
@@ -70,7 +70,7 @@ function RankList({ rows, sel, onSelect }: { rows: Row[]; sel: string | null; on
             <span className={cn('flex-1 truncate', t ? 'text-base font-medium' : 'text-sm')}>{r.title}</span>
             {r.component && <span className="font-mono text-[9px] uppercase tracking-wider text-paper-3">part of EMBED</span>}
             {t && <span className="font-mono text-[9px] uppercase tracking-wider" style={{ color: BET_META[r.bet].color }}>{BET_META[r.bet].label}</span>}
-            <span className="num text-xs w-7 text-right">{r.total}</span>
+             {mode === 'explore' && <span className="num text-xs w-7 text-right">{r.total}</span>}
           </button></li>); })}
       </ol>
       {mode === 'story' && rows.length > 3 && <button data-testid="rank-show-all" onClick={() => setShowAll(!showAll)} className="mt-2 text-[11px] text-paper-3 hover:text-paper-2">{showAll ? 'Show top 3 only' : `Show ${rows.length - 3} others (faded)`}</button>}
@@ -79,6 +79,7 @@ function RankList({ rows, sel, onSelect }: { rows: Row[]; sel: string | null; on
 }
 
 function OpportunityDetail({ s, onClose }: { s: Row; onClose: () => void }) {
+  const { mode } = useStore();
   return (
     <div data-testid="opportunity-detail" className="panel p-4 grid md:grid-cols-6 gap-3 animate-rise shrink-0 relative">
       <button type="button" data-testid="opportunity-detail-close" onClick={onClose} aria-label="Close opportunity detail" className="absolute right-3 top-3 rounded p-1 text-paper-3 hover:bg-ink-3 hover:text-paper-2"><X className="h-4 w-4" /></button>
@@ -86,7 +87,7 @@ function OpportunityDetail({ s, onClose }: { s: Row; onClose: () => void }) {
       <Field label="Mission">{s.mission}</Field>
       <Field label="Buyer · prime">{s.buyer}{s.prime && <div className="text-paper-2 text-xs">{s.prime}</div>}</Field>
       <Field label="Programme value"><span className={cn(s.programmeValue.includes('₹') ? 'num text-amber-300' : 'text-paper-3 italic text-xs')}>{s.programmeValue}</span><div><Pill className="mt-1">{s.valueTag}</Pill></div></Field>
-      <Field label="Scores (1–5)"><div className="num text-xs text-paper-2">U{s.scores.urgency} · F{s.scores.fit} · A{s.scores.access} · B{s.scores.budget} · L{s.scores.leverage}</div><div className="num text-lg">{s.total}<span className="text-xs text-paper-3">/100</span></div></Field>
+       {mode === 'explore' && <Field label="Scores (1–5)"><div className="num text-xs text-paper-2">U{s.scores.urgency} · F{s.scores.fit} · A{s.scores.access} · B{s.scores.budget} · L{s.scores.leverage}</div><div className="num text-lg">{s.total}<span className="text-xs text-paper-3">/100</span></div></Field>}
     </div>
   );
 }
@@ -94,12 +95,12 @@ function OpportunityDetail({ s, onClose }: { s: Row; onClose: () => void }) {
 function WeightsPanel() {
   const { mode, setCalc } = useStore();
   if (mode === 'explore') return <div className="panel p-3 border-dashed border-violet-400/50" data-testid="weights-panel"><div className="flex items-center justify-between mb-2"><span className="eyebrow text-violet-300">Weights · recalculates instantly</span><button onClick={() => setCalc(true)} className="text-[11px] text-violet-300 hover:underline">Full calculator</button></div><WeightSliders /></div>;
-  return <div className="panel p-3 text-xs text-paper-2 flex flex-wrap gap-x-3 gap-y-1"><span className="eyebrow w-full">Base weights</span><span>Urgency 30</span><span>Fit 25</span><span>Access 20</span><span>Budget 15</span><span>Leverage 10</span><span className="text-paper-3 w-full">Switch to Explore to change weights.</span></div>;
+  return null;
 }
 
 function PriorityLedger() {
   return <section data-testid="priority-ledger" className="panel p-3 shrink-0">
-    <div className="flex items-center justify-between gap-3"><span className="eyebrow text-sig-blue">Top 5 priorities</span><span className="font-mono text-[10px] text-paper-3">3 growth bets · 2 execution enablers</span></div>
+    <div className="flex items-center justify-between gap-3"><span className="eyebrow text-sig-blue">18-month priorities</span><span className="font-mono text-[10px] text-paper-3">3 growth bets · 2 execution enablers</span></div>
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-2 mt-2">
       {PRIORITIES.map((p) => <div key={p.number} className="rounded border border-line bg-ink-2 px-2.5 py-2">
         <div className="flex items-center justify-between gap-2"><span className="num text-sm text-paper-3">{p.number}</span><Pill tone={p.tone}>{p.type}</Pill></div>
@@ -121,12 +122,12 @@ export default function Convergence() {
   const s = all.find((r) => r.id === sel) ?? null;
   return (
     <Screen>
-      <Headline title="Three growth bets. Two execution enablers." titleClassName="lg:text-4xl xl:text-5xl lg:whitespace-nowrap" sub="Large budgets do not automatically equal attractive opportunities; accessibility, architecture and timing matter." right={<div className="flex items-center gap-2"><EvidenceBadge cls="modelled" /><span className="font-mono text-[10px] text-paper-3">Prioritisation model — not official data</span><SourceButton claimIds={HEADLINE_CLAIMS} title="Prioritisation model" /></div>} />
+      <Headline title="Three growth bets. Two execution enablers." titleClassName="lg:text-4xl xl:text-5xl lg:whitespace-nowrap" sub="Large budgets do not automatically equal attractive opportunities; accessibility, architecture and timing matter." />
       <PriorityLedger />
       <div className="grid lg:grid-cols-3 gap-3 flex-1 min-h-0">
         <div className="lg:col-span-2 panel p-3 flex flex-col min-h-[420px]" data-testid="bubble-chart">
           <div className="flex items-center justify-between text-[11px]">
-            <span className="eyebrow">Y · Top-down attractiveness &nbsp; X · Bottom-up accessibility &nbsp; size · relative opportunity (qualitative)</span>
+             <span className="eyebrow">Attractiveness ↑ · Accessibility → · bubble size = relative opportunity</span>
             <div className="flex gap-2">{HORIZON_KEYS.map((h) => <span key={h} className="inline-flex items-center gap-1 text-paper-3"><span className="h-2 w-2 rounded-full" style={{ background: HORIZON_META[h].color }} />{HORIZON_META[h].label}</span>)}</div>
           </div>
           <div className="flex-1 min-h-0 mt-2">
