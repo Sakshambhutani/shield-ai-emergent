@@ -100,7 +100,7 @@ function WeightsPanel() {
 
 function PriorityLedger() {
   return <section data-testid="priority-ledger" className="panel p-3 shrink-0">
-    <div className="flex items-center justify-between gap-3"><span className="eyebrow text-sig-blue">18-month priorities</span><span className="font-mono text-[10px] text-paper-3">3 growth bets · 2 execution enablers</span></div>
+    <div className="flex items-center justify-between gap-3"><span className="eyebrow text-sig-blue">18-month priorities</span><span className="font-mono text-[10px] text-paper-3">3 strategic bets · 2 execution enablers</span></div>
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-2 mt-2">
       {PRIORITIES.map((p) => <div key={p.number} className="rounded border border-line bg-ink-2 px-2.5 py-2">
         <div className="flex items-center justify-between gap-2"><span className="num text-sm text-paper-3">{p.number}</span><Pill tone={p.tone}>{p.type}</Pill></div>
@@ -122,7 +122,7 @@ export default function Convergence() {
   const s = all.find((r) => r.id === sel) ?? null;
   return (
     <Screen>
-      <Headline title="Three growth bets. Two execution enablers." titleClassName="lg:text-4xl xl:text-5xl lg:whitespace-nowrap" sub="Large budgets do not automatically equal attractive opportunities; accessibility, architecture and timing matter." />
+      <Headline title="Three strategic bets. Two execution enablers." titleClassName="lg:text-4xl xl:text-5xl lg:whitespace-nowrap" sub="Large budgets do not automatically equal attractive opportunities; accessibility, architecture and timing matter." />
       <PriorityLedger />
       <div className="grid lg:grid-cols-3 gap-3 flex-1 min-h-0">
         <div className="lg:col-span-2 panel p-3 flex flex-col min-h-[420px]" data-testid="bubble-chart">

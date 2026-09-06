@@ -31,7 +31,7 @@ export default function Home() {
         </svg>
 
         <div className="thesis-today" data-testid="today-node">
-          <div className="eyebrow">TODAY</div>
+          <div className="thesis-time-label">TODAY</div>
           <div className="thesis-current-marker" />
           <div className="thesis-beachhead">INDIA BEACHHEAD</div>
           <h2>Indian Army</h2>
@@ -52,7 +52,7 @@ export default function Home() {
         </div>
 
         <div className="thesis-destination" data-testid="month-18-destination">
-          <div className="eyebrow">MONTH 18</div>
+          <div className="thesis-time-label">MONTH 18</div>
           <h2>INDIA<br />AUTONOMY<br /><span>BUSINESS</span></h2>
           <ul>{OUTCOMES.map((outcome) => <li key={outcome}>{outcome}</li>)}</ul>
         </div>

@@ -16,16 +16,31 @@ const STORY_ROWS = [
   { id: 'embed', label: 'EMBED Hivemind', color: LANES.embed.color, values: ['Select first 2 platform integrations', 'First Indian-platform SIL/HIL demo', 'First autonomous flight/sail', '3–4 meaningful integrations + programme pathway'] },
   { id: 'expand', label: 'EXPAND Navy', color: LANES.expand.color, values: ['Priority Navy mission + entry path agreed', 'Demo pathway + partner agreed', 'Shipborne trial / maritime demo', 'Second-service reference position'] },
 ] as const;
+const ENABLER_ROWS = [
+  { label: 'Governance / industrialisation', values: ['Governance locked', 'Production readiness', 'Repeatable delivery', 'Sustainment model'] },
+  { label: 'Capacity', values: ['Gaps identified', 'Critical capacity in place', 'Multi-programme capacity', 'Scalable India team'] },
+] as const;
+
+function EnablerBand({ compact = false }: { compact?: boolean }) {
+  return <>
+    <div className={cn('col-span-5 border-b border-line bg-ink-1 px-4 font-mono uppercase tracking-[0.16em] text-paper-3', compact ? 'py-1.5 text-[9px]' : 'py-2 text-[10px]')}>Execution enablers</div>
+    {ENABLER_ROWS.flatMap((row) => [
+      <div key={`${row.label}-label`} className={cn('border-b border-line px-4 font-medium text-paper-3', compact ? 'py-2 text-[10px]' : 'py-3 text-xs')}>{row.label}</div>,
+      ...row.values.map((value, index) => <div key={`${row.label}-${index}`} className={cn('border-b border-l border-line px-4 text-paper-3', compact ? 'py-2 text-[10px]' : 'py-3 text-xs')}>{value}</div>),
+    ])}
+  </>;
+}
 
 function StoryRoadmap({ focusedLane }: { focusedLane: string | null }) {
   return <div data-testid="roadmap-story" className="flex-1 min-h-0 overflow-x-auto">
-    <div className="grid min-w-[1000px] h-full" style={{ gridTemplateColumns: '190px repeat(4, minmax(180px, 1fr))' }}>
+    <div className="grid min-w-[1000px] h-full" style={{ gridTemplateColumns: '190px repeat(4, minmax(180px, 1fr))', gridTemplateRows: 'auto repeat(3, minmax(92px, 1fr)) auto repeat(2, minmax(42px, .36fr))' }}>
       <div className="border-b border-line" />
       {BLOCKS.map((block) => <div key={block.name} className="border-b border-line px-4 py-3 text-sm font-semibold">{block.label.replace(' months', '')} {block.name}</div>)}
       {STORY_ROWS.flatMap((row) => [
         <div key={`${row.id}-label`} aria-current={focusedLane === row.id ? 'true' : undefined} className={cn('border-b border-line px-4 py-5 text-sm font-semibold', focusedLane === row.id && 'bg-sig-blue/10')} style={{ color: row.color }}>{row.label}</div>,
         ...row.values.map((value, index) => <div key={`${row.id}-${index}`} className={cn('border-b border-l border-line px-4 py-5 text-sm leading-relaxed', focusedLane === row.id && 'bg-sig-blue/[.06]')}>{value}</div>),
       ])}
+      <EnablerBand />
     </div>
   </div>;
 }
@@ -46,16 +61,14 @@ export default function Roadmap() {
         <div className="grid min-w-[880px]" style={{ gridTemplateColumns: '150px repeat(4, minmax(0, 1fr))' }} data-testid="roadmap-grid">
           <div />
           {BLOCKS.map((b, i) => <div key={b.name} className="px-2 pb-2 border-b border-line"><div className="eyebrow">{b.label}</div><div className="text-sm font-medium"><span className="num text-paper-3 mr-1">{i + 1}</span>{b.name}</div></div>)}
-          {lanes.map((l) => {
-            const seed = l === 'seed';
+          {lanes.filter((l) => l !== 'seed').map((l) => {
             return [
-              <div data-testid={`roadmap-lane-${l}`} aria-current={focusedLane === l ? 'true' : undefined} key={l + '-h'} className={cn('py-3 pr-3 border-b border-line flex items-start', seed && 'opacity-60', focusedLane === l && 'bg-sig-blue/10')}><div><div className="text-[11px] font-mono uppercase tracking-wider" style={{ color: LANES[l].color }}>{LANES[l].label}</div>{seed && <div className="text-[10px] text-paper-3 mt-0.5">Minimal activity</div>}</div></div>,
+              <div data-testid={`roadmap-lane-${l}`} aria-current={focusedLane === l ? 'true' : undefined} key={l + '-h'} className={cn('py-3 pr-3 border-b border-line flex items-start', focusedLane === l && 'bg-sig-blue/10')}><div><div className="text-[11px] font-mono uppercase tracking-wider" style={{ color: LANES[l].color }}>{LANES[l].label}</div></div></div>,
               ...BLOCKS.map((_, bi) => (
-                <div key={l + bi} className={cn('border-b border-l border-line p-2 flex flex-col gap-1.5 relative', seed ? 'py-2' : 'min-h-[88px]', focusedLane === l && 'bg-sig-blue/10')}>
-                  {!seed && <div className="absolute left-0 top-0 h-full w-px" style={{ background: LANES[l].color, opacity: 0.35 }} />}
-                  {seed && <div className="absolute left-2 right-2 top-1/2 h-px" style={{ background: LANES[l].color, opacity: 0.5 }} />}
+                <div key={l + bi} className={cn('border-b border-l border-line p-2 flex flex-col gap-1.5 relative min-h-[88px]', focusedLane === l && 'bg-sig-blue/10')}>
+                  <div className="absolute left-0 top-0 h-full w-px" style={{ background: LANES[l].color, opacity: 0.35 }} />
                   {(CELL[`${l}${bi}`] ?? []).map((x, i) => (
-                    <button key={x.id} data-testid={`milestone-${x.id}`} onClick={() => setSel(x.id === sel ? null : x.id)} style={{ animationDelay: `${bi * 80 + i * 40}ms` }} className={cn('animate-rise text-left rounded border px-2 py-1.5 text-xs transition-colors duration-200 relative z-10', seed ? 'bg-ink-2 border-line text-paper-3 py-1' : 'bg-ink-2 border-line hover:border-line-2 text-paper', sel === x.id && 'border-sig-blue/70 bg-ink-3')}>
+                    <button key={x.id} data-testid={`milestone-${x.id}`} onClick={() => setSel(x.id === sel ? null : x.id)} style={{ animationDelay: `${bi * 80 + i * 40}ms` }} className={cn('animate-rise text-left rounded border px-2 py-1.5 text-xs transition-colors duration-200 relative z-10 bg-ink-2 border-line hover:border-line-2 text-paper', sel === x.id && 'border-sig-blue/70 bg-ink-3')}>
                       <span className="flex items-center gap-1.5">{x.gate && <Flag className="h-3 w-3 text-sig-amber shrink-0" />}<span className="leading-snug">{x.title}</span></span>
                     </button>
                   ))}
@@ -63,6 +76,20 @@ export default function Roadmap() {
               )),
             ];
           })}
+          <EnablerBand compact />
+          {lanes.filter((l) => l === 'seed').map((l) => [
+            <div data-testid={`roadmap-lane-${l}`} key={l + '-h'} className="py-3 pr-3 border-b border-line flex items-start opacity-60"><div><div className="text-[11px] font-mono uppercase tracking-wider" style={{ color: LANES[l].color }}>{LANES[l].label}</div><div className="text-[10px] text-paper-3 mt-0.5">Minimal activity</div></div></div>,
+            ...BLOCKS.map((_, bi) => (
+              <div key={l + bi} className="border-b border-l border-line p-2 py-2 flex flex-col gap-1.5 relative">
+                <div className="absolute left-2 right-2 top-1/2 h-px" style={{ background: LANES[l].color, opacity: 0.5 }} />
+                {(CELL[`${l}${bi}`] ?? []).map((x, i) => (
+                  <button key={x.id} data-testid={`milestone-${x.id}`} onClick={() => setSel(x.id === sel ? null : x.id)} style={{ animationDelay: `${bi * 80 + i * 40}ms` }} className={cn('animate-rise text-left rounded border px-2 py-1 text-xs transition-colors duration-200 relative z-10 bg-ink-2 border-line text-paper-3', sel === x.id && 'border-sig-blue/70 bg-ink-3')}>
+                    <span className="leading-snug">{x.title}</span>
+                  </button>
+                ))}
+              </div>
+            )),
+          ])}
         </div>
        </div>
        <div className="flex items-center gap-3 text-[11px] text-paper-3"><Flag className="h-3 w-3 text-sig-amber" /> Gate · external timing</div>
