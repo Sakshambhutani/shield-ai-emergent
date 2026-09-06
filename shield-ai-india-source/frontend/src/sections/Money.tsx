@@ -12,8 +12,6 @@ const AREAS = [
   { id: 'future-coastguard', title: 'Coastal security', summary: 'Indian Coast Guard', intro: 'Aerial surveillance and unmanned maritime requirements.' },
   { id: 'future-mha', title: 'Border & internal security', summary: 'MHA · CAPFs', intro: 'Surveillance and protection capabilities to investigate within modernisation.' },
   { id: 'future-space', title: 'Military space', summary: 'SBS-III · surveillance', intro: 'Space-based surveillance and potential autonomous mission management.' },
-  { id: 'future-revenue', title: 'Software & services', summary: 'MoD · ICT · integration', intro: 'Procurement routes for software, integration and ongoing support.' },
-  { id: 'future-dos', title: 'Civil space context', summary: 'Department of Space', intro: 'Adjacent civil-space activity; military applicability must be established separately.' },
 ];
 const rowsFor = (owner: string) => MARKET_TREE.filter(n => n.relevant && n.id !== owner && !(n.value?.includes('₹') && /annual|budget|capital/i.test(n.tag ?? '')) && budgetPath(MARKET_TREE, n.id).some(p => p.id === owner) && !MARKET_TREE.some(c => c.parent === n.id));
 function status(n: BudgetNode) {
