@@ -74,7 +74,7 @@ function useTree(tree: BudgetNode[], expanded: Set<string>, selected: string | n
 
 function Flow({ nodes, edges, onNode }: { nodes: Node<NData>[]; edges: Edge[]; onNode: (id: string) => void }) {
   const rf = useReactFlow();
-  const focusKey = nodes.filter((n) => !n.data.dim).map((n) => n.id).join('|');
+  const focusKey = nodes.map((n) => n.id).join('|');
   useEffect(() => {
     const ids = focusKey.split('|').filter(Boolean).map((id) => ({ id }));
     const t = setTimeout(() => rf.fitView({ nodes: ids, duration: 300, padding: 0.2, maxZoom: 1, minZoom: 0.55 }), 40);
