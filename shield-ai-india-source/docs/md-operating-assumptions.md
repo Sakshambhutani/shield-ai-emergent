@@ -34,15 +34,15 @@ Boundary: The announcement does not disclose headcount, payroll, intercompany pr
 
 ## Numerical planning inputs
 
-Defaults are starting inputs for sensitivity testing. They are not estimates validated against company contracts or payroll. No contract amount is prefilled.
+Defaults are starting inputs for sensitivity testing. They are not estimates validated against company contracts or payroll. The base case starts at an assumed $20M; all financial outputs calculate immediately.
 
-### Firm Shield contract value
+### Assumed Shield contract value
 
-Default: Unpriced; internal confirmation needed (USD millions).
+Default: 20 (USD millions), assumed over three years.
 
-Unpriced by default. Enter only the firm Shield scope, excluding optional orders, total OEM programme value and JSW investment. No public price is used as a proxy.
+$20M assumed package = $12M hardware, ground equipment and initial spares + $5M Hivemind licences / SDK + $3M integration, training and initial support. Each allowance is a planning assumption, not a quote or disclosed Army price. It defines example scope, not an accounting allocation. Optional follow-ons and JSW investment are excluded. The total is editable in the dashboard.
 
-Sensitivity: Each $1M changes lifetime revenue by $1M and modelled external delivery cost by $0.65M at the default rate.
+Sensitivity: Test $12M / $20M / $30M as smaller / base / expanded scope cases, not market-price confidence bounds. Each $1M changes lifetime revenue by $1M and modelled external delivery cost by $0.65M at the default rate.
 
 Validation owner: Finance + Commercial
 
@@ -156,11 +156,11 @@ Validate: Treasury cash baseline and month-by-month supplier / customer cash sch
 
 ### Product / Software / Services
 
-The Army announcement supports product and software scope. Services such as training and integration require a priced statement of work. Bundled licence and aircraft value cannot be split using arbitrary percentages.
+The Army announcement supports product and software scope. Services such as training and integration require a priced statement of work. The base-package allowances are planning inputs, not actual segment sales or margins.
 
 Owner: Commercial + Product
 
-Validate: Use mutually exclusive priced contract lines. Until then the dashboard filters programme scope, without fabricated segment revenue or margin.
+Validate: Use mutually exclusive priced contract lines. Until then the dashboard filters programme scope without reporting the assumed split as actual segment revenue or margin.
 
 ### JSW strategic partnership
 
