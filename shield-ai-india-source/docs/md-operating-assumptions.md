@@ -201,3 +201,7 @@ Review snapshots are illustrative, not observed Shield performance or a live dat
 Monthly snapshots cover July and August 2026 with prior-month comparisons. Example mobilisation is January 2026. No accepted revenue, new bookings or collections are recorded in these pre-acceptance example months. June / July / August local costs are $0.205M / $0.210M / $0.220M versus $0.205M monthly plan. July people / overhead are $0.185M / $0.025M; August $0.190M / $0.030M. June supplier cash is $2.6M; it is not a June delivery expense in the acceptance-based contribution view. All snapshot figures require internal validation. Period update dates are explicit example metadata, not automatic refresh timestamps.
 
 Update `frontend/src/data/md-reviews.ts` with validated weekly gates and monthly-close figures. There is no operational ingestion or saved actuals workflow yet.
+
+### Simplified management view
+
+The dashboard uses one view: full-term contract value, Year 1 acceptance revenue, annual local cost and maximum cash needed remain visible together. Weekly/monthly describe the review cadence, not selectable reporting windows. The zero-only pre-acceptance monthly snapshot is no longer displayed. Financial figures still come from the same multi-year scenario; no monthly revenue has been invented or smoothed. Deal movement retains the latest illustrative weekly snapshot. Four-year financials and acceptance milestones are available in a collapsed detail section.
