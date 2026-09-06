@@ -256,7 +256,7 @@ export const OPERATING_FUNCTIONS: OperatingFunction[] = [
       "dependency": "Programme and Engineering leads forecast remaining effort; HQ Finance validates entity allocations.",
       "trigger": "At least 2 percentage points erosion or an unpriced scope change before work starts.",
       "cadence": "Monthly; at scope or schedule change",
-      "basis": "Assume Army contract $20M, baseline delivery cost $13M and current estimate-at-completion $13.4M: margin 35% versus 33%. This programme contribution excludes India overhead, taxes and financing; the independent sensitivity model retains its own inputs.",
+      "basis": "Assume Army contract $20M, baseline delivery cost $13M and current estimate-at-completion $13.4M: margin 35% versus 33%. This programme contribution excludes India overhead, taxes and financing.",
       "tone": "amber"
     },
     {

@@ -320,3 +320,56 @@
 .md-function-diagnostics { margin-top: 16px; }
 .md-function-diagnostics > summary { line-height: 1.7; color: #b9cbe1; }
 @media(max-width:1000px) { .md-function-scorecards { grid-template-columns: 1fr; } }
+
+/* Focused executive view: exceptions first, detail on demand. */
+.md-focused .md-portfolio,.md-focused .md-portfolio-view { gap: 18px; }
+.md-focused .md-period { padding-bottom: 8px; }
+.md-focused .md-portfolio-controls { flex-direction: row; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; padding-bottom: 10px; }
+.md-focused .md-portfolio-nav button { padding: 8px 13px; }
+.md-critical-signals { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 12px; }
+.md-critical-signals button { padding: 16px 18px; text-align: left; }
+.md-critical-signals span,.md-critical-signals small { display: block; font-size: 12px; color: #aeb8c5; }
+.md-critical-signals strong { display: block; font: 500 30px/1.4 'IBM Plex Mono',monospace; margin: 5px 0; }
+.md-critical-signals button:hover { border-color: #6a8bad; }
+.md-decision-ledger { overflow: hidden; }
+.md-compact-decision + .md-compact-decision { border-top: 1px solid #29313c; }
+.md-compact-decision > summary,.md-calendar-row > summary { display: grid; grid-template-columns: 75px 1fr 14px; gap: 18px; align-items: start; padding: 15px 18px; }
+.md-focused summary strong { font-weight: 500; font-size: 13px; }
+.md-focused .md-ledger-date { font: 12px/1.65 'IBM Plex Mono',monospace; color: #e3b36c; white-space: nowrap; }
+.md-ledger-copy { display: block; margin-top: 5px; color: #b7c1cf; font-size: 12px; line-height: 1.6; }
+.md-focused summary small { display: block; font-size: 11px; color: #8e9bab; margin-top: 5px; line-height: 1.5; }
+.md-expand { color: #8fabce; font-size: 17px; }
+.md-focused details[open] > summary .md-expand { transform: rotate(45deg); }
+.md-ledger-detail { padding: 0 18px 18px; }
+.md-ledger-detail p { font-size: 12px; color: #aeb8c5; line-height: 1.7; margin-top: 10px; }
+.md-ledger-detail button { margin-top: 12px; color: #a9c8ef; }
+.md-next-meetings { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 10px; }
+.md-next-meetings button { display: flex; align-items: baseline; gap: 12px; padding: 8px 0; text-align: left; }
+.md-next-meetings span { white-space: nowrap; color: #91a0b3; font: 11px 'IBM Plex Mono',monospace; }
+.md-next-meetings strong { font-size: 12px; font-weight: 400; }
+.md-compact-list { display: flex; flex-direction: column; gap: 8px; }
+.md-programme-row > summary { display: grid; grid-template-columns: 1.1fr .7fr 1.3fr 14px; gap: 18px; padding: 16px 18px; align-items: baseline; font-size: 12px; }
+.md-programme-row > summary > span:nth-child(3) { color: #b7c1cf; }
+.md-brief-facts { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 14px 24px; margin-top: 14px; }
+.md-brief-facts dt { color: #91a0b3; font: 11px 'IBM Plex Mono',monospace; }
+.md-brief-facts dd { font-size: 12px; color: #c7d1df; margin-top: 6px; line-height: 1.7; }
+.md-secondary-detail > summary { padding: 16px 18px; }
+.md-focused td details { margin-top: 7px; }
+.md-focused td details summary { color: #91a0b3; font-size: 11px; }
+.md-focused td details p { margin-top: 7px; }
+.md-contract-row > summary { display: flex; gap: 24px; padding: 14px 18px; align-items: baseline; }
+.md-contract-row > summary strong { flex: 1; }
+.md-contract-row > summary span { color: #aeb8c5; font-size: 12px; }
+.md-calendar-row > summary { grid-template-columns: 115px 1fr 14px; }
+.md-cash-context { display: flex; flex-wrap: wrap; gap: 12px 30px; font-size: 12px; color: #91a0b3; }
+.md-cash-context strong { color: #d4dfeb; font-weight: 500; margin-left: 8px; }
+.md-focused .md-function-scorecard { padding: 16px 18px; }
+.md-focused .md-function-scorecard header { padding-bottom: 10px; }
+.md-focused .md-function-scorecard h3 { font-size: 14px; }
+.md-focused .md-function-measure { padding: 12px 0; }
+.md-focused .md-function-measure-title strong { font-size: 16px; }
+.md-focused .md-function-diagnostics { margin-top: 10px; }
+.md-focused .md-function-target { font-size: 11px; margin-top: 5px; }
+@media(max-width:800px) { .md-programme-row > summary { grid-template-columns: 1fr auto; gap: 8px; } .md-programme-row > summary > span:nth-child(3) { grid-column: 1 / -1; } .md-programme-row .md-expand { display: none; } .md-next-meetings { grid-template-columns: 1fr; gap: 2px; } }
+@media(max-width:550px) { .md-critical-signals { grid-template-columns: 1fr; gap: 8px; } .md-critical-signals button { display: grid; grid-template-columns: 1fr auto; align-items: baseline; gap: 3px 10px; padding: 12px 14px; } .md-critical-signals strong { font-size: 24px; grid-column: 2; grid-row: 1 / 3; } .md-critical-signals small { grid-column: 1; } .md-compact-decision > summary { grid-template-columns: 55px 1fr 12px; gap: 10px; padding: 14px; } .md-calendar-row > summary { grid-template-columns: 1fr 14px; gap: 8px; } .md-calendar-row > summary > span:first-child { grid-column: 1 / -1; } .md-brief-facts { grid-template-columns: 1fr; } .md-contract-row > summary { flex-wrap: wrap; gap: 8px 16px; } .md-contract-row > summary strong { flex-basis: 100%; } }
+@media(max-width:767px) { .md-focused .screen-heading { gap: 12px; flex-wrap: wrap; } .md-focused .screen-heading-actions { display: block; } .md-focused .screen-heading-actions button { font-size: 12px; white-space: nowrap; } }
