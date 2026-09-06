@@ -191,3 +191,13 @@ Weekly: validate customer acceptance gates, supplier timing and partner responsi
 ## Retired assumptions
 
 Removed the app-wide attach/capture/probability calculator and the derived tactical/MALE dollar-layer estimates. Removed invented YTD actuals, unsupported deal prices and close dates, weighted pipeline concentration and undifferentiated win rates. Evidence caveats on strategic opportunity maps remain to prevent management judgements being presented as facts.
+
+## Weekly and monthly review surface
+
+The dashboard now defaults to Weekly operations, with a separate Monthly performance view and selectable reporting periods. The four-year model is a collapsed planning drilldown. Its six-month stress test is edited only inside Assumptions and does not rewrite review snapshots.
+
+Review snapshots are illustrative, not observed Shield performance or a live data feed. The weeks ending 28 August and 4 September 2026 compare with the preceding week: first acceptance forecasts of 7 / 14 October against 30 September, engineering demand of 13 / 14 versus 9 available, and 4 / 3 open MD actions. The $4M timing exposure is the first assumed 20% lot of the $20M programme. Programme counts retain one announced award, two pursuit routes and one industrial partnership.
+
+Monthly snapshots cover July and August 2026 with prior-month comparisons. Example mobilisation is January 2026. No accepted revenue, new bookings or collections are recorded in these pre-acceptance example months. June / July / August local costs are $0.205M / $0.210M / $0.220M versus $0.205M monthly plan. July people / overhead are $0.185M / $0.025M; August $0.190M / $0.030M. June supplier cash is $2.6M; it is not a June delivery expense in the acceptance-based contribution view. All snapshot figures require internal validation. Period update dates are explicit example metadata, not automatic refresh timestamps.
+
+Update `frontend/src/data/md-reviews.ts` with validated weekly gates and monthly-close figures. There is no operational ingestion or saved actuals workflow yet.
