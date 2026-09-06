@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { CartesianGrid, ResponsiveContainer, Scatter, ScatterChart, Tooltip, XAxis, YAxis, ZAxis } from 'recharts';
 import { cn } from '@/lib/cn';
 import { Field, Headline, HORIZON_META, Pill, Screen } from '@/components/ui';
@@ -30,6 +30,13 @@ const Z_RANGE: [number, number] = [120, 1400];
 const HORIZON_KEYS = Object.keys(HORIZON_META) as HorizonKey[];
 const xTick = (v: number): string => { if (v <= 1.5) return 'Hard to enter'; if (v >= 5) return 'Easy to enter'; return ''; };
 const yTick = (v: number): string => { if (v <= 1.5) return 'Low'; if (v >= 5) return 'High'; return ''; };
+const PRIORITIES = [
+  { number: '01', type: 'Growth bet', title: 'Deliver Army V-BAT + Hivemind successfully', tone: 'green' as const },
+  { number: '02', type: 'Growth bet', title: 'Embed Hivemind across selected Indian platforms', tone: 'blue' as const },
+  { number: '03', type: 'Growth bet', title: 'Establish the Navy pathway through V-BAT, ViDAR and maritime autonomy', tone: 'blue' as const },
+  { number: '04', type: 'Execution enabler', title: 'Establish India–HQ–JSW governance and industrialisation', tone: 'purple' as const },
+  { number: '05', type: 'Execution enabler', title: 'Build mission-ready engineering and programme capacity in India', tone: 'purple' as const },
+];
 
 function BubbleTip({ payload }: { payload?: readonly { payload: Row }[] }) {
   const p = payload?.[0]?.payload;
@@ -88,16 +95,30 @@ function WeightsPanel() {
   return <div className="panel p-3 text-xs text-paper-2 flex flex-wrap gap-x-3 gap-y-1"><span className="eyebrow w-full">Base weights</span><span>Urgency 30</span><span>Fit 25</span><span>Access 20</span><span>Budget 15</span><span>Leverage 10</span><span className="text-paper-3 w-full">Switch to Explore to change weights.</span></div>;
 }
 
+function PriorityLedger() {
+  return <section data-testid="priority-ledger" className="panel p-3 shrink-0">
+    <div className="flex items-center justify-between gap-3"><span className="eyebrow text-sig-blue">Top 5 priorities</span><span className="font-mono text-[10px] text-paper-3">3 growth bets · 2 execution enablers</span></div>
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-2 mt-2">
+      {PRIORITIES.map((p) => <div key={p.number} className="rounded border border-line bg-ink-2 px-2.5 py-2">
+        <div className="flex items-center justify-between gap-2"><span className="num text-sm text-paper-3">{p.number}</span><Pill tone={p.tone}>{p.type}</Pill></div>
+        <div className="text-xs leading-snug mt-2">{p.title}</div>
+      </div>)}
+    </div>
+  </section>;
+}
+
 export default function Convergence() {
-  const { weights, mode } = useStore();
+  const { weights, mode, present } = useStore();
   const [sel, setSel] = useState<string | null>(null);
+  useEffect(() => { if (present) setSel(null); }, [present]);
   const all = useMemo<Row[]>(() => OPPORTUNITIES.map((o) => ({ ...o, ...score(o, weights), z: o.size * 40 })).sort((a, b) => b.total - a.total), [weights]);
   const rows = useMemo(() => (mode === 'explore' ? all : all.filter((r) => !r.component)), [all, mode]);
   const top = useMemo(() => new Set(rows.slice(0, 3).map((r) => r.id)), [rows]);
   const s = all.find((r) => r.id === sel) ?? null;
   return (
     <Screen>
-      <Headline title="Three bets survive both tests" sub="Large budgets do not automatically equal attractive opportunities; accessibility, architecture and timing matter." right={<div className="flex items-center gap-2"><EvidenceBadge cls="modelled" /><span className="font-mono text-[10px] text-paper-3">Prioritisation model — not official data</span><SourceButton claimIds={HEADLINE_CLAIMS} title="Prioritisation model" /></div>} />
+      <Headline title="Three growth bets. Two execution enablers." sub="Large budgets do not automatically equal attractive opportunities; accessibility, architecture and timing matter." right={<div className="flex items-center gap-2"><EvidenceBadge cls="modelled" /><span className="font-mono text-[10px] text-paper-3">Prioritisation model — not official data</span><SourceButton claimIds={HEADLINE_CLAIMS} title="Prioritisation model" /></div>} />
+      <PriorityLedger />
       <div className="grid lg:grid-cols-3 gap-3 flex-1 min-h-0">
         <div className="lg:col-span-2 panel p-3 flex flex-col min-h-[420px]" data-testid="bubble-chart">
           <div className="flex items-center justify-between text-[11px]">

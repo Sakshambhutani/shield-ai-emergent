@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react';
+import { useEffect, type ReactNode } from 'react';
 import { X } from 'lucide-react';
 import { cn } from '@/lib/cn';
 import { SourceButton } from './Evidence';
@@ -7,6 +7,12 @@ import { SECTIONS } from '@/data/sections';
 
 export function Screen({ children, className }: { children: ReactNode; className?: string }) {
   return <div className={cn('h-full flex flex-col gap-3 lg:gap-4 min-h-0', className)}>{children}</div>;
+}
+
+export function ExploreNote({ children }: { children: ReactNode }) {
+  const { mode } = useStore();
+  if (mode !== 'explore') return null;
+  return <div data-testid="explore-note" className="rounded border border-violet-400/40 bg-violet-500/[.06] px-3 py-2 text-[11px] text-paper-2 shrink-0"><span className="eyebrow text-violet-300 mr-2">Explore detail</span>{children}</div>;
 }
 
 export function Headline({ title, sub, right }: { title: string; sub?: string; right?: ReactNode }) {
@@ -54,7 +60,15 @@ export const HORIZON_META = {
 };
 
 export function SideDrawer({ open, onClose, title, eyebrow, children, testId, width = 'sm:w-[460px]' }: { open: boolean; onClose: () => void; title: string; eyebrow?: string; children: ReactNode; testId: string; width?: string }) {
-  if (!open) return null;
+  const { present } = useStore();
+  useEffect(() => {
+    if (present && open) onClose();
+    if (!open) return;
+    const close = (event: KeyboardEvent) => { if (event.key === 'Escape') onClose(); };
+    window.addEventListener('keydown', close);
+    return () => window.removeEventListener('keydown', close);
+  }, [onClose, open, present]);
+  if (!open || present) return null;
   return (
     <>
       <div onClick={onClose} className={cn('fixed inset-0 z-30 bg-black/40 transition-opacity duration-250', open ? 'opacity-100' : 'opacity-0 pointer-events-none')} />

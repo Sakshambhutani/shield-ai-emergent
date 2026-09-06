@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { ArrowDown, ArrowUpRight, Gauge, Target } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { cn } from '@/lib/cn';
-import { Field, Headline, Pill, Screen, SideDrawer } from '@/components/ui';
+import { ExploreNote, Field, Headline, Pill, Screen, SideDrawer } from '@/components/ui';
 import { SourceButton } from '@/components/Evidence';
 import { EXECUTION_HEALTH, SCORECARD_OUTCOMES, type EvidenceStatus } from '@/data/ops';
 
@@ -10,7 +10,7 @@ const STATUS: Record<EvidenceStatus, { label: string; dot: string; tone: 'green'
   verified: { label: 'Verified public fact', dot: 'bg-emerald-400', tone: 'green' },
   internal: { label: 'Internal actual', dot: 'bg-sig-blue', tone: 'blue' },
   proposed: { label: 'Proposed management target', dot: 'bg-violet-400', tone: 'purple' },
-  modelled: { label: 'Illustrative / modelled', dot: 'bg-amber-400', tone: 'amber' },
+  modelled: { label: 'Management hypothesis · To validate', dot: 'bg-violet-400', tone: 'purple' },
 };
 type Driver = (typeof SCORECARD_OUTCOMES)[number]['drivers'][number];
 
@@ -35,13 +35,15 @@ export default function Kpis() {
   const [driver, setDriver] = useState<Driver | null>(null);
   const selected = SCORECARD_OUTCOMES.find((o) => o.id === outcomeId) ?? null;
   const nav = useNavigate();
+  const selectOutcome = (id: string) => { setOutcomeId((current) => current === id ? null : id); setDriver(null); };
   return <Screen>
     <Headline title="Local mission impact. Global product leverage." sub="Four outcomes define the proposed organisational North Star; execution health shows whether the system can deliver them." right={<div className="flex items-center gap-2"><Pill tone="purple">Proposed North Star</Pill><SourceButton claimIds={['m-kpis', 'm-integrations', 'c-vision-australia']} title="Company scorecard" /></div>} />
+     <ExploreNote>Select an outcome, then a driver, to inspect definition, owner and linked structure or workflow.</ExploreNote>
     <div data-testid="scorecard-tree" className="flex-1 min-h-[520px] flex flex-col justify-center max-w-7xl w-full mx-auto">
-      <div className="flex justify-center"><div data-testid="north-star" className="rounded border border-sig-blue/60 bg-sig-blue/[.07] px-10 py-4 text-center max-w-xl"><div className="eyebrow text-sig-blue">Proposed organisational North Star</div><div className="text-xl lg:text-2xl font-semibold tracking-tight mt-1">India mission impact × reusable global leverage</div></div></div>
+       <div className="flex justify-center"><div data-testid="north-star" className="rounded border border-sig-blue/60 bg-sig-blue/[.07] px-10 py-4 text-center max-w-xl"><div className="eyebrow text-sig-blue">Proposed organisational North Star</div><div className="text-xl lg:text-2xl font-semibold tracking-tight mt-1">Deliver Indian mission outcomes while creating reusable global capability</div></div></div>
       <ArrowDown className="h-5 w-5 text-line-2 mx-auto my-3" />
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
-        {SCORECARD_OUTCOMES.map((o, i) => { const on = outcomeId === o.id; const faded = !!outcomeId && !on; return <button key={o.id} data-testid={`outcome-${o.id}`} onClick={() => setOutcomeId(on ? null : o.id)} className={cn('panel panel-hover relative px-4 py-5 min-h-[135px] text-left transition-all duration-300 border-t-2', on && 'bg-ink-3', faded && 'opacity-25')} style={{ borderTopColor: ['#34D399', '#3B82F6', '#A78BFA', '#F59E0B'][i] }}>
+         {SCORECARD_OUTCOMES.map((o, i) => { const on = outcomeId === o.id; const faded = !!outcomeId && !on; return <button key={o.id} data-testid={`outcome-${o.id}`} onClick={() => selectOutcome(o.id)} className={cn('panel panel-hover relative px-4 py-5 min-h-[135px] text-left transition-all duration-300 border-t-2', on && 'bg-ink-3', faded && 'opacity-25')} style={{ borderTopColor: ['#34D399', '#3B82F6', '#A78BFA', '#F59E0B'][i] }}>
           <div className="eyebrow">Outcome {String(i + 1).padStart(2, '0')}</div><div className="text-lg lg:text-xl font-semibold mt-2">{o.label}</div><div className="text-xs text-paper-2 leading-snug mt-2">{o.question}</div>
           {'target' in o && o.target && <div className="mt-2 font-mono text-[9px] uppercase tracking-wider text-violet-300">{o.target} · proposed, not guidance</div>}
         </button>; })}

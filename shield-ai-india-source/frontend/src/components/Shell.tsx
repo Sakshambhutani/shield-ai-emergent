@@ -11,7 +11,7 @@ function Nav() {
   const { sectionIndex, go, present } = useStore();
   if (present) return null;
   return (
-    <nav data-testid="side-nav" className="hidden md:flex w-52 shrink-0 flex-col border-r border-line bg-ink-1 p-4">
+    <nav data-testid="side-nav" className="relative z-[60] hidden md:flex w-52 shrink-0 flex-col border-r border-line bg-ink-1 p-4">
       <div className="mb-6">
         <div className="eyebrow text-sig-blue">Shield AI India</div>
         <div className="text-sm font-medium leading-tight mt-1">18-Month Operating Plan</div>
@@ -34,7 +34,7 @@ function TopBar() {
   const { mode, setMode, present, setPresent, sectionIndex, openEvidence, calc, setCalc } = useStore();
   const s = SECTIONS[sectionIndex];
   return (
-    <header className="flex items-center justify-between gap-3 px-4 lg:px-6 h-12 border-b border-line bg-ink-1 shrink-0">
+    <header className="relative z-[60] flex items-center justify-between gap-3 px-4 lg:px-6 h-12 border-b border-line bg-ink-1 shrink-0">
       <div className="flex items-center gap-3 min-w-0">
         <span className="md:hidden eyebrow text-sig-blue whitespace-nowrap">Shield AI<span className="hidden sm:inline"> India</span></span>
         <span className="hidden md:inline text-xs text-paper-3 truncate">{s.num} · {s.label}</span>
@@ -50,9 +50,9 @@ function TopBar() {
         {mode === 'explore' && !present && (
           <button aria-label="Assumptions" data-testid="assumptions-btn" onClick={() => setCalc(!calc)} className="inline-flex items-center gap-1.5 rounded border border-violet-400/50 border-dashed px-2.5 py-1 text-xs text-violet-300 hover:bg-violet-500/10 transition-colors duration-200"><SlidersHorizontal className="h-3.5 w-3.5" /><span className="hidden sm:inline">Assumptions</span></button>
         )}
-        <button aria-label="Sources & Assumptions" data-testid="sources-btn" onClick={() => openEvidence()} className="inline-flex items-center gap-1.5 rounded border border-line px-2.5 py-1 text-xs text-paper-2 hover:text-paper hover:border-line-2 transition-colors duration-200">
+        {!present && <button aria-label="Sources & Assumptions" data-testid="sources-btn" onClick={() => openEvidence()} className="inline-flex items-center gap-1.5 rounded border border-line px-2.5 py-1 text-xs text-paper-2 hover:text-paper hover:border-line-2 transition-colors duration-200">
           <FileText className="h-3.5 w-3.5" /><span className="hidden sm:inline">Sources &amp; Assumptions <span className="num text-sig-blue">({s.claimIds.length})</span></span>
-        </button>
+        </button>}
         <button aria-label={present ? 'Exit presentation' : 'Present'} data-testid="present-btn" onClick={() => setPresent(!present)} className={cn('inline-flex items-center gap-1.5 rounded px-2.5 py-1 text-xs transition-colors duration-200', present ? 'bg-sig-blue text-white' : 'border border-line text-paper-2 hover:text-paper')}>
           {present ? <Minimize2 className="h-3.5 w-3.5" /> : <Maximize2 className="h-3.5 w-3.5" />}<span className="hidden sm:inline">{present ? 'Exit' : 'Present'}</span>
         </button>
@@ -70,7 +70,7 @@ const progressDot = (i: number, current: number): string => {
 function Footer() {
   const { sectionIndex, go } = useStore();
   return (
-    <footer className="flex items-center justify-between gap-3 px-4 lg:px-6 h-12 border-t border-line bg-ink-1 shrink-0">
+    <footer className="relative z-[60] flex items-center justify-between gap-3 px-4 lg:px-6 h-12 border-t border-line bg-ink-1 shrink-0">
       <button data-testid="prev-btn" disabled={sectionIndex === 0} onClick={() => go(sectionIndex - 1)} className="inline-flex items-center gap-1 text-xs text-paper-2 hover:text-paper disabled:opacity-30 transition-colors duration-200"><ChevronLeft className="h-4 w-4" /> Previous</button>
       <div className="flex items-center gap-3">
         <div className="hidden sm:flex gap-1">{SECTIONS.map((x, i) => <button key={x.id} onClick={() => go(i)} aria-label={x.label} className={cn('h-1 rounded-full transition-all duration-300', progressDot(i, sectionIndex))} />)}</div>

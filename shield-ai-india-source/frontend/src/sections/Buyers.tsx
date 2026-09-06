@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { ArrowRight, FileText, X } from 'lucide-react';
 import { cn } from '@/lib/cn';
-import { Field, Headline, HORIZON_META, Pill, Screen, SideDrawer } from '@/components/ui';
+import { ExploreNote, Field, Headline, HORIZON_META, Pill, Screen, SideDrawer } from '@/components/ui';
 import { SourceButton } from '@/components/Evidence';
 import { useStore } from '@/store';
 import { ACCOUNTS_V2, ACCOUNT_MAP_V2, ANALOGUES, CUSTOMER_PROGRAMMES, PLATFORMS, PLATFORM_MAP, WATCH_ACCOUNTS, type Domain, type Platform, type Posture } from '@/data/platform-ecosystem';
@@ -94,7 +94,7 @@ function PlatformDrawer({ platform, onClose }: { platform: Platform; onClose: ()
 }
 
 function EcosystemView() {
-  const { mode } = useStore();
+  const { mode, present } = useStore();
   const [accountId, setAccountId] = useState<string | null>(null);
   const [platformId, setPlatformId] = useState<string | null>(null);
   const [whyNot, setWhyNot] = useState(false);
@@ -112,6 +112,7 @@ function EcosystemView() {
     window.addEventListener('keydown', closeLocal);
     return () => window.removeEventListener('keydown', closeLocal);
   }, [accountId, platformId, whyNot]);
+  useEffect(() => { if (present) { setAccountId(null); setPlatformId(null); setWhyNot(false); } }, [present]);
   return <div className="ecosystem-shell">
     <div className="ecosystem-toolbar"><div className="ecosystem-legend"><span><i className="source-dot" />source</span><span>{mode === 'explore' ? 'posture = management hypothesis' : 'click account → platform cells'}</span></div><button data-testid="why-not-toggle" className={cn('why-not-toggle', whyNot && 'active')} disabled={mode !== 'explore'} title={mode !== 'explore' ? 'Available in Explore mode' : undefined} onClick={() => { setWhyNot(!whyNot); setAccountId(null); setPlatformId(null); }}>Competitive ecosystem</button></div>
     <div className="ecosystem-workspace"><div className={cn('ecosystem-canvas', account && 'account-active', platform && 'platform-active')} data-testid="ecosystem-canvas">
@@ -124,7 +125,7 @@ function EcosystemView() {
         {whyNot && <div className="why-not-layer" data-testid="why-not-view">{WATCH_ACCOUNTS.map((a) => <div className="why-not-node" key={a.id}><div><strong>{a.name}</strong><Pill tone={postureTone(a.posture)}>{a.posture}</Pill></div><span>{a.reason}</span><EvidenceDot claimIds={a.claimIds} title={a.name} /></div>)}</div>}
       </>}
       {platform && <OpportunityChain platform={platform} onBack={() => setPlatformId(null)} />}
-    </div>{platform && <PlatformDrawer platform={platform} onClose={() => setPlatformId(null)} />}</div>
+     </div>{platform && !present && <PlatformDrawer platform={platform} onClose={() => setPlatformId(null)} />}</div>
     <p className="ecosystem-caption">Government pull <span>×</span> platform value <span>×</span> architectural openness <span>×</span> genuine Shield gap</p>
   </div>;
 }
@@ -160,5 +161,5 @@ function CustomerView() {
 export default function Buyers() {
   const [tab, setTab] = useState<Tab>('universe');
   const tabs: [Tab, string][] = [['universe', 'Opportunity universe'], ['product', 'By Shield product'], ['customer', 'By customer'], ['platform', 'By platform / prime']];
-  return <Screen className="buyers-screen"><Headline title="Map the addressable opportunity" sub="See the size and shape of the bottom-up possibility before Section 03 determines where to focus." /><div className="buyers-topline"><div data-testid="buyers-tabs" className="buyers-tabs">{tabs.map(([id, label]) => <button key={id} data-testid={`tab-${id}`} aria-pressed={tab === id} onClick={() => setTab(id)} className={cn(tab === id && 'active')}>{label}</button>)}</div><div className="buyers-thesis"><span>BOTTOM-UP</span> Programme universe × insertion point</div></div>{tab === 'universe' && <UniverseView />}{tab === 'platform' && <EcosystemView />}{tab === 'product' && <ProductView />}{tab === 'customer' && <CustomerView />}</Screen>;
+  return <Screen className="buyers-screen"><Headline title="Map the addressable opportunity" sub="See the size and shape of the bottom-up possibility before Section 03 determines where to focus." /><ExploreNote>Explore reveals competitive posture, platform confidence and alternate customer or product routes.</ExploreNote><div className="buyers-topline"><div data-testid="buyers-tabs" className="buyers-tabs">{tabs.map(([id, label]) => <button key={id} data-testid={`tab-${id}`} aria-pressed={tab === id} onClick={() => setTab(id)} className={cn(tab === id && 'active')}>{label}</button>)}</div><div className="buyers-thesis"><span>BOTTOM-UP</span> Programme universe × insertion point</div></div>{tab === 'universe' && <UniverseView />}{tab === 'platform' && <EcosystemView />}{tab === 'product' && <ProductView />}{tab === 'customer' && <CustomerView />}</Screen>;
 }

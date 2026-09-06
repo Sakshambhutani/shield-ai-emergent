@@ -1,0 +1,67 @@
+.thesis { --thesis-blue: #689eec; gap: 0; }
+.thesis-heading { flex-shrink: 0; }
+.thesis-heading h1 { font-size: clamp(30px, 3.3vw, 54px); font-weight: 600; line-height: 1.08; letter-spacing: -.045em; margin-top: 12px; }
+.thesis-heading p { color: #b8b3a8; font-size: 14px; line-height: 1.6; max-width: 850px; margin-top: 16px; }
+.thesis-journey { position: relative; display: grid; grid-template-columns: 20% 50% 30%; align-items: center; min-height: 460px; flex: 1; }
+.thesis-connections { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+.thesis-path { fill: none; stroke: #354f72; stroke-width: 1.5; vector-effect: non-scaling-stroke; clip-path: inset(0 0 0 0); animation: thesis-extend 450ms ease-out 250ms both; transition: stroke 200ms, stroke-width 200ms; }
+.thesis-path.is-active { stroke: #81b3fb; stroke-width: 2.5; }
+.thesis-arrow { fill: none; stroke: var(--thesis-blue); vector-effect: non-scaling-stroke; animation: thesis-appear 250ms ease-out 700ms both; }
+.thesis-today { z-index: 1; padding-right: 12px; animation: thesis-appear 250ms ease-out both; }
+.thesis-today .eyebrow { color: #a2aba7; }
+.thesis-current-marker { width: 26px; height: 3px; background: #34d399; margin: 20px 0 15px; }
+.thesis-beachhead { color: #34d399; font: 10px 'IBM Plex Mono', monospace; letter-spacing: .1em; }
+.thesis-today h2 { font-size: 24px; font-weight: 500; letter-spacing: -.03em; margin-top: 8px; }
+.thesis-product { color: #b8b3a8; font-size: 13px; margin-top: 5px; }
+.thesis-moves { z-index: 1; height: 100%; display: grid; grid-template-rows: repeat(3, 1fr); padding: 20px 17% 20px 13%; }
+.thesis-move { align-self: center; text-decoration: none; padding: 12px 0; animation: thesis-appear 350ms ease-out 300ms both; }
+.thesis-move h2 { color: var(--thesis-blue); font-size: 29px; font-weight: 600; letter-spacing: .04em; line-height: 1.1; transition: color 200ms; }
+.thesis-move h2 span { display: inline-block; font-size: 17px; margin-left: 16px; opacity: 0; transition: opacity 200ms; }
+.thesis-move:hover h2, .thesis-move:focus-visible h2 { color: #a1c6ff; }
+.thesis-move:hover h2 span, .thesis-move:focus-visible h2 span { opacity: 1; }
+.thesis-move-outcome { font-size: clamp(17px, 1.65vw, 24px); letter-spacing: -.025em; margin-top: 8px; background: #0b0d10; width: fit-content; padding-right: 8px; }
+.thesis-move-detail { font-size: 11px; color: #9c9b98; margin-top: 10px; background: #0b0d10; width: fit-content; padding-right: 8px; }
+.thesis-destination { z-index: 1; padding-left: 24px; animation: thesis-appear 350ms ease-out 700ms both; }
+.thesis-destination .eyebrow { color: var(--thesis-blue); }
+.thesis-destination h2 { font-size: clamp(26px, 2.8vw, 43px); font-weight: 600; line-height: 1.09; letter-spacing: -.035em; margin: 16px 0 25px; }
+.thesis-destination h2 span { color: var(--thesis-blue); }
+.thesis-destination ul { display: flex; flex-direction: column; gap: 13px; }
+.thesis-destination li { display: flex; align-items: center; gap: 10px; color: #b8b3a8; font: 10px 'IBM Plex Mono', monospace; letter-spacing: .065em; }
+.thesis-destination li::before { content: ''; width: 12px; height: 1px; background: #5579a7; }
+.thesis-options { display: flex; align-items: center; flex-wrap: wrap; gap: 18px; padding: 20px 0 12px; border-top: 1px solid #242a35; flex-shrink: 0; animation: thesis-options-in 250ms ease-out 1050ms both; }
+.thesis-options .eyebrow { font-size: 10px; }
+.thesis-options-line { flex: 1; min-width: 16px; }
+.thesis-options a { font: 10px 'IBM Plex Mono', monospace; color: #a1a4ab; letter-spacing: .07em; transition: color 200ms; }
+.thesis-options a:hover { color: #f3efe6; }
+.thesis a:focus-visible { outline: 2px solid var(--thesis-blue); outline-offset: 7px; border-radius: 2px; }
+@keyframes thesis-appear { from { opacity: 0; } to { opacity: 1; } }
+@keyframes thesis-extend { from { clip-path: inset(0 100% 0 0); } to { clip-path: inset(0 0 0 0); } }
+@keyframes thesis-options-in { from { opacity: 0; } to { opacity: .65; } }
+@media (max-width: 1100px) {
+  .thesis-journey { grid-template-columns: 20% 49% 31%; }
+  .thesis-moves { padding-left: 12%; padding-right: 8%; }
+  .thesis-today h2 { font-size: 20px; }
+  .thesis-destination { padding-left: 16px; }
+}
+@media (max-width: 900px) {
+  .thesis-heading h1 { font-size: clamp(29px, 5vw, 42px); }
+  .thesis-journey { display: flex; flex-direction: column; align-items: stretch; min-height: auto; margin-top: 35px; padding-left: 25px; border-left: 1px solid #354f72; }
+  .thesis-connections { display: none; }
+  .thesis-today { padding: 0 0 28px; }
+  .thesis-current-marker { margin: 12px 0; }
+  .thesis-moves { display: flex; flex-direction: column; padding: 0; gap: 18px; }
+  .thesis-move { width: 100%; position: relative; }
+  .thesis-move::before { content: ''; position: absolute; width: 18px; height: 1px; background: #5579a7; left: -25px; top: 29px; }
+  .thesis-move h2 { font-size: 27px; }
+  .thesis-move-outcome { font-size: 22px; }
+  .thesis-destination { padding: 38px 0 30px; }
+  .thesis-destination::before { content: '↓'; display: block; color: var(--thesis-blue); margin-bottom: 22px; }
+  .thesis-destination h2 { font-size: 34px; }
+  .thesis-options { margin-top: 25px; gap: 18px 24px; }
+  .thesis-options > .eyebrow { width: 100%; }
+  .thesis-options-line { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .thesis *, .thesis *::before { animation: none !important; transition: none !important; }
+  .thesis-options { opacity: .65; }
+}

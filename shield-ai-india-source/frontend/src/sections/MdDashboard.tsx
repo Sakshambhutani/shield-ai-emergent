@@ -16,7 +16,7 @@ const STORY_BET_COPY = {
   expand: { current: 'Sponsor', next: 'Technical path', blocker: 'Trial access' },
 };
 const ACTIVE_DECISION_IDS = ['d2', 'd1', 'd3'];
-const ACTIVE_RISK_IDS = ['r1', 'r3', 'r2'];
+const ACTIVE_RISK_IDS = ['r1', 'r2', 'r3', 'r4', 'r5', 'r6'];
 const betTone = (b: string) => (b === 'scale' ? 'green' : b === 'embed' ? 'blue' : 'purple') as 'green' | 'blue' | 'purple';
 const trendTone = (t: string) => t === '↑' ? 'text-sig-red' : t === '↓' ? 'text-emerald-300' : 'text-sig-amber';
 const Cls = ({ c }: { c: DataClass }) => <Pill tone={DATA_CLASS[c].tone}>{DATA_CLASS[c].label}</Pill>;
@@ -34,7 +34,7 @@ function StoryBetCard({ bet, onOpen }: { bet: Bet; onOpen: () => void }) {
   const m = BET_META[bet.id];
   const copy = STORY_BET_COPY[bet.id];
   return <button data-testid={`md-bet-${bet.id}`} onClick={onOpen} className="panel panel-hover min-h-[176px] p-5 text-left flex flex-col border-t-2" style={{ borderTopColor: m.color }}>
-    <div><div className="eyebrow" style={{ color: m.color }}>{bet.title} · {bet.who}</div><div className="text-xl font-semibold mt-1">{bet.what}</div></div>
+    <div><div className="eyebrow" style={{ color: m.color }}>{bet.stageLabel ?? `${bet.title} · ${bet.who}`}</div><div className="text-xl font-semibold mt-1">{bet.what}</div></div>
     <div className="grid grid-cols-2 gap-4 mt-auto pt-4">
       <div><div className="eyebrow">Current gate</div><div className="text-sm mt-1">{copy.current}</div></div>
       <div><div className="eyebrow">Next gate</div><div className="text-sm mt-1">{copy.next}</div></div>
@@ -59,14 +59,15 @@ function BetDrawer({ bet, onClose }: { bet: Bet | null; onClose: () => void }) {
 }
 
 function DecisionDrawer({ decision, onClose }: { decision: Decision | null; onClose: () => void }) {
+  const recTone = decision?.recLabel === 'Working hypothesis' ? 'text-amber-300' : decision?.recLabel === 'Decision criteria' ? 'text-violet-300' : 'text-emerald-300';
   return <SideDrawer open={!!decision} onClose={onClose} title={decision?.decision ?? ''} eyebrow="Executive decision" testId="decision-drawer">
-    {decision && <div className="space-y-5 stagger"><div className="flex items-center gap-2"><Pill tone={betTone(decision.bet)}>{BET_META[decision.bet].label}</Pill><SourceButton claimIds={decision.claimIds} title={decision.decision} /></div><Field label="Recommended direction"><span className="text-emerald-300">{decision.rec}</span></Field><Field label="Deadline / gate"><span className="font-mono text-sig-amber">{decision.deadline}</span></Field><Field label="Why now">{decision.why}</Field><Field label="Consequence of delay">{decision.delay}</Field></div>}
+    {decision && <div className="space-y-5 stagger"><div className="flex items-center gap-2"><Pill tone={betTone(decision.bet)}>{BET_META[decision.bet].label}</Pill><SourceButton claimIds={decision.claimIds} title={decision.decision} /></div><Field label={decision.recLabel ?? 'Recommended direction'}><span className={recTone}>{decision.rec}</span></Field><Field label="Deadline / gate"><span className="font-mono text-sig-amber">{decision.deadline}</span></Field><Field label="Why now">{decision.why}</Field><Field label="Consequence of delay">{decision.delay}</Field></div>}
   </SideDrawer>;
 }
 
 function RiskDrawer({ risk, onClose }: { risk: Risk | null; onClose: () => void }) {
   return <SideDrawer open={!!risk} onClose={onClose} title={risk?.risk ?? ''} eyebrow="Active risk / blocker" testId="risk-drawer">
-    {risk && <div className="space-y-5 stagger"><div className="flex items-center gap-2"><span className={cn('font-mono text-xl', trendTone(risk.trend))}>{risk.trend}</span><Pill tone={betTone(risk.bet)}>{BET_META[risk.bet].label}</Pill></div><Field label="Leading indicator">{risk.indicator}</Field><Field label="Mitigation owner">{risk.owner}</Field>{risk.decision && <Field label="Decision required">{risk.decision}</Field>}<Drill to={risk.drill} label="Open affected system" /></div>}
+    {risk && <div className="space-y-5 stagger"><div className="flex items-center gap-2"><span className={cn('font-mono text-xl', trendTone(risk.trend))}>{risk.trend}</span><Pill tone={betTone(risk.bet)}>{BET_META[risk.bet].label}</Pill></div><Field label="Trigger">{risk.trigger}</Field><Field label="Owner">{risk.owner}</Field><Field label="Required decision">{risk.decision}</Field><Drill to={risk.drill} label="Open affected system" /></div>}
   </SideDrawer>;
 }
 
@@ -76,7 +77,7 @@ function Story({ setBet, setDecision, setRisk }: { setBet: (b: Bet) => void; set
   return <div data-testid="md-story" className="flex-1 min-h-0 grid grid-rows-[auto_auto_auto] gap-4">
     <section><div className="eyebrow mb-2">Three bets</div><div className="grid grid-cols-1 md:grid-cols-3 gap-4">{MD_BETS.map((b) => <StoryBetCard key={b.id} bet={b} onOpen={() => setBet(b)} />)}</div></section>
     <section data-testid="md-decisions"><div className="flex items-center justify-between mb-2"><span className="eyebrow text-sig-blue">Decisions required</span><span className="font-mono text-[10px] text-paper-3">3 active</span></div><div className="rounded border border-line divide-y divide-line bg-ink-2">{decisions.map((d) => <button key={d.id} data-testid={`decision-${d.id}`} onClick={() => setDecision(d)} className="w-full px-4 py-2.5 grid grid-cols-[1fr_auto] sm:grid-cols-[1fr_auto_auto] items-center gap-3 text-left hover:bg-ink-3 transition-colors"><span className="text-sm font-medium truncate">{d.decision}</span><span className="hidden sm:block text-xs text-emerald-300 max-w-[320px] truncate"><ArrowRight className="h-3 w-3 inline mr-1" />{d.rec}</span><span className="font-mono text-[10px] text-sig-amber whitespace-nowrap">{d.deadline.replace(' gate', '')}</span></button>)}</div></section>
-    <section data-testid="md-risks"><div className="flex items-center justify-between mb-2"><span className="eyebrow text-sig-red">Active risks / blockers</span><span className="font-mono text-[10px] text-paper-3">3 triggered</span></div><div className="grid grid-cols-1 sm:grid-cols-3 gap-3">{risks.map((r) => <button key={r.id} data-testid={`risk-${r.id}`} onClick={() => setRisk(r)} className="panel panel-hover px-4 py-3 flex items-center gap-3 text-left"><span className={cn('font-mono text-lg', trendTone(r.trend))}>{r.trend}</span><span className="text-sm font-medium flex-1 truncate">{r.risk}</span><Pill tone={betTone(r.bet)}>{BET_META[r.bet].label}</Pill></button>)}</div></section>
+     <section data-testid="md-risks"><div className="flex items-center justify-between mb-2"><span className="eyebrow text-sig-red">Red flags / blockers</span><span className="font-mono text-[10px] text-paper-3">{risks.length} monitored</span></div><div className="grid grid-cols-1 sm:grid-cols-3 gap-3">{risks.map((r) => <button key={r.id} data-testid={`risk-${r.id}`} onClick={() => setRisk(r)} className="panel panel-hover px-4 py-3 flex items-center gap-3 text-left"><span className={cn('font-mono text-lg', trendTone(r.trend))}>{r.trend}</span><span className="flex-1 min-w-0"><span className="text-sm font-medium block truncate">{r.risk}</span><span className="text-[10px] text-paper-3 block truncate">{r.trigger}</span></span><Pill tone={betTone(r.bet)}>{BET_META[r.bet].label}</Pill></button>)}</div></section>
   </div>;
 }
 
@@ -109,7 +110,7 @@ export default function MdDashboard() {
   const [risk, setRisk] = useState<Risk | null>(null);
   useEffect(() => { const close = (e: KeyboardEvent) => { if (e.key === 'Escape') { setBet(null); setDecision(null); setRisk(null); } }; window.addEventListener('keydown', close); return () => window.removeEventListener('keydown', close); }, []);
   return <Screen>
-    <Headline title="Decide. Unblock. Intervene." sub="Executive attention only: the three bets, active decisions and triggered risks." right={<div className="flex items-center gap-2"><Pill tone="purple">Proposed structure</Pill><SourceButton claimIds={MD_CLAIMS} title="MD Dashboard" /></div>} />
+    <Headline title="Decide. Unblock. Intervene." sub="Executive attention only: the three bets, active decisions and triggered risks." right={<div className="flex items-center gap-2"><Pill tone="purple">Proposed structure</Pill><SourceButton claimIds={MD_CLAIMS} title="MD Agenda" /></div>} />
     {mode === 'story' ? <Story setBet={setBet} setDecision={setDecision} setRisk={setRisk} /> : <Explore />}
     <BetDrawer bet={bet} onClose={() => setBet(null)} /><DecisionDrawer decision={decision} onClose={() => setDecision(null)} /><RiskDrawer risk={risk} onClose={() => setRisk(null)} />
   </Screen>;

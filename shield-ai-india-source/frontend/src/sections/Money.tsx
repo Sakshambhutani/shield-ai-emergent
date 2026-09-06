@@ -1,9 +1,10 @@
 import { useEffect, useMemo, useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { ReactFlow, ReactFlowProvider, Handle, Position, useReactFlow, type Node, type Edge, type NodeProps } from '@xyflow/react';
 import '@xyflow/react/dist/style.css';
 import { ChevronDown } from 'lucide-react';
 import { cn } from '@/lib/cn';
-import { Callout, Field, Headline, NotDisclosed, Pill, Screen } from '@/components/ui';
+import { Callout, ExploreNote, Field, Headline, NotDisclosed, Pill, Screen } from '@/components/ui';
 import { EvidenceBadge, SourceButton } from '@/components/Evidence';
 import { fmtCr, modelledLayer } from '@/components/AssumptionCalc';
 import { BUDGET_TREE, MISSION_TREE, type BudgetNode } from '@/data/budget';
@@ -124,8 +125,14 @@ function NodePanel({ sel, onClose }: { sel: BudgetNode; onClose: () => void }) {
 }
 
 export default function Money() {
-  const { mode } = useStore();
-  const [marketView, setMarketView] = useState<'core' | 'future'>('core');
+  const { mode, present } = useStore();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const marketView = searchParams.get('view') === 'future' ? 'future' : 'core';
+  const setMarketView = (view: 'core' | 'future') => setSearchParams((params) => {
+    if (view === 'future') params.set('view', view);
+    else params.delete('view');
+    return params;
+  });
   const [view, setView] = useState<'budget' | 'mission'>('budget');
   const tree = view === 'budget' ? BUDGET_TREE : MISSION_TREE;
   const root = tree[0].id;
@@ -133,6 +140,7 @@ export default function Money() {
   const [selected, setSelected] = useState<string | null>(null);
   const [uas, setUas] = useState(false);
   useEffect(() => { setExpanded(new Set([tree[0].id])); setSelected(null); }, [tree]);
+  useEffect(() => { if (present) { setSelected(null); setUas(false); } }, [present]);
   const { nodes, edges } = useTree(tree, expanded, selected);
   const onNode = (id: string) => {
     setSelected(id);
@@ -151,14 +159,15 @@ export default function Money() {
         <div className="shrink-0"><h1 className="text-2xl sm:text-3xl lg:text-4xl font-semibold tracking-tight leading-tight" data-testid="screen-headline">Where else can Shield’s autonomy stack travel?</h1></div>
         <FuturePossibility />
       </> : <>
-      <Headline title="Money is moving toward autonomy" sub="Official pools are context, not TAM. Only Shield-relevant capability universes branch out." right={
+       <Headline title="Money is moving toward autonomy" sub="Official pools are context, not TAM. Only Shield-relevant capability universes branch out." right={
         <div className="flex gap-2">
           <div data-testid="view-toggle" className="flex rounded border border-line overflow-hidden text-xs">
             {(['budget', 'mission'] as const).map((v) => <button key={v} data-testid={`view-${v}`} onClick={() => setView(v)} className={cn('px-3 py-1 capitalize transition-colors duration-200', view === v ? 'bg-ink-4 text-paper' : 'text-paper-3 hover:text-paper-2')}>{v} view</button>)}
           </div>
           <button data-testid="uas-toggle" onClick={() => setUas(!uas)} className="rounded border border-line px-3 py-1 text-xs text-paper-3 hover:text-paper-2">UAS classes</button>
         </div>
-      } />
+       } />
+       <ExploreNote>Explore adds sourced market callouts, model assumptions and supporting UAS classification detail.</ExploreNote>
       {mode === 'explore' && <div className="grid grid-cols-4 gap-3 shrink-0 stagger">{CALLOUTS.map((c) => <Callout key={c.testId} {...c} />)}</div>}
       {uas && <UasPanel />}
       <div className="flex gap-3 flex-1 min-h-0">
@@ -168,7 +177,7 @@ export default function Money() {
         <div className="md:hidden space-y-2 flex-1">
           {tree.map((n) => <button key={n.id} onClick={() => setSelected(n.id)} className={cn('panel w-full text-left px-3 py-2', !n.relevant && 'opacity-40')}><div className="text-sm">{n.title}</div>{n.value && <div className="num text-sig-blue">{n.value}</div>}</button>)}
         </div>
-        {sel && <NodePanel sel={sel} onClose={() => setSelected(null)} />}
+         {sel && !present && <NodePanel sel={sel} onClose={() => setSelected(null)} />}
       </div>
       </>}
     </Screen>

@@ -1,4 +1,4 @@
-import { createContext, useCallback, useContext, useEffect, useState, type ReactNode } from 'react';
+import { createContext, useCallback, useContext, useEffect, useState, type ReactNode, type SetStateAction } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { SECTIONS } from './data/sections';
 
@@ -13,7 +13,7 @@ interface Evidence { open: boolean; claimIds: string[] | null; title: string }
 
 interface Store {
   mode: Mode; setMode: (m: Mode) => void;
-  present: boolean; setPresent: (p: boolean) => void;
+  present: boolean; setPresent: (p: SetStateAction<boolean>) => void;
   sectionIndex: number; go: (i: number) => void;
   evidence: Evidence; openEvidence: (claimIds?: string[], title?: string) => void; closeEvidence: () => void;
   account: string | null; setAccount: (id: string | null) => void;
@@ -31,7 +31,7 @@ export function StoreProvider({ children }: { children: ReactNode }) {
   const nav = useNavigate();
   const loc = useLocation();
   const [mode, setMode] = useState<Mode>('story');
-  const [present, setPresent] = useState(false);
+  const [present, setPresentState] = useState(false);
   const [evidence, setEvidence] = useState<Evidence>({ open: false, claimIds: null, title: '' });
   const [account, setAccount] = useState<string | null>(null);
   const [calc, setCalc] = useState(false);
@@ -39,14 +39,28 @@ export function StoreProvider({ children }: { children: ReactNode }) {
   const [assumptions, setAssumptions] = useState<Assumptions>(BASE_ASSUMPTIONS);
 
   const sectionIndex = Math.max(0, SECTIONS.findIndex((s) => s.path === loc.pathname));
+  const closeOverlays = useCallback(() => {
+    setEvidence({ open: false, claimIds: null, title: '' });
+    setAccount(null);
+    setCalc(false);
+  }, []);
   const go = useCallback((i: number) => {
     const n = Math.min(SECTIONS.length - 1, Math.max(0, i));
+    closeOverlays();
     nav(SECTIONS[n].path);
-  }, [nav]);
+  }, [closeOverlays, nav]);
 
-  const openEvidence = useCallback((claimIds?: string[], title?: string) => setEvidence({ open: true, claimIds: claimIds ?? null, title: title ?? '' }), []);
+  const openEvidence = useCallback((claimIds?: string[], title?: string) => {
+    if (present) return;
+    setEvidence({ open: true, claimIds: claimIds ?? null, title: title ?? '' });
+  }, [present]);
   const closeEvidence = useCallback(() => setEvidence((e) => ({ ...e, open: false })), []);
+  const setPresent = useCallback((next: SetStateAction<boolean>) => setPresentState(next), []);
   const reset = useCallback(() => { setWeights(BASE_WEIGHTS); setAssumptions(BASE_ASSUMPTIONS); }, []);
+
+  useEffect(() => { closeOverlays(); }, [closeOverlays, loc.pathname]);
+  useEffect(() => { if (present) closeOverlays(); }, [closeOverlays, present]);
+  useEffect(() => { if (mode !== 'explore') setCalc(false); }, [mode]);
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
@@ -58,7 +72,7 @@ export function StoreProvider({ children }: { children: ReactNode }) {
     };
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
-  }, [go, sectionIndex, closeEvidence]);
+  }, [go, sectionIndex, closeEvidence, setPresent]);
 
   const value: Store = {
     mode, setMode, present, setPresent, sectionIndex, go, evidence, openEvidence, closeEvidence,

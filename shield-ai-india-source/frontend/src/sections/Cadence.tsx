@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { ArrowRight, RotateCw } from 'lucide-react';
 import { useSearchParams } from 'react-router-dom';
 import { cn } from '@/lib/cn';
-import { Field, Headline, Pill, Screen, SideDrawer } from '@/components/ui';
+import { ExploreNote, Field, Headline, Pill, Screen, SideDrawer } from '@/components/ui';
 import { SourceButton } from '@/components/Evidence';
 import { DECISION_RHYTHMS, WORK_STAGES, type WorkStage } from '@/data/ops';
 
@@ -85,11 +85,12 @@ function DecisionRhythm() {
 export default function Cadence() {
   const [view, setView] = useState<View>('loop');
   return <Screen>
-    <Headline title="One mission loop. Learning compounds." sub="Work moves continuously from mission need to field proof, then returns as reusable product capability." right={<div className="flex items-center gap-2"><Pill tone="purple">Proposed system</Pill><SourceButton claimIds={['m-cadence']} title="Operating loop" /></div>} />
+    <Headline title="One operating loop. Decisions at gates." sub="Work moves continuously from mission need to field proof, then returns as reusable product capability." right={<div className="flex items-center gap-2"><Pill tone="purple">Proposed system</Pill><SourceButton claimIds={['m-cadence']} title="Operating loop" /></div>} />
     <div className="flex rounded border border-line overflow-hidden text-[11px] self-start shrink-0">
       <button data-testid="cadence-view-loop" onClick={() => setView('loop')} className={cn('px-3 py-1.5', view === 'loop' ? 'bg-ink-4 text-paper' : 'text-paper-3')}>Operating Loop</button>
       <button data-testid="cadence-view-rhythm" onClick={() => setView('rhythm')} className={cn('px-3 py-1.5', view === 'rhythm' ? 'bg-ink-4 text-paper' : 'text-paper-3')}>Decision Rhythm</button>
     </div>
+    <ExploreNote>Select a stage or forum to inspect owner, support, decision output and KPIs.</ExploreNote>
     {view === 'loop' ? <OperatingLoop /> : <DecisionRhythm />}
   </Screen>;
 }

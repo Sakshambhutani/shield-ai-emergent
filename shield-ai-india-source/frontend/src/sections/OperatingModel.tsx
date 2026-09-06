@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { ArrowLeftRight, Check, CircleDotDashed, Network } from 'lucide-react';
 import { useSearchParams } from 'react-router-dom';
 import { cn } from '@/lib/cn';
-import { Field, Headline, Pill, Screen, SideDrawer } from '@/components/ui';
+import { ExploreNote, Field, Headline, Pill, Screen, SideDrawer } from '@/components/ui';
 import { SourceButton } from '@/components/Evidence';
 import { GLOBAL_CENTRES, MISSION_TEAMS, OPERATING_CAPABILITIES, RIGHTS, type OperatingCapability, type Right } from '@/data/ops';
 
@@ -10,7 +10,7 @@ type View = 'system' | 'rights';
 const COLS = [{ key: 'india', label: 'India' }, { key: 'global', label: 'Global Product / Capability Centre' }, { key: 'jsw', label: 'JSW' }, { key: 'prime', label: 'Indian Prime' }] as const;
 const RIGHT_STYLE: Record<Right, string> = {
   D: 'border-sig-blue/60 bg-sig-blue/15 text-sig-blue', O: 'border-emerald-500/50 bg-emerald-500/10 text-emerald-300',
-  C: 'border-line-2 bg-ink-3 text-paper-2', V: 'border-amber-500/50 border-dashed bg-amber-500/10 text-amber-300', '': 'border-transparent text-paper-3/25',
+  C: 'border-line-2 bg-ink-3 text-paper-2', V: 'border-amber-500/50 border-dashed bg-amber-500/10 text-amber-300', R: 'border-violet-400/50 bg-violet-500/10 text-violet-300', J: 'border-violet-400/70 bg-violet-500/15 text-violet-200', '': 'border-transparent text-paper-3/25',
 };
 
 function Toggle({ view, setView }: { view: View; setView: (v: View) => void }) {
@@ -45,7 +45,9 @@ function OperatingSystem() {
   const initial = params.get('focus');
   const [mission, setMission] = useState<string | null>(MISSION_TEAMS.some((m) => m.id === initial) ? initial : null);
   const [capId, setCapId] = useState<string | null>(OPERATING_CAPABILITIES.some((c) => c.id === initial) ? initial : null);
-  useEffect(() => { if (initial && OPERATING_CAPABILITIES.some((c) => c.id === initial)) setCapId(initial); }, [initial]);
+  useEffect(() => { if (initial && OPERATING_CAPABILITIES.some((c) => c.id === initial)) setCapId(initial); else if (!initial) setCapId(null); }, [initial]);
+  const selectMission = (id: string) => { setMission((current) => current === id ? null : id); setCapId(null); setParams({}); };
+  const selectCapability = (id: string) => { setCapId(id); setParams({ focus: id }); };
   const selectedMission = MISSION_TEAMS.find((m) => m.id === mission);
   const cap = OPERATING_CAPABILITIES.find((c) => c.id === capId) ?? null;
   return <>
@@ -54,14 +56,14 @@ function OperatingSystem() {
         <div className="eyebrow self-end pb-1">Mission teams</div>
         {OPERATING_CAPABILITIES.map((c) => <div key={c.id} className="text-center font-mono text-[9px] uppercase tracking-wider text-paper-3 leading-tight px-1 self-end">{c.short}</div>)}
         {MISSION_TEAMS.map((m) => { const on = mission === m.id; const faded = !!mission && !on; return <div key={m.id} className="contents">
-          <button data-testid={`mission-${m.id}`} onClick={() => setMission(on ? null : m.id)} className={cn('rounded-l border px-3 py-3 text-left transition-all duration-300', faded && 'opacity-25')} style={{ borderColor: on ? m.color : '#2E3546', background: on ? `${m.color}18` : '#12151C' }}>
+           <button data-testid={`mission-${m.id}`} onClick={() => selectMission(m.id)} className={cn('rounded-l border px-3 py-3 text-left transition-all duration-300', faded && 'opacity-25')} style={{ borderColor: on ? m.color : '#2E3546', background: on ? `${m.color}18` : '#12151C' }}>
             <div className="font-mono text-[10px] tracking-[.18em]" style={{ color: m.color }}>{m.bet}</div><div className="text-lg font-semibold leading-tight">{m.service}</div>
           </button>
-          {OPERATING_CAPABILITIES.map((c) => { const used = m.capabilityIds.includes(c.id); return <button key={c.id} aria-label={`${m.bet} uses ${c.name}`} onClick={() => setMission(on ? null : m.id)} className={cn('border-y border-line bg-ink-2 flex items-center justify-center transition-all duration-300 last:border-r last:rounded-r', faded && 'opacity-20', selectedMission && !used && 'opacity-10')}><span className={cn('h-2 rounded-full transition-all duration-300', on && used ? 'w-7' : 'w-2')} style={{ backgroundColor: used ? m.color : '#2E3546' }} /></button>})}
+           {OPERATING_CAPABILITIES.map((c) => { const used = m.capabilityIds.includes(c.id); return <button key={c.id} aria-label={`${m.bet} uses ${c.name}`} onClick={() => selectMission(m.id)} className={cn('border-y border-line bg-ink-2 flex items-center justify-center transition-all duration-300 last:border-r last:rounded-r', faded && 'opacity-20', selectedMission && !used && 'opacity-10')}><span className={cn('h-2 rounded-full transition-all duration-300', on && used ? 'w-7' : 'w-2')} style={{ backgroundColor: used ? m.color : '#2E3546' }} /></button>})}
         </div>; })}
         <div className="h-5" />{OPERATING_CAPABILITIES.map((c) => <div key={c.id} className="flex justify-center"><div className="h-5 w-px bg-line-2" /></div>)}
         <div className="eyebrow self-center">India capabilities</div>
-        {OPERATING_CAPABILITIES.map((c) => { const relevant = !selectedMission || selectedMission.capabilityIds.includes(c.id); return <button key={c.id} data-testid={`capability-${c.id}`} onClick={() => { setCapId(c.id); setParams({ focus: c.id }); }} className={cn('panel panel-hover px-2 py-4 min-h-[104px] text-center flex flex-col items-center justify-center transition-all duration-300', !relevant && 'opacity-15', capId === c.id && 'border-sig-blue/60 bg-ink-3')}><CircleDotDashed className="h-4 w-4 text-paper-3 mb-2" /><span className="text-[11px] leading-tight font-medium">{c.name}</span></button>})}
+         {OPERATING_CAPABILITIES.map((c) => { const relevant = !selectedMission || selectedMission.capabilityIds.includes(c.id); return <button key={c.id} data-testid={`capability-${c.id}`} onClick={() => selectCapability(c.id)} className={cn('panel panel-hover px-2 py-4 min-h-[104px] text-center flex flex-col items-center justify-center transition-all duration-300', !relevant && 'opacity-15', capId === c.id && 'border-sig-blue/60 bg-ink-3')}><CircleDotDashed className="h-4 w-4 text-paper-3 mb-2" /><span className="text-[11px] leading-tight font-medium">{c.name}</span></button>})}
         <div className="h-5" />{OPERATING_CAPABILITIES.map((c) => <div key={c.id} className="flex justify-center"><div className="h-5 w-px bg-line-2" /></div>)}
         <div className="col-span-8 rounded border border-sig-blue/40 bg-sig-blue/[.06] px-4 py-2 flex items-center gap-5" data-testid="md-office-layer">
           <div className="font-mono text-[10px] uppercase tracking-[.18em] text-sig-blue whitespace-nowrap">MD Office · Integration layer</div><div className="h-px flex-1 bg-sig-blue/25" />
@@ -77,8 +79,8 @@ function OperatingSystem() {
 function RightsMatrix() {
   const [row, setRow] = useState<number | null>(null);
   return <div data-testid="rights-matrix" className="flex-1 min-h-0 grid lg:grid-cols-[1fr_320px] gap-4">
-    <div className="panel overflow-auto"><table className="w-full text-sm"><thead><tr><th className="text-left px-4 py-3 eyebrow font-normal">Material decision</th>{COLS.map((c) => <th key={c.key} className="px-2 py-3 eyebrow font-normal text-center max-w-[160px]">{c.label}</th>)}</tr></thead><tbody>{RIGHTS.map((r, i) => <tr key={r.row} data-testid={`rights-row-${i}`} onClick={() => setRow(row === i ? null : i)} className={cn('border-t border-line cursor-pointer transition-colors hover:bg-ink-3', row === i && 'bg-ink-3')}><td className="px-4 py-2.5 text-xs">{r.row}</td>{COLS.map((c) => <td key={c.key} className="text-center"><span className={cn('inline-flex min-h-7 min-w-7 px-1 items-center justify-center rounded border font-mono text-[10px] font-semibold', RIGHT_STYLE[r[c.key]])}>{r[c.key] === 'V' ? 'VALIDATE' : r[c.key] || '·'}</span></td>)}</tr>)}</tbody></table></div>
-    <div className="panel p-4 flex flex-col"><div className="eyebrow">Decision logic</div>{row === null ? <div className="flex-1 flex items-center justify-center text-center text-sm text-paper-3"><div><ArrowLeftRight className="h-7 w-7 mx-auto mb-3 opacity-50" />Select a material decision</div></div> : <div className="animate-rise mt-6"><div className="text-lg font-medium">{RIGHTS[row].row}</div><p className="text-sm text-paper-2 mt-2">{RIGHTS[row].rationale}</p></div>}<div className="mt-auto border-t border-line pt-3 flex flex-wrap gap-3 text-[10px] font-mono"><span className="text-sig-blue">D · Decides</span><span className="text-emerald-300">O · Owns execution</span><span className="text-paper-2">C · Consulted</span><span className="text-amber-300">To Validate</span></div></div>
+     <div className="panel overflow-auto"><table className="w-full text-sm"><thead><tr><th className="text-left px-4 py-3 eyebrow font-normal">Material decision</th>{COLS.map((c) => <th key={c.key} className="px-2 py-3 eyebrow font-normal text-center max-w-[160px]">{c.label}</th>)}</tr></thead><tbody>{RIGHTS.map((r, i) => <tr key={r.row} data-testid={`rights-row-${i}`} onClick={() => setRow(row === i ? null : i)} className={cn('border-t border-line cursor-pointer transition-colors hover:bg-ink-3', row === i && 'bg-ink-3')}><td className="px-4 py-2.5 text-xs">{r.row}</td>{COLS.map((c) => <td key={c.key} className="text-center"><span className={cn('inline-flex min-h-7 min-w-7 px-1 items-center justify-center rounded border font-mono text-[10px] font-semibold', RIGHT_STYLE[r[c.key]])}>{r[c.key] === 'V' ? 'VALIDATE' : r[c.key] === 'R' ? 'RECOMMEND' : r[c.key] === 'J' ? 'JOINT' : r[c.key] || '·'}</span></td>)}</tr>)}</tbody></table></div>
+     <div className="panel p-4 flex flex-col"><div className="eyebrow">Decision logic</div>{row === null ? <div className="flex-1 flex items-center justify-center text-center text-sm text-paper-3"><div><ArrowLeftRight className="h-7 w-7 mx-auto mb-3 opacity-50" />Select a material decision</div></div> : <div className="animate-rise mt-6"><div className="text-lg font-medium">{RIGHTS[row].row}</div><p className="text-sm text-paper-2 mt-2">{RIGHTS[row].rationale}</p></div>}<div className="mt-auto border-t border-line pt-3 flex flex-wrap gap-3 text-[10px] font-mono"><span className="text-sig-blue">D · Decides</span><span className="text-emerald-300">O · Owns execution</span><span className="text-violet-300">R · Recommends</span><span className="text-violet-200">J · Joint approval</span><span className="text-paper-2">C · Consulted</span><span className="text-amber-300">V · Validate</span></div></div>
   </div>;
 }
 
@@ -86,7 +88,8 @@ export default function OperatingModel() {
   const [view, setView] = useState<View>('system');
   return <Screen>
     <Headline title="Three missions. One India operating system." sub="Mission owners coordinate the capabilities they consume; India pulls from global centres without recreating them." right={<div className="flex items-center gap-2"><Pill tone="purple">Proposed design</Pill><SourceButton claimIds={['m-opmodel', 'c-india-sub', 'c-vision-australia']} title="Operating model" /></div>} />
-    <div className="flex items-center justify-between shrink-0"><Toggle view={view} setView={setView} />{view === 'system' && <span className="hidden sm:inline text-[10px] font-mono text-paper-3"><Check className="inline h-3 w-3 mr-1 text-emerald-300" />one accountable mission owner per bet</span>}</div>
+     <div className="flex items-center justify-between shrink-0"><Toggle view={view} setView={setView} />{view === 'system' && <span className="hidden sm:inline text-[10px] font-mono text-paper-3"><Check className="inline h-3 w-3 mr-1 text-emerald-300" />one accountable mission owner per bet</span>}</div>
+     <ExploreNote>Click a mission or capability to inspect ownership, KPIs and global interfaces.</ExploreNote>
     {view === 'system' ? <OperatingSystem /> : <RightsMatrix />}
   </Screen>;
 }

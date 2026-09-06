@@ -11,7 +11,7 @@ export const CLS_META: Record<EvidenceClass, { label: string; badge: string; bor
   company: { label: 'Official company', badge: 'bg-cyan-500/10 text-cyan-200 border-cyan-400/50', border: 'border border-cyan-400/60', dot: 'bg-cyan-300' },
   shield: { label: 'Shield AI ✓', badge: 'bg-emerald-500/15 text-emerald-300 border-emerald-500/50', border: 'ev-shield', dot: 'bg-emerald-400' },
   industry: { label: 'Industry', badge: 'bg-amber-500/15 text-amber-300 border-amber-500/50', border: 'ev-industry', dot: 'bg-amber-400' },
-  modelled: { label: 'Modelled', badge: 'bg-violet-500/15 text-violet-300 border-violet-400/60 border-dashed', border: 'ev-modelled', dot: 'bg-violet-400' },
+  modelled: { label: 'Management hypothesis', badge: 'bg-violet-500/15 text-violet-300 border-violet-400/60 border-dashed', border: 'ev-modelled', dot: 'bg-violet-400' },
 };
 
 export function EvidenceBadge({ cls, className }: { cls: EvidenceClass; className?: string }) {
@@ -43,7 +43,7 @@ function Entry({ c }: { c: Claim }) {
     <div data-testid={`evidence-entry-${c.id}`} className={cn('rounded-md p-3 bg-ink-2 animate-rise', m.border)}>
       <div className="flex items-start justify-between gap-2">
         <EvidenceBadge cls={c.cls} />
-        <span className={cn('font-mono text-[10px] uppercase tracking-wider', CONF_TONE[c.confidence])}>{c.confidence} confidence</span>
+        <span className={cn('font-mono text-[10px] uppercase tracking-wider', c.cls === 'modelled' ? 'text-violet-300' : CONF_TONE[c.confidence])}>{c.cls === 'modelled' ? 'To validate' : `${c.confidence} confidence`}</span>
       </div>
       <div className="mt-2">
         <div className="eyebrow">Claim</div>
@@ -73,15 +73,15 @@ function Entry({ c }: { c: Claim }) {
 }
 
 export function EvidenceDrawer() {
-  const { evidence, closeEvidence, sectionIndex } = useStore();
+  const { evidence, closeEvidence, sectionIndex, present } = useStore();
   const section = SECTIONS[sectionIndex];
   const ids = evidence.claimIds ?? section.claimIds;
   const claims = ids.map((id) => CLAIM_MAP[id]).filter(Boolean);
   const counts = claims.reduce<Record<string, number>>((a, c) => ((a[c.cls] = (a[c.cls] ?? 0) + 1), a), {});
   return (
     <>
-      <div onClick={closeEvidence} className={cn('fixed inset-0 z-40 bg-black/40 transition-opacity duration-250', evidence.open ? 'opacity-100' : 'opacity-0 pointer-events-none')} />
-      <aside data-testid="evidence-drawer" aria-hidden={!evidence.open} className={cn('fixed right-0 top-0 z-50 h-full w-full sm:w-[440px] bg-ink-1 border-l border-line shadow-2xl transition-transform duration-250 ease-out flex flex-col', evidence.open ? 'translate-x-0' : 'translate-x-full')}>
+      <div onClick={closeEvidence} className={cn('fixed inset-0 z-40 bg-black/40 transition-opacity duration-250', evidence.open && !present ? 'opacity-100' : 'opacity-0 pointer-events-none')} />
+      <aside data-testid="evidence-drawer" aria-hidden={!evidence.open || present} className={cn('fixed right-0 top-0 z-50 h-full w-full sm:w-[440px] bg-ink-1 border-l border-line shadow-2xl transition-transform duration-250 ease-out flex flex-col', evidence.open && !present ? 'translate-x-0' : 'translate-x-full')}>
         <div className="flex items-start justify-between p-4 border-b border-line">
           <div>
             <div className="eyebrow">Sources & Assumptions</div>
@@ -94,7 +94,7 @@ export function EvidenceDrawer() {
           {claims.map((c) => <Entry key={c.id} c={c} />)}
           {claims.length === 0 && <div className="text-sm text-paper-3">No evidence attached.</div>}
         </div>
-        <div className="p-3 border-t border-line text-[10px] font-mono text-paper-3">Official ≠ Modelled. Modelled values are scenario planning, not company guidance.</div>
+        <div className="p-3 border-t border-line text-[10px] font-mono text-paper-3">Official ≠ management hypothesis. Hypotheses are scenario planning, not company guidance.</div>
       </aside>
     </>
   );

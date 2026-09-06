@@ -1,8 +1,10 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { Flag } from 'lucide-react';
 import { cn } from '@/lib/cn';
-import { Field, Headline, Pill, Screen } from '@/components/ui';
+import { ExploreNote, Field, Headline, Pill, Screen } from '@/components/ui';
 import { SourceButton } from '@/components/Evidence';
+import { useStore } from '@/store';
 import { BLOCKS, LANES, MILESTONES, type Milestone } from '@/data/roadmap';
 
 const ROADMAP_CLAIMS = ['m-roadmap', 'm-integrations', 'c-catalyst'];
@@ -11,12 +13,17 @@ const CELL: Record<string, Milestone[]> = {};
 MILESTONES.forEach((m) => { (CELL[`${m.lane}${m.block}`] ||= []).push(m); });
 
 export default function Roadmap() {
+  const [params] = useSearchParams();
+  const focusedLane = params.get('lane');
   const [sel, setSel] = useState<string | null>(null);
+  const { present } = useStore();
+  useEffect(() => { if (present) setSel(null); }, [present]);
   const m = MILESTONES.find((x) => x.id === sel) ?? null;
   const lanes = LANE_KEYS;
   return (
     <Screen>
-      <Headline title="Establish → Prove → Expand → Scale" sub="Uncertain items are gates, not dates." right={<div className="flex items-center gap-2"><Pill tone="purple">Proposed plan</Pill><SourceButton claimIds={ROADMAP_CLAIMS} title="Roadmap" /></div>} />
+       <Headline title="Establish → Prove → Expand → Scale" sub="Uncertain items are gates, not dates." right={<div className="flex items-center gap-2"><Pill tone="purple">Proposed plan</Pill><SourceButton claimIds={ROADMAP_CLAIMS} title="Roadmap" /></div>} />
+       <ExploreNote>Select a milestone to inspect owner, dependency, decision, completion evidence and risk.</ExploreNote>
       <div className="overflow-x-auto shrink-0">
         <div className="grid min-w-[880px]" style={{ gridTemplateColumns: '150px repeat(4, minmax(0, 1fr))' }} data-testid="roadmap-grid">
           <div />
@@ -24,9 +31,9 @@ export default function Roadmap() {
           {lanes.map((l) => {
             const seed = l === 'seed';
             return [
-              <div key={l + '-h'} className={cn('py-3 pr-3 border-b border-line flex items-start', seed && 'opacity-60')}><div><div className="text-[11px] font-mono uppercase tracking-wider" style={{ color: LANES[l].color }}>{LANES[l].label}</div>{seed && <div className="text-[10px] text-paper-3 mt-0.5">Minimal activity</div>}</div></div>,
+              <div data-testid={`roadmap-lane-${l}`} aria-current={focusedLane === l ? 'true' : undefined} key={l + '-h'} className={cn('py-3 pr-3 border-b border-line flex items-start', seed && 'opacity-60', focusedLane === l && 'bg-sig-blue/10')}><div><div className="text-[11px] font-mono uppercase tracking-wider" style={{ color: LANES[l].color }}>{LANES[l].label}</div>{seed && <div className="text-[10px] text-paper-3 mt-0.5">Minimal activity</div>}</div></div>,
               ...BLOCKS.map((_, bi) => (
-                <div key={l + bi} className={cn('border-b border-l border-line p-2 flex flex-col gap-1.5 relative', seed ? 'py-2' : 'min-h-[88px]')}>
+                <div key={l + bi} className={cn('border-b border-l border-line p-2 flex flex-col gap-1.5 relative', seed ? 'py-2' : 'min-h-[88px]', focusedLane === l && 'bg-sig-blue/10')}>
                   {!seed && <div className="absolute left-0 top-0 h-full w-px" style={{ background: LANES[l].color, opacity: 0.35 }} />}
                   {seed && <div className="absolute left-2 right-2 top-1/2 h-px" style={{ background: LANES[l].color, opacity: 0.5 }} />}
                   {(CELL[`${l}${bi}`] ?? []).map((x, i) => (

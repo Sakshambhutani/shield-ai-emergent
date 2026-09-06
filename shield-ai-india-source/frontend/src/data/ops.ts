@@ -24,17 +24,17 @@ export const GLOBAL_CENTRES = [
   { id: 'standards', name: 'Global corporate standards', sub: 'Legal · export · security', claimIds: ['m-opmodel'] },
 ];
 
-export type Right = 'D' | 'O' | 'C' | 'V' | '';
+export type Right = 'D' | 'O' | 'C' | 'V' | 'R' | 'J' | '';
 export interface RightsRow { row: string; india: Right; global: Right; jsw: Right; prime: Right; rationale: string }
 export const RIGHTS: RightsRow[] = [
-  { row: 'India customer commitment', india: 'D', global: 'C', jsw: 'C', prime: 'C', rationale: 'India decides only after programme, engineering, finance and relevant compliance inputs.' },
+  { row: 'India customer ownership / commitment recommendation', india: 'R', global: 'C', jsw: 'C', prime: 'C', rationale: 'India owns the customer relationship and recommends the commitment after programme, engineering, finance and compliance inputs.' },
   { row: 'Global platform / product roadmap', india: 'C', global: 'D', jsw: '', prime: '', rationale: 'India supplies requirements; the relevant global product centre protects coherence.' },
   { row: 'Hivemind core product', india: 'C', global: 'D', jsw: '', prime: '', rationale: 'India contributes reusable work; Hivemind Core decides the product baseline.' },
   { row: 'India mission integration', india: 'O', global: 'C', jsw: '', prime: 'C', rationale: 'India mission engineering owns integration; final decision right requires programme-specific validation.' },
   { row: 'V-BAT industrialisation', india: 'C', global: 'C', jsw: 'O', prime: '', rationale: 'JSW executes local industrialisation; design authority remains global.' },
   { row: 'Field support / sustainment', india: 'O', global: 'C', jsw: 'V', prime: 'V', rationale: 'India owns the customer interface; partner scope must be validated per programme.' },
   { row: 'India hiring', india: 'D', global: 'C', jsw: '', prime: '', rationale: 'India owns capability formation within global people standards.' },
-  { row: 'Commercial commitment', india: 'O', global: 'V', jsw: 'C', prime: 'C', rationale: 'Approval thresholds and final commercial decision rights require internal confirmation.' },
+  { row: 'Commercial commitment', india: 'J', global: 'J', jsw: 'C', prime: 'C', rationale: 'India and authorised global leadership jointly approve commercial commitments; India owns the customer recommendation.' },
   { row: 'Customer escalation', india: 'D', global: 'C', jsw: 'C', prime: 'C', rationale: 'India is the single customer-facing escalation owner.' },
   { row: 'Strategic partnerships', india: 'O', global: 'V', jsw: '', prime: 'C', rationale: 'India shapes partnerships; final approval rights depend on IP, export and commercial scope.' },
   { row: 'India / global engineering capacity', india: 'C', global: 'V', jsw: '', prime: '', rationale: 'Scarce capacity allocation needs explicit India–global governance.' },
@@ -104,21 +104,22 @@ export const DASHBOARD = {
   ],
   scorecard: ['Programme delivery', 'Hivemind integrations', 'Follow-on pipeline', 'Service expansion', 'Industrialisation', 'Critical talent'],
   decisions: [
-    { id: 'd1', decision: 'Choose 2 platforms for India Catalyst', why: 'Integration clock starts only when platforms are fixed.', deadline: 'Month 3', rec: 'NewSpace (fast) + one Navy-relevant maritime platform', bet: 'embed' },
+    { id: 'd1', decision: 'Choose 2 platforms for India Catalyst', why: 'Integration clock starts only when platforms are fixed.', deadline: 'Month 3', rec: 'Select two platforms with a committed sponsor, hardware access and a credible 90-day SIL/HIL demonstration path.', bet: 'embed' },
     { id: 'd2', decision: 'Approve programme governance charter', why: 'India / HQ / JSW ownership must be explicit before deliveries.', deadline: 'Month 1', rec: 'Approve; India accountable, HQ design authority, JSW production', bet: 'scale' },
-    { id: 'd3', decision: 'Approve Navy partner engagement', why: 'Partner choice determines trial pathway timing.', deadline: 'Month 6', rec: 'Engage shipbuilder + BEL in parallel; decide by month 6', bet: 'expand' },
+    { id: 'd3', decision: 'Approve Navy partner engagement', why: 'Partner choice determines trial pathway timing.', deadline: 'Month 6', rec: 'Hypothesis: engage a shipbuilder + BEL in parallel, subject to a named sponsor, hardware access and a credible trial path.', bet: 'expand' },
     { id: 'd4', decision: 'Escalate HQ engineering allocation', why: 'Parallel integrations exceed India capacity without HQ support.', deadline: 'Month 4', rec: 'Request dedicated Catalyst engineers for India', bet: 'embed' },
   ],
   risks: [
-    { id: 'k1', risk: 'Programme acceptance slips', severity: 'High', traj: 'Stable', bet: 'scale', owner: 'India programme lead', mitigation: 'Acceptance dependency plan; weekly exception review', decision: 'Release support staffing' },
-    { id: 'k2', risk: 'Industrialisation delay', severity: 'High', traj: 'Watch', bet: 'scale', owner: 'JSW · India industrialisation', mitigation: 'Gate reviews; supply-chain blocker list', decision: 'Confirm readiness gates' },
-    { id: 'k3', risk: 'Engineering bandwidth vs integrations', severity: 'Medium', traj: 'Rising', bet: 'embed', owner: 'India engineering lead', mitigation: 'Limit to 2 platforms first; HQ Catalyst support', decision: 'Escalate allocation' },
-    { id: 'k4', risk: 'Export / compliance scope of SDK', severity: 'Medium', traj: 'Stable', bet: 'embed', owner: 'HQ export compliance', mitigation: 'Define India Catalyst scope early', decision: 'Approve scope' },
-    { id: 'k5', risk: 'Navy timing outside our control', severity: 'Medium', traj: 'Stable', bet: 'expand', owner: 'India BD (Navy)', mitigation: 'Partner-led demo independent of procurement', decision: 'Fund demo' },
+    { id: 'k1', risk: 'Army acceptance', trigger: 'Acceptance owner or criteria unresolved by the agreed gate', bet: 'scale', owner: 'India programme lead', decision: 'Escalate with Army/HQ and lock ownership' },
+    { id: 'k2', risk: 'Delivery', trigger: 'A committed delivery or readiness gate slips beyond tolerance', bet: 'scale', owner: 'India programme lead', decision: 'Reallocate resources or reset customer commitment' },
+    { id: 'k3', risk: 'Engineering capacity', trigger: 'Committed integrations exceed qualified capacity', bet: 'embed', owner: 'India engineering lead', decision: 'Stop, sequence or resource integrations' },
+    { id: 'k4', risk: 'OEM conversion', trigger: 'Integration proceeds without a named service sponsor or programme pathway', bet: 'embed', owner: 'India MD · Growth', decision: 'Continue, pause or exit the account' },
+    { id: 'k5', risk: 'Global dependency', trigger: 'HQ decision remains unresolved across two review cycles', bet: 'embed', owner: 'MD Office · HQ Product', decision: 'Escalate or alter scope' },
+    { id: 'k6', risk: 'JSW industrialisation', trigger: 'A critical transfer, facility or supply-chain gate misses plan', bet: 'scale', owner: 'JSW · India industrialisation', decision: 'Joint recovery plan and accountable owner' },
   ],
   horizons: [
     { label: 'Next 30', sub: 'Critical milestones', items: ['Governance charter signed', 'OEM force-ranking complete', 'Navy stakeholder map'] },
     { label: 'Next 60', sub: 'Decision gates', items: ['2 Catalyst platforms chosen', 'Support staffing released', 'HQ allocation confirmed'] },
-    { label: 'Next 90', sub: 'Outcomes expected', items: ['India Catalyst offer live', 'Customer success plan agreed', 'Navy pursuit approved'] },
+    { label: 'Next 90', sub: 'Outcomes expected', items: ['India Catalyst offer live', 'Acceptance and support plan agreed', 'Navy pursuit approved'] },
   ],
 };
