@@ -15,14 +15,14 @@ export function ExploreNote({ children }: { children: ReactNode }) {
   return <div data-testid="explore-note" className="rounded border border-violet-400/40 bg-violet-500/[.06] px-3 py-2 text-[11px] text-paper-2 shrink-0"><span className="eyebrow text-violet-300 mr-2">Explore detail</span>{children}</div>;
 }
 
-export function Headline({ title, sub, right }: { title: string; sub?: string; right?: ReactNode }) {
+export function Headline({ title, sub, right, titleClassName }: { title: string; sub?: string; right?: ReactNode; titleClassName?: string }) {
   const { sectionIndex, mode } = useStore();
   const s = SECTIONS[sectionIndex];
   return (
     <div className="flex items-end justify-between gap-6 shrink-0">
       <div className="animate-rise">
         <div className="eyebrow text-sig-blue">{s.num} · {s.label} <span className="text-paper-3 normal-case tracking-normal ml-2">{s.question}</span></div>
-        <h1 data-testid="screen-headline" className="text-3xl sm:text-4xl lg:text-5xl font-semibold tracking-tight mt-1 leading-tight">{title}</h1>
+        <h1 data-testid="screen-headline" className={cn('text-3xl sm:text-4xl lg:text-5xl font-semibold tracking-tight mt-1 leading-tight', titleClassName)}>{title}</h1>
         {sub && mode === 'explore' && <p data-testid="screen-subhead" className="text-sm md:text-base text-paper-2 mt-1.5 max-w-3xl">{sub}</p>}
       </div>
       {right && <div className="shrink-0 hidden md:block">{right}</div>}

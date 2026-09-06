@@ -117,7 +117,7 @@ export default function Convergence() {
   const s = all.find((r) => r.id === sel) ?? null;
   return (
     <Screen>
-      <Headline title="Three growth bets. Two execution enablers." sub="Large budgets do not automatically equal attractive opportunities; accessibility, architecture and timing matter." right={<div className="flex items-center gap-2"><EvidenceBadge cls="modelled" /><span className="font-mono text-[10px] text-paper-3">Prioritisation model — not official data</span><SourceButton claimIds={HEADLINE_CLAIMS} title="Prioritisation model" /></div>} />
+      <Headline title="Three growth bets. Two execution enablers." titleClassName="lg:text-4xl xl:text-5xl lg:whitespace-nowrap" sub="Large budgets do not automatically equal attractive opportunities; accessibility, architecture and timing matter." right={<div className="flex items-center gap-2"><EvidenceBadge cls="modelled" /><span className="font-mono text-[10px] text-paper-3">Prioritisation model — not official data</span><SourceButton claimIds={HEADLINE_CLAIMS} title="Prioritisation model" /></div>} />
       <PriorityLedger />
       <div className="grid lg:grid-cols-3 gap-3 flex-1 min-h-0">
         <div className="lg:col-span-2 panel p-3 flex flex-col min-h-[420px]" data-testid="bubble-chart">
