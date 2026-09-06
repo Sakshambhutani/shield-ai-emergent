@@ -18,18 +18,19 @@ const CHECKPOINTS = [
 export default function Roadmap() {
   const [selected, setSelected] = useState<number | null>(null);
   const viewportRef = useRef<HTMLDivElement>(null);
-  const [presentationScale, setPresentationScale] = useState(1);
+  const [roadmapScale, setRoadmapScale] = useState(1);
   const { mode, present } = useStore();
   const interactive = mode === 'explore' && !present;
   useLayoutEffect(() => {
     const viewport = viewportRef.current;
-    if (!viewport || !present) {
-      setPresentationScale(1);
-      return;
-    }
-    // Fit the complete corridor, including its endpoint halo, above the footer.
+    if (!viewport) return;
+    // Fit desktop and presentation views, keeping the final line clear of the footer.
+    // Narrow screens retain the full-size, scrollable roadmap.
     const fit = () => {
-      setPresentationScale(Math.max(0.01, Math.min(1, (viewport.clientHeight - 2) / 653, viewport.clientWidth / 1060)));
+      const fitToViewport = present || viewport.clientWidth >= 1060;
+      setRoadmapScale(fitToViewport
+        ? Math.max(0.01, Math.min(1, (viewport.clientHeight - 8) / 665, viewport.clientWidth / 1060))
+        : 1);
       viewport.scrollTo({ top: 0, left: 0 });
     };
     fit();
@@ -43,7 +44,7 @@ export default function Roadmap() {
   return <Screen className={`company-roadmap${present ? ' company-roadmap-present' : ''}`}>
     <Headline title="18-Month Company Roadmap" sub="Proposed company checkpoints across delivery, growth and India capability." right={<SourceButton claimIds={['m-roadmap', 'c-army-select', 'c-jsw', 'c-catalyst']} title="India company roadmap" />} />
     <div ref={viewportRef} className="company-roadmap-scroll" role="region" aria-label="18-month mission corridor; scroll horizontally on smaller screens" tabIndex={0}>
-      <div className="company-roadmap-canvas" data-testid="company-roadmap" style={present ? { zoom: presentationScale } : undefined}>
+      <div className="company-roadmap-canvas" data-testid="company-roadmap" style={{ zoom: roadmapScale }}>
         <div className="mission-corridor">
           <div className="mission-grid" aria-hidden="true" />
           <div className="mission-path-area">

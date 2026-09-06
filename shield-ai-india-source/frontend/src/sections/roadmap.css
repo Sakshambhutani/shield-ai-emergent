@@ -1,6 +1,6 @@
 .company-roadmap { gap: 16px; }
 .company-roadmap-scroll { flex: 1; min-height: 0; overflow: auto; }
-.company-roadmap-canvas { min-width: 1060px; padding-top: 24px; }
+.company-roadmap-canvas { min-width: 1060px; padding: 24px 0 12px; }
 .mission-corridor { position: relative; height: 629px; }
 .mission-grid { position: absolute; inset: 0 28px; background-image: linear-gradient(90deg, #6079980a 1px, transparent 1px); background-size: 16.6667% 100%; mask-image: linear-gradient(transparent, black 35%, black 65%, transparent); }
 .mission-path-area { position: absolute; inset: 0 28px; }
