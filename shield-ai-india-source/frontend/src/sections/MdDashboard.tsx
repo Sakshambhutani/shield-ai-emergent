@@ -109,7 +109,7 @@ export default function MdDashboard() {
   const [risk, setRisk] = useState<Risk | null>(null);
   useEffect(() => { const close = (e: KeyboardEvent) => { if (e.key === 'Escape') { setBet(null); setDecision(null); setRisk(null); } }; window.addEventListener('keydown', close); return () => window.removeEventListener('keydown', close); }, []);
   return <Screen>
-    <Headline title="Decide. Unblock. Intervene." sub="Executive attention only: the three bets, active decisions and triggered risks." right={<SourceButton claimIds={MD_CLAIMS} title="MD Agenda" />} />
+    <Headline title="Decide. Unblock. Intervene." sub="Executive attention only: the three bets, active decisions and triggered risks." right={<SourceButton claimIds={MD_CLAIMS} title="MD Dashboard" />} />
     {mode === 'story' ? <Story setBet={setBet} setDecision={setDecision} setRisk={setRisk} /> : <Explore />}
     <BetDrawer bet={bet} onClose={() => setBet(null)} /><DecisionDrawer decision={decision} onClose={() => setDecision(null)} /><RiskDrawer risk={risk} onClose={() => setRisk(null)} />
   </Screen>;

@@ -19,7 +19,7 @@ export default function App() {
           <Route path="/" element={<Home />} />
           <Route path="/market" element={<Money />} />
           <Route path="/opportunities" element={<Buyers />} />
-          <Route path="/convergence" element={<Convergence />} />
+          <Route path="/priorities" element={<Convergence />} />
           <Route path="/roadmap" element={<Roadmap />} />
           <Route path="/operating-model" element={<OperatingModel />} />
           <Route path="/cadence" element={<Cadence />} />
