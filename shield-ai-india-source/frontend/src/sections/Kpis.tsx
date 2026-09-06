@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { cn } from '@/lib/cn';
 import { ExploreNote, Field, Headline, Pill, Screen, SideDrawer } from '@/components/ui';
 import { SourceButton } from '@/components/Evidence';
-import { EXECUTION_HEALTH, SCORECARD_OUTCOMES, type EvidenceStatus } from '@/data/ops';
+import { EXECUTION_HEALTH, OPERATING_CAPABILITIES, SCORECARD_OUTCOMES, type EvidenceStatus } from '@/data/ops';
 
 const STATUS: Record<EvidenceStatus, { label: string; dot: string; tone: 'green' | 'blue' | 'purple' | 'amber' }> = {
   verified: { label: 'Verified public fact', dot: 'bg-emerald-400', tone: 'green' },
@@ -13,6 +13,7 @@ const STATUS: Record<EvidenceStatus, { label: string; dot: string; tone: 'green'
   modelled: { label: 'Management hypothesis · To validate', dot: 'bg-violet-400', tone: 'purple' },
 };
 type Driver = (typeof SCORECARD_OUTCOMES)[number]['drivers'][number];
+type Health = (typeof EXECUTION_HEALTH)[number];
 
 function DriverDrawer({ driver, onClose }: { driver: Driver | null; onClose: () => void }) {
   const nav = useNavigate();
@@ -30,12 +31,28 @@ function DriverDrawer({ driver, onClose }: { driver: Driver | null; onClose: () 
   </SideDrawer>;
 }
 
+function HealthDrawer({ health, onClose }: { health: Health | null; onClose: () => void }) {
+  const capability = health ? OPERATING_CAPABILITIES.find((item) => item.id === health.capability) : null;
+  return <SideDrawer open={!!health} onClose={onClose} title={health?.name ?? ''} eyebrow="Execution health" testId="health-drawer" width="sm:w-[500px]">
+    {health && <div className="space-y-5 stagger">
+      <div className="flex items-center gap-2"><Pill tone="grey">{health.status}</Pill>{capability && <SourceButton claimIds={capability.claimIds} title={health.name} />}</div>
+      <Field label="Control intent">{health.sub}</Field>
+      <Field label="Accountable owners">{health.owners}</Field>
+      {capability && <>
+        <Field label="Capability remit"><ul className="space-y-1 mt-1">{capability.owns.map((item) => <li key={item} className="text-xs text-paper-2">→ {item}</li>)}</ul></Field>
+        <Field label="Functional KPIs"><div className="flex flex-wrap gap-1.5 mt-1">{capability.kpis.map((item) => <Pill key={item} tone="blue">{item}</Pill>)}</div></Field>
+      </>}
+    </div>}
+  </SideDrawer>;
+}
+
 export default function Kpis() {
   const [outcomeId, setOutcomeId] = useState<string | null>(null);
   const [driver, setDriver] = useState<Driver | null>(null);
+  const [health, setHealth] = useState<Health | null>(null);
   const selected = SCORECARD_OUTCOMES.find((o) => o.id === outcomeId) ?? null;
-  const nav = useNavigate();
-  const selectOutcome = (id: string) => { setOutcomeId((current) => current === id ? null : id); setDriver(null); };
+  const selectOutcome = (id: string) => { setOutcomeId((current) => current === id ? null : id); setDriver(null); setHealth(null); };
+  const selectHealth = (item: Health) => { setHealth(item); setDriver(null); };
   return <Screen>
     <Headline title="Local mission impact. Global product leverage." sub="Four outcomes define the proposed organisational North Star; execution health shows whether the system can deliver them." right={<div className="flex items-center gap-2"><Pill tone="purple">Proposed North Star</Pill><SourceButton claimIds={['m-kpis', 'm-integrations', 'c-vision-australia']} title="Company scorecard" /></div>} />
      <ExploreNote>Select an outcome, then a driver, to inspect definition, owner and linked structure or workflow.</ExploreNote>
@@ -49,14 +66,15 @@ export default function Kpis() {
         </button>; })}
       </div>
       <div className="h-4 border-x border-b border-line-2 mx-[7%]" />
-      {selected && <div data-testid="outcome-drivers" className="grid sm:grid-cols-3 gap-2 mx-auto w-full max-w-4xl mt-3 animate-rise">{selected.drivers.map((d) => <button key={d.id} data-testid={`driver-${d.id}`} onClick={() => setDriver(d)} className="rounded border border-line bg-ink-2 px-3 py-2 text-left hover:border-sig-blue/60"><div className="flex items-center justify-between gap-2"><span className="text-xs font-medium">{d.name}</span><span className={cn('h-2 w-2 rounded-full shrink-0', STATUS[d.status].dot)} /></div><div className="mt-1 font-mono text-[9px] text-paper-3">{d.value}</div></button>)}</div>}
+       {selected && <div data-testid="outcome-drivers" className="grid sm:grid-cols-3 gap-2 mx-auto w-full max-w-4xl mt-3 animate-rise">{selected.drivers.map((d) => <button key={d.id} data-testid={`driver-${d.id}`} onClick={() => { setDriver(d); setHealth(null); }} className="rounded border border-line bg-ink-2 px-3 py-2 text-left hover:border-sig-blue/60"><div className="flex items-center justify-between gap-2"><span className="text-xs font-medium">{d.name}</span><span className={cn('h-2 w-2 rounded-full shrink-0', STATUS[d.status].dot)} /></div><div className="mt-1 font-mono text-[9px] text-paper-3">{d.value}</div></button>)}</div>}
       {!selected && <div className="h-[72px] flex items-center justify-center text-[10px] font-mono text-paper-3">Select an outcome to reveal its drivers</div>}
       <div className="mt-3 rounded border border-line bg-ink-2/70 px-3 py-3" data-testid="execution-health">
         <div className="flex items-center gap-2 mb-2"><Gauge className="h-3.5 w-3.5 text-paper-3" /><span className="eyebrow">Execution Health · foundation</span></div>
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-2">{EXECUTION_HEALTH.map((h) => <button key={h.id} data-testid={`health-${h.id}`} onClick={() => nav(`/operating-model?focus=${h.capability}`)} className="rounded border border-line/80 px-3 py-2 text-left hover:border-line-2"><div className="text-xs font-medium">{h.name}</div><div className="text-[9px] text-paper-3 mt-0.5 truncate">{h.sub}</div><div className="font-mono text-[9px] text-paper-3 italic mt-1">{h.status}</div></button>)}</div>
+         <div className="grid grid-cols-2 lg:grid-cols-4 gap-2">{EXECUTION_HEALTH.map((h) => <button key={h.id} data-testid={`health-${h.id}`} onClick={() => selectHealth(h)} className={cn('rounded border border-line/80 px-3 py-2 text-left hover:border-line-2', health?.id === h.id && 'border-sig-blue/60 bg-ink-3')}><div className="text-xs font-medium">{h.name}</div><div className="text-[9px] text-paper-3 mt-0.5 truncate">{h.sub}</div><div className="font-mono text-[9px] text-paper-3 italic mt-1">{h.status}</div></button>)}</div>
       </div>
       <div className="mt-3 flex items-center gap-4 text-[9px] font-mono text-paper-3">{Object.values(STATUS).map((s) => <span key={s.label} className="inline-flex items-center gap-1"><span className={cn('h-1.5 w-1.5 rounded-full', s.dot)} />{s.label}</span>)}<span className="ml-auto hidden md:inline-flex items-center gap-1"><Target className="h-3 w-3" />Every KPI protects a Month-18 outcome</span></div>
     </div>
-    <DriverDrawer driver={driver} onClose={() => setDriver(null)} />
+     <DriverDrawer driver={driver} onClose={() => setDriver(null)} />
+     <HealthDrawer health={health} onClose={() => setHealth(null)} />
   </Screen>;
 }
