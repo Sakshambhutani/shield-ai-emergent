@@ -1,70 +1,58 @@
-.thesis { --thesis-blue: #689eec; gap: 0; }
+.thesis { --thesis-blue: #78aaf3; gap: 0; }
 .thesis-heading { flex-shrink: 0; }
-.thesis-heading h1 { font-size: clamp(30px, 3.3vw, 54px); font-weight: 600; line-height: 1.08; letter-spacing: -.045em; margin-top: 12px; }
-.thesis-heading p { color: #b8b3a8; font-size: 14px; line-height: 1.6; max-width: 850px; margin-top: 16px; }
-.thesis-journey { position: relative; display: grid; grid-template-columns: 20% 50% 30%; align-items: center; min-height: 460px; flex: 1; }
-.thesis-connections { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
-.thesis-path { fill: none; stroke: #354f72; stroke-width: 1.5; vector-effect: non-scaling-stroke; clip-path: inset(0 0 0 0); animation: thesis-extend 450ms ease-out 250ms both; transition: stroke 200ms, stroke-width 200ms; }
-.thesis-path.is-active { stroke: #81b3fb; stroke-width: 2.5; }
-.thesis-arrow { fill: none; stroke: var(--thesis-blue); vector-effect: non-scaling-stroke; animation: thesis-appear 250ms ease-out 700ms both; }
-.thesis-time-label { color: #e2ded5; font: 600 12px 'IBM Plex Mono', monospace; letter-spacing: .18em; line-height: 1; }
-.thesis-today { z-index: 1; padding-right: 12px; animation: thesis-appear 250ms ease-out both; }
-.thesis-today .thesis-time-label { color: #d8e7df; }
-.thesis-current-marker { width: 26px; height: 3px; background: #34d399; margin: 20px 0 15px; }
-.thesis-beachhead { color: #34d399; font: 10px 'IBM Plex Mono', monospace; letter-spacing: .1em; }
-.thesis-today h2 { font-size: 24px; font-weight: 500; letter-spacing: -.03em; margin-top: 8px; }
-.thesis-product { color: #b8b3a8; font-size: 13px; margin-top: 5px; }
-.thesis-moves { z-index: 1; height: 100%; display: grid; grid-template-rows: repeat(3, 1fr); padding: 20px 17% 20px 13%; }
-.thesis-move { align-self: center; text-decoration: none; padding: 12px 0; animation: thesis-appear 350ms ease-out 300ms both; }
-.thesis-move h2 { color: var(--thesis-blue); font-size: 29px; font-weight: 600; letter-spacing: .04em; line-height: 1.1; transition: color 200ms; }
-.thesis-move h2 span { display: inline-block; font-size: 17px; margin-left: 16px; opacity: 0; transition: opacity 200ms; }
-.thesis-move:hover h2, .thesis-move:focus-visible h2 { color: #a1c6ff; }
-.thesis-move:hover h2 span, .thesis-move:focus-visible h2 span { opacity: 1; }
-.thesis-move-outcome { font-size: clamp(17px, 1.65vw, 24px); letter-spacing: -.025em; margin-top: 8px; background: #0b0d10; width: fit-content; padding-right: 8px; }
-.thesis-move-detail { font-size: 11px; color: #9c9b98; margin-top: 10px; background: #0b0d10; width: fit-content; padding-right: 8px; }
-.thesis-destination { z-index: 1; padding-left: 24px; animation: thesis-appear 350ms ease-out 700ms both; }
-.thesis-destination .thesis-time-label { color: #8ebcff; }
-.thesis-destination h2 { font-size: clamp(26px, 2.8vw, 43px); font-weight: 600; line-height: 1.09; letter-spacing: -.035em; margin: 16px 0 25px; }
-.thesis-destination h2 span { color: var(--thesis-blue); }
-.thesis-destination ul { display: flex; flex-direction: column; gap: 13px; }
-.thesis-destination li { display: flex; align-items: center; gap: 10px; color: #b8b3a8; font: 10px 'IBM Plex Mono', monospace; letter-spacing: .065em; }
-.thesis-destination li::before { content: ''; width: 12px; height: 1px; background: #5579a7; }
-.thesis-options { display: flex; align-items: center; flex-wrap: wrap; gap: 18px; padding: 20px 0 12px; border-top: 1px solid #242a35; flex-shrink: 0; animation: thesis-options-in 250ms ease-out 1050ms both; }
-.thesis-options .eyebrow { font-size: 10px; }
-.thesis-options-line { flex: 1; min-width: 16px; }
-.thesis-options a { font: 10px 'IBM Plex Mono', monospace; color: #a1a4ab; letter-spacing: .07em; transition: color 200ms; }
-.thesis-options a:hover { color: #f3efe6; }
-.thesis a:focus-visible { outline: 2px solid var(--thesis-blue); outline-offset: 7px; border-radius: 2px; }
-@media (min-width: 901px) { .thesis-heading h1 { white-space: nowrap; } }
-@media (min-width: 1101px) { .thesis-heading p { max-width: none; white-space: nowrap; } }
-@keyframes thesis-appear { from { opacity: 0; } to { opacity: 1; } }
-@keyframes thesis-extend { from { clip-path: inset(0 100% 0 0); } to { clip-path: inset(0 0 0 0); } }
-@keyframes thesis-options-in { from { opacity: 0; } to { opacity: .65; } }
-@media (max-width: 1100px) {
-  .thesis-journey { grid-template-columns: 20% 49% 31%; }
-  .thesis-moves { padding-left: 12%; padding-right: 8%; }
-  .thesis-today h2 { font-size: 20px; }
-  .thesis-destination { padding-left: 16px; }
+.thesis-heading h1 { font-size: clamp(30px, 3.15vw, 52px); font-weight: 600; line-height: 1.08; letter-spacing: -.045em; margin-top: 12px; }
+.thesis-heading p { color: #d0ccc3; font-size: 15px; font-weight: 500; line-height: 1.55; margin-top: 15px; }
+.thesis-time-label { color: #8ebcff; font: 600 11px 'IBM Plex Mono', monospace; letter-spacing: .17em; line-height: 1; }
+.thesis-linear { flex: 1; min-height: 430px; display: grid; grid-template-columns: minmax(205px, 1.05fr) 34px minmax(560px, 2.75fr) 34px minmax(235px, 1.2fr); align-items: center; animation: thesis-linear-in 350ms ease-out both; }
+.thesis-linear-arrow { color: #5f8fce; font-size: 24px; text-align: center; animation: thesis-arrow-in 280ms ease-out 250ms both; }
+.thesis-linear-today { padding-right: 6px; }
+.thesis-linear-today .thesis-time-label { color: #7dddb7; }
+.thesis-linear h2 { letter-spacing: -.025em; }
+.thesis-linear-today > h2 { font-size: 25px; font-weight: 600; margin-top: 17px; }
+.thesis-foothold-list { display: flex; flex-direction: column; gap: 17px; margin-top: 24px; }
+.thesis-foothold-list div { display: flex; flex-direction: column; gap: 3px; }
+.thesis-foothold-list strong { font-size: 13px; font-weight: 600; }
+.thesis-foothold-list span { color: #9f9c95; font-size: 10px; line-height: 1.45; }
+.thesis-linear-next { min-width: 0; }
+.thesis-linear-steps { display: grid; grid-template-columns: 1fr 28px 1.1fr 28px 1.15fr; align-items: stretch; margin-top: 18px; }
+.thesis-linear-step { min-height: 235px; display: flex; flex-direction: column; padding: 18px 14px 16px; border-top: 1px solid #34577f; text-decoration: none; transition: background 200ms, border-color 200ms; }
+.thesis-linear-step:hover { background: #121720; border-color: #78aaf3; }
+.thesis-step-number { color: var(--thesis-blue); font: 600 13px 'IBM Plex Mono', monospace; }
+.thesis-linear-step h2 { font-size: clamp(21px, 1.7vw, 28px); font-weight: 600; margin-top: 10px; }
+.thesis-linear-step > p { color: #b8b3a8; font-size: 12px; line-height: 1.55; margin-top: 14px; }
+.thesis-broaden-scope { color: #777b83; font: 9px/1.6 'IBM Plex Mono', monospace; margin-top: auto; padding-top: 18px; }
+.thesis-linear-ambition { display: block; padding-left: 8px; text-decoration: none; }
+.thesis-linear-ambition h2 { font-size: clamp(25px, 2.35vw, 39px); font-weight: 600; line-height: 1.1; margin-top: 18px; }
+.thesis-linear-ambition h2 span { color: var(--thesis-blue); }
+.thesis-linear-ambition p { color: #b8b3a8; font-size: 12px; line-height: 1.5; margin-top: 20px; }
+.thesis a:focus-visible { outline: 2px solid var(--thesis-blue); outline-offset: 5px; }
+@media (min-width: 1101px) {
+  .thesis-heading h1, .thesis-heading p { white-space: nowrap; }
+}
+@media (max-width: 1180px) {
+  .thesis-linear { grid-template-columns: minmax(185px, .9fr) 26px minmax(510px, 2.5fr) 26px minmax(210px, 1fr); }
+  .thesis-linear-steps { grid-template-columns: 1fr 22px 1.05fr 22px 1.1fr; }
+  .thesis-linear-step { padding-left: 10px; padding-right: 10px; }
 }
 @media (max-width: 900px) {
-  .thesis-heading h1 { font-size: clamp(29px, 5vw, 42px); }
-  .thesis-journey { display: flex; flex-direction: column; align-items: stretch; min-height: auto; margin-top: 35px; padding-left: 25px; border-left: 1px solid #354f72; }
-  .thesis-connections { display: none; }
-  .thesis-today { padding: 0 0 28px; }
-  .thesis-current-marker { margin: 12px 0; }
-  .thesis-moves { display: flex; flex-direction: column; padding: 0; gap: 18px; }
-  .thesis-move { width: 100%; position: relative; }
-  .thesis-move::before { content: ''; position: absolute; width: 18px; height: 1px; background: #5579a7; left: -25px; top: 29px; }
-  .thesis-move h2 { font-size: 27px; }
-  .thesis-move-outcome { font-size: 22px; }
-  .thesis-destination { padding: 38px 0 30px; }
-  .thesis-destination::before { content: '↓'; display: block; color: var(--thesis-blue); margin-bottom: 22px; }
-  .thesis-destination h2 { font-size: 34px; }
-  .thesis-options { margin-top: 25px; gap: 18px 24px; }
-  .thesis-options > .eyebrow { width: 100%; }
-  .thesis-options-line { display: none; }
+  .thesis-heading h1 { font-size: clamp(29px, 7.2vw, 40px); }
+  .thesis-heading p { font-size: 14px; }
+  .thesis-linear { display: flex; flex-direction: column; align-items: stretch; min-height: auto; margin: 38px 0 20px; padding-left: 25px; border-left: 1px solid #34577f; }
+  .thesis-linear > .thesis-linear-arrow { text-align: left; transform: rotate(90deg); transform-origin: left center; margin: 20px 0 25px -6px; }
+  .thesis-linear-today { padding-right: 0; }
+  .thesis-linear-next { width: 100%; }
+  .thesis-linear-steps { display: flex; flex-direction: column; margin-top: 14px; }
+  .thesis-linear-steps > .thesis-linear-arrow { transform: rotate(90deg); transform-origin: center; align-self: flex-start; margin: 10px 0 14px -6px; }
+  .thesis-linear-step { min-height: auto; padding: 15px 0 12px; border-top: 0; }
+  .thesis-linear-step::before { content: ''; width: 18px; height: 1px; background: #5f8fce; position: absolute; margin-left: -25px; margin-top: 7px; }
+  .thesis-linear-step h2 { font-size: 25px; }
+  .thesis-linear-step > p { font-size: 13px; max-width: 340px; }
+  .thesis-broaden-scope { margin-top: 15px; max-width: 340px; }
+  .thesis-linear-ambition { padding: 0; }
+  .thesis-linear-ambition h2 { font-size: 32px; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .thesis *, .thesis *::before { animation: none !important; transition: none !important; }
-  .thesis-options { opacity: .65; }
+  .thesis * { animation: none !important; transition: none !important; }
 }
+@keyframes thesis-linear-in { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes thesis-arrow-in { from { opacity: 0; transform: translateX(-5px); } to { opacity: 1; transform: translateX(0); } }
