@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { Flag } from 'lucide-react';
 import { cn } from '@/lib/cn';
-import { ExploreNote, Field, Headline, Pill, Screen } from '@/components/ui';
+import { Field, Headline, Screen } from '@/components/ui';
 import { SourceButton } from '@/components/Evidence';
 import { useStore } from '@/store';
 import { BLOCKS, LANES, MILESTONES, type Milestone } from '@/data/roadmap';
@@ -40,9 +40,8 @@ export default function Roadmap() {
   const lanes = LANE_KEYS;
   return (
     <Screen>
-       <Headline title="Establish → Prove → Expand → Scale" sub="Uncertain items are gates, not dates." right={<div className="flex items-center gap-2"><Pill tone="purple">Proposed plan</Pill><SourceButton claimIds={ROADMAP_CLAIMS} title="Roadmap" /></div>} />
+       <Headline title="Establish → Prove → Expand → Scale" sub="Uncertain items are gates, not dates." right={<SourceButton claimIds={ROADMAP_CLAIMS} title="Roadmap" />} />
       {mode === 'story' ? <StoryRoadmap focusedLane={focusedLane} /> : <>
-       <ExploreNote>Select a milestone to inspect owner, dependency, decision, completion evidence and risk.</ExploreNote>
        <div className="overflow-x-auto shrink-0">
         <div className="grid min-w-[880px]" style={{ gridTemplateColumns: '150px repeat(4, minmax(0, 1fr))' }} data-testid="roadmap-grid">
           <div />

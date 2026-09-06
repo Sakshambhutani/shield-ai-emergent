@@ -9,12 +9,6 @@ export function Screen({ children, className }: { children: ReactNode; className
   return <div className={cn('h-full flex flex-col gap-3 lg:gap-4 min-h-0', className)}>{children}</div>;
 }
 
-export function ExploreNote({ children }: { children: ReactNode }) {
-  const { mode } = useStore();
-  if (mode !== 'explore') return null;
-  return <div data-testid="explore-note" className="rounded border border-violet-400/40 bg-violet-500/[.06] px-3 py-2 text-[11px] text-paper-2 shrink-0"><span className="eyebrow text-violet-300 mr-2">Explore detail</span>{children}</div>;
-}
-
 export function Headline({ title, sub, right, titleClassName }: { title: string; sub?: string; right?: ReactNode; titleClassName?: string }) {
   const { sectionIndex, mode } = useStore();
   const s = SECTIONS[sectionIndex];

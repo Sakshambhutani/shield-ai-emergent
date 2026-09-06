@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { ExploreNote, Screen } from '@/components/ui';
+import { Screen } from '@/components/ui';
 import './home.css';
 
 const MOVES = [
@@ -20,7 +20,6 @@ export default function Home() {
         <h1 data-testid="screen-headline">FROM ARMY BEACHHEAD TO INDIA SCALE</h1>
         <p>Use the Army programme to establish trust, Hivemind to embed across Indian platforms, and the Navy to prove multi-service, multi-domain scale.</p>
       </header>
-      <ExploreNote>Explore keeps the thesis clean while exposing the roadmap routes and supporting option space.</ExploreNote>
 
       <div className="thesis-journey" data-testid="strategy-journey" aria-label="Today's India beachhead follows three converging strategic paths to a Month-18 India autonomy business">
         <svg className="thesis-connections" viewBox="0 0 1000 460" preserveAspectRatio="none" aria-hidden="true">
@@ -60,7 +59,6 @@ export default function Home() {
       </div>
 
       <div className="thesis-options" data-testid="future-options">
-        <span className="eyebrow">POSITION, DON'T DISTRACT</span>
         <span className="thesis-options-line" aria-hidden="true" />
         {OPTIONS.map((option) => <Link key={option} to="/market?view=future">{option}<span aria-hidden="true"> ↗</span></Link>)}
       </div>

@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { ArrowDown, ArrowUpRight, Gauge, Target } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { cn } from '@/lib/cn';
-import { ExploreNote, Field, Headline, Pill, Screen, SideDrawer } from '@/components/ui';
+import { Field, Headline, Pill, Screen, SideDrawer } from '@/components/ui';
 import { SourceButton } from '@/components/Evidence';
 import { EXECUTION_HEALTH, OPERATING_CAPABILITIES, SCORECARD_OUTCOMES, type EvidenceStatus } from '@/data/ops';
 import { useStore } from '@/store';
@@ -107,8 +107,7 @@ export default function Kpis() {
   const selectOutcome = (id: string) => { setOutcomeId((current) => current === id ? null : id); setDriver(null); setHealth(null); };
   const openStoryOutcome = (outcome: Outcome) => { setOutcomeDrawer(outcome); setDriver(null); setHealth(null); };
   return <Screen>
-    <Headline title="Local mission impact. Global product leverage." titleClassName="lg:text-4xl xl:text-5xl lg:whitespace-nowrap" sub="Four outcomes define the proposed organisational North Star; execution health shows whether the system can deliver them." right={mode === 'explore' ? <div className="flex items-center gap-2"><Pill tone="purple">Proposed scorecard</Pill><SourceButton claimIds={['m-kpis', 'm-integrations', 'c-vision-australia']} title="Company scorecard" /></div> : undefined} />
-    <ExploreNote>Select an outcome to inspect its measures, owner and linked health signals. Explore exposes the deeper KPI architecture.</ExploreNote>
+    <Headline title="Local mission impact. Global product leverage." titleClassName="lg:text-4xl xl:text-5xl lg:whitespace-nowrap" sub="Four outcomes define the proposed organisational North Star; execution health shows whether the system can deliver them." right={mode === 'explore' ? <SourceButton claimIds={['m-kpis', 'm-integrations', 'c-vision-australia']} title="Company scorecard" /> : undefined} />
     {mode === 'story' ? <StoryOutcomes onOpen={openStoryOutcome} /> : <ExploreScorecard selected={selected} outcomeId={outcomeId} health={health} onOutcome={selectOutcome} onDriver={(item) => { setDriver(item); setHealth(null); }} onHealth={(item) => { setHealth(item); setDriver(null); }} />}
     <OutcomeDrawer outcome={outcomeDrawer} onClose={() => setOutcomeDrawer(null)} />
     <DriverDrawer driver={driver} onClose={() => setDriver(null)} />

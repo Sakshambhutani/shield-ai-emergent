@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { ArrowRight } from 'lucide-react';
 import { cn } from '@/lib/cn';
-import { ExploreNote, Field, Headline, Screen } from '@/components/ui';
+import { Field, Headline, Screen } from '@/components/ui';
 import { DECISION_RHYTHMS, WORK_STAGES } from '@/data/ops';
 import { useStore } from '@/store';
 
@@ -38,7 +38,6 @@ export default function Cadence() {
   const { mode } = useStore();
   return <Screen>
     <Headline title="Decisions at the right cadence." sub="Every forum exists to decide, unblock, escalate or reallocate." />
-    <ExploreNote>Select a forum for its contract. Explore also exposes the compact operating context.</ExploreNote>
     <DecisionRhythm />
     {mode === 'explore' && <OperatingContext />}
   </Screen>;

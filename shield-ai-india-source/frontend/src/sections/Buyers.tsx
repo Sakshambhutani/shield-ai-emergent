@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { ArrowRight, FileText, X } from 'lucide-react';
 import { cn } from '@/lib/cn';
-import { ExploreNote, Field, Headline, HORIZON_META, Pill, Screen, SideDrawer } from '@/components/ui';
+import { Field, Headline, HORIZON_META, Pill, Screen, SideDrawer } from '@/components/ui';
 import { SourceButton } from '@/components/Evidence';
 import { useStore } from '@/store';
 import { ACCOUNTS_V2, ACCOUNT_MAP_V2, ANALOGUES, CUSTOMER_PROGRAMMES, PLATFORMS, PLATFORM_MAP, WATCH_ACCOUNTS, type Domain, type Platform, type Posture } from '@/data/platform-ecosystem';
@@ -47,8 +47,7 @@ function UniverseView() {
   const [selected, setSelected] = useState<Opportunity | null>(null);
   const lookup = (id: string) => OPPORTUNITIES.find((o) => o.id === id)!;
   return <div className="universe-view" data-testid="opportunity-universe">
-    <div className="universe-legend"><span>Cell width = relative programme universe</span><span>Value shown only where sourced</span><span>Prioritisation follows in 03</span></div>
-    <div className="universe-lanes">{UNIVERSE_LANES.map((lane) => <section key={lane.label} className="universe-lane"><h3>{lane.label}</h3><div>{lane.ids.filter((id) => mode === 'explore' || id !== 'o-space').map((id) => { const o = lookup(id); return <button key={id} data-testid={`universe-${id}`} onClick={() => setSelected(o)} className={cn('universe-cell', `universe-size-${Math.min(5, o.size)}`)}><span>{UNIVERSE_HORIZON[o.horizon]}</span><strong>{o.short}</strong><small>{o.programmeValue}</small><em>{o.product.slice(0, 2).join(' + ')}</em></button>; })}</div></section>)}</div>
+     <div className="universe-lanes">{UNIVERSE_LANES.map((lane) => <section key={lane.label} className="universe-lane"><h3>{lane.label}</h3><div>{lane.ids.filter((id) => mode === 'explore' || id !== 'o-space').map((id) => { const o = lookup(id); return <button key={id} data-testid={`universe-${id}`} onClick={() => setSelected(o)} className={cn('universe-cell', `universe-size-${Math.min(5, o.size)}`)}><span>{UNIVERSE_HORIZON[o.horizon]}</span><strong>{o.short}</strong><small>{o.programmeValue}</small><em>{o.product.slice(0, 2).join(' + ')}</em></button>; })}</div></section>)}</div>
     <p className="ecosystem-caption"><span>Bottom-up</span> mission → programme → platform → Shield wedge</p>
     <OpportunityDrawer item={selected} onClose={() => setSelected(null)} />
   </div>;
@@ -161,5 +160,5 @@ function CustomerView() {
 export default function Buyers() {
   const [tab, setTab] = useState<Tab>('universe');
   const tabs: [Tab, string][] = [['universe', 'Opportunity universe'], ['product', 'By Shield product'], ['customer', 'By customer'], ['platform', 'By platform / prime']];
-  return <Screen className="buyers-screen"><Headline title="Where Shield AI can win in India" sub="See the size and shape of the bottom-up possibility before Section 03 determines where to focus." /><ExploreNote>Explore reveals competitive posture, platform confidence and alternate customer or product routes.</ExploreNote><div className="buyers-topline"><div data-testid="buyers-tabs" className="buyers-tabs">{tabs.map(([id, label]) => <button key={id} data-testid={`tab-${id}`} aria-pressed={tab === id} onClick={() => setTab(id)} className={cn(tab === id && 'active')}>{label}</button>)}</div><div className="buyers-thesis"><span>BOTTOM-UP</span> Programme universe × insertion point</div></div>{tab === 'universe' && <UniverseView />}{tab === 'platform' && <EcosystemView />}{tab === 'product' && <ProductView />}{tab === 'customer' && <CustomerView />}</Screen>;
+  return <Screen className="buyers-screen"><Headline title="Where Shield AI can win in India" sub="See the size and shape of the bottom-up possibility before Section 03 determines where to focus." /><div className="buyers-topline"><div data-testid="buyers-tabs" className="buyers-tabs">{tabs.map(([id, label]) => <button key={id} data-testid={`tab-${id}`} aria-pressed={tab === id} onClick={() => setTab(id)} className={cn(tab === id && 'active')}>{label}</button>)}</div></div>{tab === 'universe' && <UniverseView />}{tab === 'platform' && <EcosystemView />}{tab === 'product' && <ProductView />}{tab === 'customer' && <CustomerView />}</Screen>;
 }

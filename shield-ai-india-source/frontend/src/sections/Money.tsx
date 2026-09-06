@@ -4,7 +4,7 @@ import { ReactFlow, ReactFlowProvider, Handle, Position, useReactFlow, type Node
 import '@xyflow/react/dist/style.css';
 import { ChevronDown, Maximize2, Minimize2 } from 'lucide-react';
 import { cn } from '@/lib/cn';
-import { Callout, ExploreNote, Field, Headline, NotDisclosed, Pill, Screen } from '@/components/ui';
+import { Callout, Field, Headline, NotDisclosed, Pill, Screen } from '@/components/ui';
 import { EvidenceBadge, SourceButton } from '@/components/Evidence';
 import { fmtCr, modelledLayer } from '@/components/AssumptionCalc';
 import { BUDGET_TREE, MISSION_TREE, type BudgetNode } from '@/data/budget';
@@ -160,7 +160,6 @@ export default function Money() {
         <div className="inline-flex rounded border border-line p-1 gap-1" role="group" aria-label="Market view">
           {(['core', 'future'] as const).map((v) => <button key={v} data-testid={`market-view-${v}`} aria-pressed={marketView === v} onClick={() => setMarketView(v)} className={cn('rounded px-3 py-2 text-[10px] sm:text-xs uppercase tracking-wider transition-colors focus-visible:outline focus-visible:outline-sig-blue', marketView === v ? 'bg-ink-4 text-paper' : 'text-paper-3 hover:text-paper')}>{v === 'core' ? 'Core Today' : 'Future Possibility'}</button>)}
         </div>
-        <span className="text-[10px] font-mono tracking-wider text-paper-3 uppercase">{marketView === 'core' ? '18-month planning universe' : '3–5+ year option space'}</span>
       </div>
       {marketView === 'future' ? <>
         <div className="shrink-0"><h1 className="text-2xl sm:text-3xl lg:text-4xl font-semibold tracking-tight leading-tight" data-testid="screen-headline">Where else can Shield’s autonomy stack travel?</h1></div>
@@ -174,7 +173,6 @@ export default function Money() {
          <button data-testid="uas-toggle" onClick={() => setUas(!uas)} className="rounded border border-line px-3 py-1 text-xs text-paper-3 hover:text-paper-2">UAS classes</button>
          {view === 'budget' && <button data-testid="budget-focus-toggle" aria-label="Focus budget canvas" onClick={() => setCanvasFocus(true)} className="inline-flex items-center gap-1.5 rounded border border-line px-3 py-1 text-xs text-paper-3 hover:text-paper-2"><Maximize2 className="h-3.5 w-3.5" /><span className="hidden sm:inline">Focus canvas</span></button>}
        </div>
-       <ExploreNote>Explore adds sourced market callouts, model assumptions and supporting UAS classification detail.</ExploreNote>
       {mode === 'explore' && <div className="grid grid-cols-4 gap-3 shrink-0 stagger">{CALLOUTS.map((c) => <Callout key={c.testId} {...c} />)}</div>}
       {uas && <UasPanel />}
       <div className="flex gap-3 flex-1 min-h-0">

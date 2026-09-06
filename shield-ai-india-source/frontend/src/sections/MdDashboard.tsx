@@ -99,7 +99,6 @@ function Explore() {
       <div className="panel p-4"><div className="eyebrow">Account signals</div><div className="mt-3 space-y-2">{ACCOUNT_GROUPS.map((g) => <div key={g.label} className="flex items-start gap-2 text-xs"><span className="font-mono text-[9px] uppercase tracking-wider text-paper-3 w-28 shrink-0 mt-0.5">{g.label}</span><div className="flex flex-wrap gap-1">{g.ids.length ? g.ids.map((id) => <button key={id} onClick={() => setAccount(id)} className="rounded border border-line px-1.5 py-0.5 text-[11px] hover:border-sig-blue/60">{ACCOUNT_MAP[id].name}</button>) : <span className="text-paper-3 italic">None public</span>}</div></div>)}</div></div>
     </div>
     <div><button data-testid="forward-toggle" onClick={() => setFwd(!fwd)} className="flex items-center gap-2 eyebrow hover:text-paper-2"><ChevronDown className={cn('h-3 w-3 transition-transform', fwd && 'rotate-180')} />30 / 60 / 90 forward view</button>{fwd && <div className="grid grid-cols-3 gap-3 mt-2 animate-rise">{HORIZONS.map((h) => <div key={h.label} className="panel px-3 py-2"><span className="num text-sm text-sig-blue">{h.label}</span><div className="mt-2 flex flex-wrap gap-1">{h.items.map((i) => <Pill key={i}>{i}</Pill>)}</div></div>)}</div>}</div>
-    <div className="text-[10px] font-mono text-paper-3 border-t border-line pt-3">Explore view · planning context, baselines and supporting signals</div>
   </div>;
 }
 
@@ -110,7 +109,7 @@ export default function MdDashboard() {
   const [risk, setRisk] = useState<Risk | null>(null);
   useEffect(() => { const close = (e: KeyboardEvent) => { if (e.key === 'Escape') { setBet(null); setDecision(null); setRisk(null); } }; window.addEventListener('keydown', close); return () => window.removeEventListener('keydown', close); }, []);
   return <Screen>
-    <Headline title="Decide. Unblock. Intervene." sub="Executive attention only: the three bets, active decisions and triggered risks." right={<div className="flex items-center gap-2"><Pill tone="purple">Proposed structure</Pill><SourceButton claimIds={MD_CLAIMS} title="MD Agenda" /></div>} />
+    <Headline title="Decide. Unblock. Intervene." sub="Executive attention only: the three bets, active decisions and triggered risks." right={<SourceButton claimIds={MD_CLAIMS} title="MD Agenda" />} />
     {mode === 'story' ? <Story setBet={setBet} setDecision={setDecision} setRisk={setRisk} /> : <Explore />}
     <BetDrawer bet={bet} onClose={() => setBet(null)} /><DecisionDrawer decision={decision} onClose={() => setDecision(null)} /><RiskDrawer risk={risk} onClose={() => setRisk(null)} />
   </Screen>;
