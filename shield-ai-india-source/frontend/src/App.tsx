@@ -8,7 +8,6 @@ import Convergence from './sections/Convergence';
 import Roadmap from './sections/Roadmap';
 import OperatingModel from './sections/OperatingModel';
 import Cadence from './sections/Cadence';
-import Kpis from './sections/Kpis';
 import MdDashboard from './sections/MdDashboard';
 
 export default function App() {
@@ -23,7 +22,7 @@ export default function App() {
           <Route path="/roadmap" element={<Roadmap />} />
           <Route path="/operating-model" element={<OperatingModel />} />
           <Route path="/cadence" element={<Cadence />} />
-          <Route path="/kpis" element={<Kpis />} />
+          <Route path="/kpis" element={<Navigate to="/md-dashboard" replace />} />
           <Route path="/md-dashboard" element={<MdDashboard />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>

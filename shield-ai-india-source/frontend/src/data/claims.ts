@@ -90,7 +90,7 @@ export const CLAIMS: Claim[] = [
   { id: 'm-opmodel', label: 'Decision-rights allocation India / HQ / JSW / Indian prime', cls: 'modelled', sourceIds: ['s-sai-delhi', 's-sai-army'], confidence: 'Medium', interpretation: 'Proposal anchored on public mandate of Shield AI India (integration, engineering) and JSW (manufacturing).', assumption: 'Core product IP and export controls remain with HQ.' },
   { id: 'm-cadence', label: 'Decision-driven cadence design', cls: 'modelled', sourceIds: [], confidence: 'Medium', interpretation: 'Proposal. Every cadence must produce decisions or be removed.' },
   { id: 'm-kpis', label: 'KPI set derived from three bets', cls: 'modelled', sourceIds: [], confidence: 'Medium', interpretation: 'Proposed internal targets. Current values not publicly disclosed.' },
-  { id: 'm-md', label: 'MD dashboard content (decisions, risks, 30/60/90)', cls: 'modelled', sourceIds: [], confidence: 'Medium', interpretation: 'Proposed structure and illustrative decisions. Internal status not publicly disclosed.' },
+  { id: 'm-md', label: 'MD Operating Dashboard — illustrative management snapshot', cls: 'modelled', sourceIds: [], confidence: 'Medium', interpretation: 'All dashboard values, plans, trends, deals, owners and decisions are illustrative / assumed for the June 2026 management review. They do not represent disclosed company performance.' },
   { id: 'm-navy-pen', label: 'Navy maritime penetration assumption', cls: 'modelled', sourceIds: ['s-pib-dac', 's-sai-rnln'], confidence: 'Low', interpretation: 'NSUAS value not separable; opportunity sized qualitatively.', assumption: 'Base case: 1 trial pathway + 1 maritime Hivemind integration within 18 months.' },
 ];
 
