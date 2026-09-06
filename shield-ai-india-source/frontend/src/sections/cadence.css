@@ -1,27 +1,29 @@
-.cadence-screen { --cadence-green: #6ee7b7; --cadence-blue: #80b4fa; --cadence-purple: #c0b0e8; }
-.cadence-visual { flex: 1; min-height: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px; margin: 0; }
-.cadence-circles { display: block; flex-shrink: 0; width: min(100%, calc(100dvh - 220px), 850px); height: auto; }
-.cadence-ring { stroke-width: 1.5; }
-.cadence-steer { fill: #c0b0e807; stroke: #c0b0e85e; }
-.cadence-align { fill: #80b4fa09; stroke: #80b4fa75; }
-.cadence-operate { fill: #6ee7b70b; stroke: #6ee7b78c; }
-.cadence-core { fill: #122722; stroke: #6ee7b7a0; stroke-width: 1.8; }
-.cadence-steer-copy { fill: var(--cadence-purple); }
-.cadence-align-copy { fill: var(--cadence-blue); }
-.cadence-operate-copy { fill: var(--cadence-green); }
-.cadence-horizon-name { font: 600 28px ui-monospace, monospace; letter-spacing: 4px; }
-.cadence-period { font: 21px system-ui, sans-serif; fill: #a6aeb9; }
-.cadence-question { font: 23px system-ui, sans-serif; fill: #e0e2de; }
-.cadence-topics { font: 20px system-ui, sans-serif; }
-.cadence-center { font: 600 20px system-ui, sans-serif; fill: #f0f2ec; }
-.cadence-escalation { max-width: 850px; color: #9199a4; text-align: center; font-size: 12px; line-height: 1.6; }
-@media (max-width: 600px) {
+.cadence-layout { flex: 1 0 auto; display: flex; align-items: center; justify-content: center; gap: clamp(24px, 4vw, 64px); min-height: 0; }
+.cadence-circles { display: block; width: min(100%, calc(100dvh - 190px), 720px); height: auto; flex-shrink: 0; }
+.cadence-layer { cursor: pointer; outline: none; }
+.cadence-ring { fill: #80b4fa04; stroke: #80b4fa55; stroke-width: 1.5; transition: fill 180ms ease, stroke 180ms ease; }
+.cadence-layer.is-selected .cadence-ring { fill: #80b4fa19; stroke: var(--accent, #80b4fa); stroke-width: 2.5; }
+.cadence-layer:focus-visible .cadence-ring { stroke: var(--text-primary, #eef0ec); stroke-width: 3; stroke-dasharray: 5 5; }
+.cadence-ring-copy { pointer-events: none; }
+.cadence-horizon-name { font: 600 30px ui-monospace, monospace; letter-spacing: 4px; fill: var(--text-primary, #e0e2de); }
+.cadence-layer.is-selected .cadence-horizon-name { fill: var(--accent, #80b4fa); }
+.cadence-period { font: 23px system-ui, sans-serif; fill: var(--text-secondary, #a6aeb9); }
+.cadence-question { font: 25px system-ui, sans-serif; fill: var(--text-primary, #e0e2de); }
+.cadence-layout.has-selection { display: grid; grid-template-columns: minmax(0, 1fr) minmax(280px, 350px); }
+.has-selection .cadence-circles { max-width: 100%; justify-self: center; }
+.cadence-questions { border-left: 1px solid var(--border, #303a49); padding: 8px 0 8px 26px; }
+.cadence-panel-heading { display: flex; justify-content: space-between; align-items: center; gap: 16px; }
+.cadence-panel-heading h2 { font: 600 14px ui-monospace, monospace; letter-spacing: .15em; color: var(--accent, #80b4fa); }
+.cadence-panel-heading button { color: var(--text-muted, #9199a4); padding: 6px; border-radius: 4px; }
+.cadence-panel-heading button:focus-visible { outline: 2px solid var(--accent, #80b4fa); outline-offset: 2px; }
+.cadence-questions ul { list-style: disc; margin: 24px 0 0; padding-left: 18px; display: grid; gap: 22px; }
+.cadence-questions li { padding-left: 4px; font-size: 15px; line-height: 1.65; color: var(--text-primary, #e0e2de); }
+.cadence-questions li::marker { color: var(--text-muted, #9199a4); }
+@media (max-width: 950px) {
   .cadence-screen { height: auto; min-height: 100%; }
-  .cadence-visual { padding: 20px 0; }
-  .cadence-circles { width: 100%; }
-  .cadence-escalation { max-width: 340px; font-size: 11px; }
+  .cadence-layout { flex-direction: column; padding: 16px 0; }
+  .cadence-layout.has-selection { display: flex; }
+  .cadence-circles { width: min(100%, 620px); }
+  .cadence-questions { align-self: stretch; border-left: 0; border-top: 1px solid var(--border, #303a49); padding: 24px 8px; }
 }
-@media (max-height: 600px) and (min-width: 601px) {
-  .cadence-screen { height: auto; min-height: 100%; }
-  .cadence-circles { width: min(100%, 460px); }
-}
+@media (prefers-reduced-motion: reduce) { .cadence-ring { transition: none; } }

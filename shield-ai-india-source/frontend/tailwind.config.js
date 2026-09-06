@@ -11,8 +11,8 @@ module.exports = {
       colors: {
         ink: { DEFAULT: '#0B0D10', 1: '#0F1216', 2: '#12151C', 3: '#181C25', 4: '#1F2430' },
         line: { DEFAULT: '#232937', 2: '#2E3546' },
-        paper: { DEFAULT: '#F3EFE6', 2: '#B8B3A8', 3: '#7C7870' },
-        sig: { blue: '#3B82F6', amber: '#F59E0B', purple: '#A78BFA', green: '#34D399', red: '#F87171' },
+        paper: { DEFAULT: '#ECEEF2', 2: '#BBC2CC', 3: '#98A2B1' },
+        sig: { blue: '#80B4FA', amber: '#F59E0B', purple: '#A78BFA', green: '#34D399', red: '#F87171' },
       },
       keyframes: {
         rise: { from: { opacity: '0', transform: 'translateY(6px)' }, to: { opacity: '1', transform: 'translateY(0)' } },

@@ -3,6 +3,7 @@ import { ArrowUpRight, ChevronRight, FileText } from 'lucide-react';
 import { SourceButton } from '@/components/Evidence';
 import { MARKET_TREE, type BudgetNode } from '@/data/budget';
 import { budgetPath } from '@/lib/market-drilldown';
+import { Headline } from '@/components/ui';
 import './market.css';
 
 const AREAS = [
@@ -51,11 +52,11 @@ export default function Money() {
   const programmes = rowsFor(area);
   const selected = programmes.find(n => n.id === selectedByArea[area]) ?? programmes[0];
   return <section className="market-page" data-testid="market-page">
-    <header className="market-heading"><span className="market-eyebrow">01 · Market</span><h1 data-testid="screen-headline">Where can autonomy find a place in India?</h1><p>Programmes, capability needs and procurement routes across government.</p></header>
+    <Headline title="Where can autonomy find a place in India?" sub="Programmes, capability needs and procurement routes across government." />
     <div className="market-workspace">
       <nav className="market-area-list" aria-label="Market opportunity areas">
         <div className="market-eyebrow market-area-label">Opportunity areas</div>
-        {AREAS.map((a, i) => <button key={a.id} data-testid={`market-area-${a.id}`} aria-pressed={area === a.id} onClick={() => setArea(a.id)} className={area === a.id ? 'selected' : ''}><span className="market-area-number">{String(i + 1).padStart(2, '0')}</span><span><strong>{a.title}</strong><small>{a.summary}</small></span><ChevronRight size={14} /></button>)}
+        {AREAS.map((a, i) => <button key={a.id} data-testid={`market-area-${a.id}`} aria-pressed={area === a.id} onClick={() => setArea(a.id)} className={area === a.id ? 'selected' : ''}><span className="market-area-number">{String(i + 1).padStart(2, '0')}</span><span><strong>{a.title}</strong></span><ChevronRight size={14} /></button>)}
       </nav>
       <div className="market-programme-panel">
         <header><span className="market-eyebrow">{owner.title}</span><h2>Programmes & capability needs</h2><p>{owner.intro}</p></header>

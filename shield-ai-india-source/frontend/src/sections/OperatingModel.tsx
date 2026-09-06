@@ -26,12 +26,17 @@ function OperatingSystem() {
         <p className="operating-hub-scope">Decisions · Dependencies · Resources · Risks · India ↔ Global</p>
       </div>
       <svg className="operating-spokes" viewBox="0 0 1200 600" preserveAspectRatio="none" aria-hidden="true">
-        <path className="operating-arm-0" d="M600 300 L300 95" />
-        <path className="operating-arm-1" d="M600 300 L900 95" />
-        <path className="operating-arm-2" d="M600 300 H1050" />
-        <path className="operating-arm-3" d="M600 300 H150" />
-        <path className="operating-arm-4" d="M600 300 L900 505" />
-        <path className="operating-arm-5" d="M600 300 L300 505" />
+        {[
+          { x: 300, y: 78 }, { x: 900, y: 78 },
+          { x: 1000, y: 300 }, { x: 200, y: 300 },
+          { x: 900, y: 522 }, { x: 300, y: 522 },
+        ].map((motor, i) => <g key={i}>
+          <path className={`operating-arm-${i}`} d={`M600 300 L${motor.x} ${motor.y}`} />
+          <g className="operating-rotor" transform={`translate(${motor.x} ${motor.y})`}>
+            <ellipse rx="88" ry="104" />
+            <ellipse className="operating-rotor-inner" rx="78" ry="93" />
+          </g>
+        </g>)}
       </svg>
       {OPERATING_FUNCTIONS.map((item, i) => <button
         type="button" key={item.id} data-testid={`capability-${item.id}`}

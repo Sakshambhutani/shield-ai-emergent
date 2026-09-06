@@ -15,7 +15,7 @@ export function Headline({ title, sub, right }: { title: string; sub?: string; r
   const s = SECTIONS[sectionIndex];
   return (
     <header className="screen-heading" data-testid="screen-heading">
-      <div className="screen-heading-copy animate-rise">
+      <div className="screen-heading-copy">
         <div className="eyebrow">{s.num} · {s.label}</div>
         <h1 data-testid="screen-headline" className="screen-title">{title}</h1>
         {sub && <p data-testid="screen-subhead" className="screen-subhead">{sub}</p>}
@@ -34,7 +34,7 @@ export function Callout({ label, value, tone = 'neutral', claimIds, tag, testId 
         {claimIds && <SourceButton claimIds={claimIds} title={label} size="xs" />}
       </div>
       {value && <div className={cn('num text-lg lg:text-xl font-semibold leading-tight', tones[tone])}>{value}</div>}
-      {tag && <span className="self-start font-mono text-[10px] uppercase tracking-wider text-paper-3 border border-line rounded-sm px-1 py-0.5">{tag}</span>}
+      {tag && <span className="self-start font-mono text-xs uppercase tracking-wider text-paper-3 border border-line rounded-sm px-1 py-0.5">{tag}</span>}
     </div>
   );
 }
@@ -45,7 +45,7 @@ export function Pill({ children, tone = 'neutral', className }: { children: Reac
     blue: 'border-sig-blue/50 text-sig-blue bg-sig-blue/10', green: 'border-emerald-500/50 text-emerald-300 bg-emerald-500/10',
     amber: 'border-amber-500/50 text-amber-300 bg-amber-500/10', purple: 'border-violet-400/50 text-violet-300 bg-violet-500/10 border-dashed', red: 'border-red-500/50 text-red-300 bg-red-500/10',
   }[tone];
-  return <span className={cn('inline-flex items-center rounded-sm border px-1.5 py-0.5 font-mono text-[10px] uppercase tracking-wider whitespace-nowrap', t, className)}>{children}</span>;
+  return <span className={cn('inline-flex items-center rounded-sm border px-1.5 py-0.5 font-mono text-xs uppercase tracking-wider whitespace-nowrap', t, className)}>{children}</span>;
 }
 
 export const HORIZON_META = {
@@ -91,5 +91,5 @@ export const chainTone = (label: string): 'blue' | 'amber' | 'green' | 'neutral'
 };
 
 export function NotDisclosed({ label = 'Not publicly disclosed' }: { label?: string }) {
-  return <span data-testid="not-disclosed" className="font-mono text-[11px] text-paper-3 italic">{label}</span>;
+  return <span data-testid="not-disclosed" className="font-mono text-xs text-paper-3 italic">{label}</span>;
 }

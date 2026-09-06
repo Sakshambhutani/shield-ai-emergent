@@ -10,7 +10,7 @@ export function PrecedentTag({ id }: { id?: string }) {
   if (!id) return null;
   const p = PRECEDENT_MAP[id];
   return (
-    <button data-testid={`precedent-${id}`} onClick={(e) => { e.stopPropagation(); openEvidence(p.claimIds, `Global precedent · ${p.country}`); }} className="group inline-flex items-center gap-1 text-[11px] text-sig-blue hover:underline">
+    <button data-testid={`precedent-${id}`} onClick={(e) => { e.stopPropagation(); openEvidence(p.claimIds, `Global precedent · ${p.country}`); }} className="group inline-flex items-center gap-1 text-xs text-sig-blue hover:underline">
       Global precedent <ArrowUpRight className="h-3 w-3" />
       <span className="text-paper-3 group-hover:text-paper-2">· {p.country} · {p.type}</span>
     </button>
@@ -47,7 +47,7 @@ export function AccountDrawer() {
               <ol className="space-y-1.5">
                 {a.chain.map((c, i) => (
                   <li key={c.stage} className="panel px-3 py-2 flex items-start gap-3">
-                    <span className="num text-[11px] text-paper-3 mt-0.5">{i + 1}</span>
+                    <span className="num text-xs text-paper-3 mt-0.5">{i + 1}</span>
                     <div className="min-w-0 flex-1"><div className="text-xs font-medium">{c.stage}</div><div className="text-xs text-paper-2">{c.who}</div></div>
                     <Pill tone={chainTone(c.label)}>{c.label}</Pill>
                   </li>

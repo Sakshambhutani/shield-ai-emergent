@@ -7,16 +7,16 @@ import type { EvidenceClass, Claim } from '@/data/types';
 import { useStore } from '@/store';
 
 export const CLS_META: Record<EvidenceClass, { label: string; badge: string; border: string; dot: string }> = {
-  official: { label: 'Official', badge: 'bg-slate-700/60 text-slate-200 border-slate-400/60', border: 'ev-official', dot: 'bg-slate-300' },
-  company: { label: 'Official company', badge: 'bg-cyan-500/10 text-cyan-200 border-cyan-400/50', border: 'border border-cyan-400/60', dot: 'bg-cyan-300' },
-  shield: { label: 'Shield AI ✓', badge: 'bg-emerald-500/15 text-emerald-300 border-emerald-500/50', border: 'ev-shield', dot: 'bg-emerald-400' },
-  industry: { label: 'Industry', badge: 'bg-amber-500/15 text-amber-300 border-amber-500/50', border: 'ev-industry', dot: 'bg-amber-400' },
-  modelled: { label: 'Management hypothesis', badge: 'bg-violet-500/15 text-violet-300 border-violet-400/60 border-dashed', border: 'ev-modelled', dot: 'bg-violet-400' },
+  official: { label: 'Official', badge: 'bg-ink-3 text-paper-2 border-line-2', border: 'ev-official', dot: 'bg-paper-3' },
+  company: { label: 'Official company', badge: 'bg-ink-3 text-paper-2 border-line-2', border: 'border border-line-2', dot: 'bg-paper-3' },
+  shield: { label: 'Shield AI ✓', badge: 'bg-ink-3 text-paper-2 border-line-2', border: 'ev-shield', dot: 'bg-paper-3' },
+  industry: { label: 'Industry', badge: 'bg-ink-3 text-paper-2 border-line-2', border: 'ev-industry', dot: 'bg-paper-3' },
+  modelled: { label: 'Management hypothesis', badge: 'bg-ink-3 text-paper-2 border-line-2 border-dashed', border: 'ev-modelled', dot: 'bg-paper-3' },
 };
 
 export function EvidenceBadge({ cls, className }: { cls: EvidenceClass; className?: string }) {
   const m = CLS_META[cls];
-  return <span data-testid={`evidence-badge-${cls}`} className={cn('inline-flex items-center gap-1 rounded-sm border px-1.5 py-0.5 font-mono text-[10px] uppercase tracking-wider', m.badge, className)}>{m.label}</span>;
+  return <span data-testid={`evidence-badge-${cls}`} className={cn('inline-flex items-center gap-1 rounded-sm border px-1.5 py-0.5 font-mono text-xs uppercase tracking-wider', m.badge, className)}>{m.label}</span>;
 }
 
 export function SourceButton({ claimIds, title, className, size = 'sm' }: { claimIds: string[]; title?: string; className?: string; size?: 'sm' | 'xs' }) {
@@ -27,7 +27,7 @@ export function SourceButton({ claimIds, title, className, size = 'sm' }: { clai
       data-testid={`source-btn-${(title ?? claimIds[0] ?? 'x').toLowerCase().replace(/[^a-z0-9]+/g, '-').slice(0, 40)}`}
       title="Show sources & assumptions"
       onClick={(e) => { e.stopPropagation(); openEvidence(claimIds, title); }}
-      className={cn('inline-flex items-center gap-1 rounded-sm text-paper-3 hover:text-sig-blue transition-colors duration-200', size === 'xs' ? 'text-[10px]' : 'text-[11px]', className)}
+      className={cn('inline-flex items-center gap-1 rounded-sm text-paper-3 hover:text-sig-blue transition-colors duration-200', size === 'xs' ? 'text-xs' : 'text-xs', className)}
     >
       <FileText className={size === 'xs' ? 'h-3 w-3' : 'h-3.5 w-3.5'} />
       {size === 'sm' && <span className="font-mono">{claimIds.length}</span>}
@@ -43,17 +43,17 @@ function Entry({ c }: { c: Claim }) {
     <div data-testid={`evidence-entry-${c.id}`} className={cn('rounded-md p-3 bg-ink-2 animate-rise', m.border)}>
       <div className="flex items-start justify-between gap-2">
         <EvidenceBadge cls={c.cls} />
-        <span className={cn('font-mono text-[10px] uppercase tracking-wider', c.cls === 'modelled' ? 'text-violet-300' : CONF_TONE[c.confidence])}>{c.cls === 'modelled' ? 'To validate' : `${c.confidence} confidence`}</span>
+        <span className={cn('font-mono text-xs uppercase tracking-wider', c.cls === 'modelled' ? 'text-paper-2' : CONF_TONE[c.confidence])}>{c.cls === 'modelled' ? 'To validate' : `${c.confidence} confidence`}</span>
       </div>
       <div className="mt-2">
         <div className="eyebrow">Claim</div>
         <div className="text-sm text-paper mt-0.5">{c.label}</div>
-        {c.value && <div className={cn('num text-lg mt-1', c.cls === 'modelled' ? 'text-violet-300' : 'text-paper')}>{c.value} {c.horizon && <span className="ml-2 font-mono text-[10px] uppercase tracking-wider text-paper-3 border border-line rounded-sm px-1 py-0.5">{c.horizon}</span>}</div>}
-        {!c.value && c.horizon && <div className="mt-1"><span className="font-mono text-[10px] uppercase tracking-wider text-paper-3 border border-line rounded-sm px-1 py-0.5">{c.horizon}</span></div>}
+        {c.value && <div className={cn('num text-lg mt-1', c.cls === 'modelled' ? 'text-paper-2' : 'text-paper')}>{c.value} {c.horizon && <span className="ml-2 font-mono text-xs uppercase tracking-wider text-paper-3 border border-line rounded-sm px-1 py-0.5">{c.horizon}</span>}</div>}
+        {!c.value && c.horizon && <div className="mt-1"><span className="font-mono text-xs uppercase tracking-wider text-paper-3 border border-line rounded-sm px-1 py-0.5">{c.horizon}</span></div>}
       </div>
       <div className="mt-2 text-xs text-paper-2">{c.interpretation}</div>
-      {c.assumption && <div className="mt-2 text-xs"><span className="eyebrow text-violet-300">Assumption</span><div className="text-paper-2 mt-0.5">{c.assumption}</div></div>}
-      {c.formula && <div className="mt-2 text-xs"><span className="eyebrow text-violet-300">Formula</span><div className="num text-violet-200 mt-0.5 text-[11px] leading-relaxed">{c.formula}</div></div>}
+      {c.assumption && <div className="mt-2 text-xs"><span className="eyebrow text-paper-2">Assumption</span><div className="text-paper-2 mt-0.5">{c.assumption}</div></div>}
+      {c.formula && <div className="mt-2 text-xs"><span className="eyebrow text-paper-2">Formula</span><div className="num text-paper-2 mt-0.5 text-xs leading-relaxed">{c.formula}</div></div>}
       {c.sourceIds.length > 0 && (
         <div className="mt-3 space-y-1.5 border-t border-line pt-2">
           <div className="eyebrow">Source{c.sourceIds.length > 1 ? 's' : ''}</div>
@@ -61,13 +61,13 @@ function Entry({ c }: { c: Claim }) {
             <div key={sid} className="flex items-start justify-between gap-2 text-xs">
               <div className="min-w-0">
                 <div className="text-paper leading-snug">{s.title}</div>
-                <div className="text-paper-3 font-mono text-[10px] mt-0.5">{s.publisher} · {s.date}</div>
+                <div className="text-paper-3 font-mono text-xs mt-0.5">{s.publisher} · {s.date}</div>
               </div>
               <a data-testid={`source-link-${sid}`} href={s.url} target="_blank" rel="noreferrer" className="shrink-0 inline-flex items-center gap-1 text-sig-blue hover:underline whitespace-nowrap">Open source <ExternalLink className="h-3 w-3" /></a>
             </div>) : null; })}
         </div>
       )}
-      {c.sourceIds.length === 0 && <div className="mt-2 text-[11px] text-paper-3 font-mono">Analyst model — no external source; see assumption.</div>}
+      {c.sourceIds.length === 0 && <div className="mt-2 text-xs text-paper-3 font-mono">Analyst model — no external source; see assumption.</div>}
     </div>
   );
 }
@@ -86,7 +86,7 @@ export function EvidenceDrawer() {
           <div>
             <div className="eyebrow">Sources & Assumptions</div>
             <div className="text-base font-medium mt-0.5">{evidence.title || `${section.num} · ${section.label}`}</div>
-            <div className="mt-2 flex flex-wrap gap-1.5">{(Object.keys(counts) as EvidenceClass[]).map((k) => <span key={k} className="inline-flex items-center gap-1 text-[10px] font-mono text-paper-3"><span className={cn('h-1.5 w-1.5 rounded-full', CLS_META[k].dot)} />{counts[k]} {CLS_META[k].label}</span>)}</div>
+            <div className="mt-2 flex flex-wrap gap-1.5">{(Object.keys(counts) as EvidenceClass[]).map((k) => <span key={k} className="inline-flex items-center gap-1 text-xs font-mono text-paper-3"><span className={cn('h-1.5 w-1.5 rounded-full', CLS_META[k].dot)} />{counts[k]} {CLS_META[k].label}</span>)}</div>
           </div>
           <button data-testid="evidence-drawer-close" onClick={closeEvidence} className="p-1.5 rounded hover:bg-ink-3 text-paper-2" aria-label="Close"><X className="h-4 w-4" /></button>
         </div>
@@ -94,7 +94,7 @@ export function EvidenceDrawer() {
           {claims.map((c) => <Entry key={c.id} c={c} />)}
           {claims.length === 0 && <div className="text-sm text-paper-3">No evidence attached.</div>}
         </div>
-        <div className="p-3 border-t border-line text-[10px] font-mono text-paper-3">Official ≠ management hypothesis. Hypotheses are scenario planning, not company guidance.</div>
+        <div className="p-3 border-t border-line text-xs font-mono text-paper-3">Official ≠ management hypothesis. Hypotheses are scenario planning, not company guidance.</div>
       </aside>
     </>
   );

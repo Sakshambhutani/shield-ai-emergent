@@ -1,8 +1,8 @@
 .radar-body { @apply flex-1 min-h-0 overflow-auto; }
 .opportunity-radar { @apply h-full flex flex-col; min-height:440px; min-width:850px; }
 .radar-routes { @apply grid grid-cols-2 shrink-0 pt-2 pb-3; }
-.radar-routes h2 { @apply font-mono text-[11px] uppercase tracking-[0.18em] text-sig-blue text-center; }
-.radar-routes h2 span { @apply text-paper-3 text-[10px] tracking-wider; }
+.radar-routes h2 { @apply font-mono text-xs uppercase tracking-[0.18em] text-sig-blue text-center; }
+.radar-routes h2 span { @apply text-paper-3 text-xs tracking-wider; }
 .radar-field { @apply relative flex-1 min-h-0; }
 .radar-geometry { @apply absolute inset-0 w-full h-full; }
 .radar-arc { fill:none; stroke:theme('colors.sig.blue'); stroke-opacity:.3; stroke-width:1; vector-effect:non-scaling-stroke; }
@@ -11,7 +11,7 @@
 .radar-divider { fill:none; stroke:theme('colors.line.2'); stroke-dasharray:4 8; stroke-width:1; vector-effect:non-scaling-stroke; }
 .radar-node { @apply absolute text-center rounded-md px-3 py-3; transform:translate(-50%,-50%); width:24%; background:theme('colors.ink.DEFAULT'); border:1px solid transparent; animation:radar-reveal 300ms ease-out both; }
 .radar-node h3 { @apply text-paper font-medium tracking-tight leading-snug; font-size:clamp(14px,1.45vw,21px); }
-.radar-node p { @apply text-paper-3 text-[11px] leading-relaxed mt-1; }
+.radar-node p { @apply text-paper-3 text-xs leading-relaxed mt-1; }
 .radar-node-next { border-color:rgba(59,130,246,.18); background:theme('colors.ink.1'); }
 .radar-node-future { background:theme('colors.ink.DEFAULT'); }
 .radar-node-future h3 { @apply text-paper-2; }
@@ -20,13 +20,13 @@
 .radar-node-now p { @apply text-paper-2; }
 .radar-node-integrators { width:19%; }
 .radar-node-strategic { width:29%; }
-.radar-horizon { @apply absolute font-mono text-[9px] uppercase tracking-[0.18em] text-paper-3; }
+.radar-horizon { @apply absolute font-mono text-xs uppercase tracking-[0.18em] text-paper-3; }
 .radar-horizon-now { left:50%; bottom:0; transform:translateX(-50%); }
 .radar-horizon-next { left:18%; top:34%; }
 .radar-horizon-future { left:9%; top:4%; }
 button.radar-node { @apply cursor-pointer transition-colors duration-200 hover:border-sig-blue; }
 button.radar-node:focus-visible { @apply outline outline-2 outline-offset-4 outline-sig-blue; }
-@media(max-width:900px){.radar-body{min-height:440px}.radar-node h3{font-size:15px}.radar-routes h2{font-size:10px}}
+@media(max-width:900px){.radar-body{min-height:440px}.radar-node h3{font-size:15px}.radar-routes h2{font-size:12px}}
 @media(prefers-reduced-motion:reduce){.radar-node{animation:none!important;transition:none!important}}
 
 @keyframes radar-reveal{from{opacity:0}to{opacity:1}}

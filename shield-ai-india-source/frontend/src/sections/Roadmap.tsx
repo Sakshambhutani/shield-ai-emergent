@@ -30,7 +30,7 @@ export default function Roadmap() {
           <div className="mission-grid" aria-hidden="true" />
           <div className="mission-path-area">
             <svg className="mission-path" viewBox="0 0 1000 629" preserveAspectRatio="none" aria-hidden="true">
-              <defs><linearGradient id="mission-gradient" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="0" y2="629"><stop stopColor="#3b82f6" /><stop offset=".65" stopColor="#60a5fa" /><stop offset="1" stopColor="#34d399" /></linearGradient></defs>
+              <defs><linearGradient id="mission-gradient" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="0" y2="629"><stop stopColor="#3b82f6" /><stop offset=".65" stopColor="#60a5fa" /><stop offset="1" stopColor="#80b4fa" /></linearGradient></defs>
               <path className="mission-halo" d={MISSION_COURSE} />
               <path className="mission-center" d="M80 160 H840 C950 160 950 382 840 382 H630 M410 382 H200 C90 382 90 604 200 604 H900" />
               <path className="mission-branch direct" d="M630 382 C600 382 605 363 580 363 H460 C435 363 440 382 410 382" />

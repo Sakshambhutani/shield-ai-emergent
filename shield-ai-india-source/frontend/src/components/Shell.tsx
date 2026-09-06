@@ -1,5 +1,5 @@
 import { ChevronLeft, ChevronRight, FileText, Maximize2, Minimize2, SlidersHorizontal } from 'lucide-react';
-import type { ReactNode } from 'react';
+import { useLayoutEffect, useRef, type ReactNode } from 'react';
 import { cn } from '@/lib/cn';
 import { SECTIONS } from '@/data/sections';
 import { useStore } from '@/store';
@@ -11,21 +11,21 @@ function Nav() {
   const { sectionIndex, go, present } = useStore();
   if (present) return null;
   return (
-    <nav data-testid="side-nav" className="relative z-[60] hidden md:flex w-52 shrink-0 flex-col border-r border-line bg-ink-1 p-4">
+    <nav aria-label="Main navigation" data-testid="side-nav" className="relative z-[60] hidden md:flex w-60 shrink-0 flex-col border-r border-line bg-ink-1 p-4 overflow-y-auto">
       <div className="mb-6">
         <div className="eyebrow text-sig-blue">Shield AI India</div>
          <div className="text-sm font-medium leading-tight mt-1">India Strategy &amp; Operating System</div>
       </div>
       <div className="flex flex-col gap-0.5">
         {SECTIONS.map((s, i) => (
-          <button key={s.id} data-testid={`nav-${s.id}`} onClick={() => go(i)} className={cn('group flex items-start gap-3 rounded px-2 py-1.5 text-left transition-colors duration-200', i === sectionIndex ? 'bg-ink-3 text-paper' : 'text-paper-3 hover:text-paper-2 hover:bg-ink-2')}>
-            <span className={cn('num text-[11px] mt-0.5', i === sectionIndex ? 'text-sig-blue' : 'text-paper-3')}>{s.num}</span>
-            <span className="min-w-0"><span className="text-sm block">{s.label}</span>{i === sectionIndex && <span className="block text-[10px] text-paper-3 leading-tight mt-0.5">{s.question}</span>}</span>
-            {i === sectionIndex && <span className="ml-auto mt-1.5 h-1.5 w-1.5 rounded-full bg-sig-blue shrink-0" />}
+          <button key={s.id} data-testid={`nav-${s.id}`} onClick={() => go(i)} aria-current={i === sectionIndex ? 'page' : undefined} className={cn('group flex min-h-[56px] items-center gap-3 rounded px-3 py-2 text-left transition-colors duration-200', i === sectionIndex ? 'bg-ink-3 text-paper' : 'text-paper-3 hover:text-paper-2 hover:bg-ink-2')}>
+            <span className={cn('num w-5 shrink-0 text-xs', i === sectionIndex ? 'text-sig-blue' : 'text-paper-3')}>{s.num}</span>
+            <span className="min-w-0 flex-1 text-sm font-medium leading-5">{s.label}</span>
+            {i === sectionIndex && <span className="ml-auto h-1.5 w-1.5 rounded-full bg-sig-blue shrink-0" />}
           </button>
         ))}
       </div>
-      <div className="mt-auto pt-6 text-[10px] font-mono text-paper-3 leading-relaxed">← → navigate · Esc close · P present</div>
+      <div className="mt-auto pt-6 text-xs font-mono text-paper-3 leading-relaxed">← → navigate · Esc close · P present</div>
     </nav>
   );
 }
@@ -66,12 +66,14 @@ function Footer() {
 }
 
 export function Shell({ children }: { children: ReactNode }) {
-  const { present } = useStore();
+  const { present, sectionIndex } = useStore();
+  const mainRef = useRef<HTMLElement>(null);
+  useLayoutEffect(() => { mainRef.current?.scrollTo({ top: 0, left: 0 }); }, [sectionIndex, present]);
   return (
     <div className="h-full flex bg-ink text-paper">
       <Nav />
       <div className="flex-1 flex flex-col min-w-0 h-full">
-        <main data-testid="main-content" className={cn('flex-1 min-h-0 overflow-y-auto overflow-x-hidden', present ? 'p-6 lg:p-10' : 'p-4 lg:p-6')}>{children}</main>
+        <main ref={mainRef} data-testid="main-content" className={cn('flex-1 min-h-0 overflow-y-auto overflow-x-hidden', present ? 'p-6 lg:p-10' : 'p-4 lg:p-6')}>{children}</main>
         <Footer />
       </div>
       <EvidenceDrawer />

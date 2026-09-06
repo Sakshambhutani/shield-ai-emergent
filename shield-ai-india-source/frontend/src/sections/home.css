@@ -1,9 +1,9 @@
 .thesis { --thesis-blue: #6dacff; gap: 0; position: relative; }
 .thesis::before { background-image: linear-gradient(rgba(71,127,193,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(71,127,193,.045) 1px,transparent 1px); background-size: 42px 42px; content: ''; inset: 112px 0 28px 43%; mask-image: radial-gradient(ellipse at center,#000 0,transparent 72%); pointer-events: none; position: absolute; }
-.thesis-time-label { color: var(--thesis-blue); font: 600 10px 'IBM Plex Mono',monospace; letter-spacing: .2em; line-height: 1; }
+.thesis-time-label { color: var(--thesis-blue); font: 600 11px 'IBM Plex Mono',monospace; letter-spacing: .2em; line-height: 1; }
 .thesis-system { align-items: center; display: flex; flex: 1; min-height: 470px; position: relative; z-index: 2; }
-.thesis-stage { align-items: start; display: grid; grid-template-columns: minmax(210px,.88fr) minmax(470px,1.82fr) minmax(330px,1.3fr); height: 410px; position: relative; width: 100%; }
-.thesis-flow-lines { height: 180px; left: 0; overflow: visible; pointer-events: none; position: absolute; top: 148px; width: 100%; z-index: 0; }
+.thesis-stage { align-items: start; display: grid; grid-template-columns: minmax(210px,.88fr) minmax(470px,1.82fr) minmax(330px,1.3fr); min-height: 450px; position: relative; width: 100%; }
+.thesis-flow-lines { height: 180px; left: 0; overflow: visible; pointer-events: none; position: absolute; top: 186px; width: 100%; z-index: 0; }
 .thesis-flow-lines path { fill: none; stroke: url(#flow-fade); stroke-width: .65; vector-effect: non-scaling-stroke; }
 .thesis-flow-lines .thesis-flow-core { stroke-width: 1.2; }
 .thesis-flow-lines .thesis-flow-echo { opacity: .3; }
@@ -16,22 +16,22 @@
 .thesis-vbat { filter: drop-shadow(0 8px 10px rgba(0,0,0,.65)); height: 122px; transform: rotate(-6deg); width: 122px; }
 .thesis-origin-copy { align-items: center; display: flex; flex-direction: column; gap: 9px; margin-top: 14px; }
 .thesis-origin-copy div { display: flex; flex-direction: column; gap: 1px; }
-.thesis-origin-copy strong { font-size: 11px; font-weight: 600; }
-.thesis-origin-copy span { color: #999da5; font-size: 9px; line-height: 1.45; }
+.thesis-origin-copy strong { font-size: 14px; font-weight: 600; }
+.thesis-origin-copy span { color: var(--text-muted); font-size: 11px; line-height: 1.45; }
 .thesis-moves { min-width: 0; padding: 1px 10px 0; }
 .thesis-moves>.thesis-time-label { text-align: center; }
 .thesis-move-list { align-items: flex-start; display: grid; grid-template-columns: repeat(3,1fr); margin-top: 18px; }
 .thesis-move { align-items: center; display: flex; flex-direction: column; min-width: 0; position: relative; }
-.thesis-move-copy { border-left: 1px solid rgba(64,124,194,.6); min-height: 112px; padding: 0 14px; width: 100%; }
-.thesis-step-number { color: var(--thesis-blue); font: 600 10px 'IBM Plex Mono',monospace; }
+.thesis-move-copy { border-left: 1px solid rgba(64,124,194,.6); min-height: 150px; padding: 0 14px; width: 100%; }
+.thesis-step-number { color: var(--thesis-blue); font: 600 11px 'IBM Plex Mono',monospace; }
 .thesis-move h2 { font-size: clamp(17px,1.45vw,23px); font-weight: 600; letter-spacing: -.025em; margin-top: 8px; }
-.thesis-move p { color: #aeb1b8; font-size: 10px; line-height: 1.45; margin-top: 8px; max-width: 155px; }
+.thesis-move p { color: var(--text-secondary); font-size: 13px; line-height: 1.6; margin-top: 8px; max-width: 175px; }
 .thesis-move-node { align-items: center; background: radial-gradient(circle,#18375a,#0b1521 70%); border: 1px solid #67a9fa; border-radius: 999px; box-shadow: 0 0 12px rgba(64,147,249,.5),inset 0 0 14px rgba(72,148,241,.18); display: flex; height: 50px; justify-content: center; margin-top: 16px; position: relative; width: 50px; }
 .thesis-move-node svg { color: #bcd9ff; height: 20px; stroke-width: 1.7; width: 20px; }
 .thesis-destination { align-items: center; display: flex; flex-direction: column; justify-self: center; max-width: 360px; text-align: center; width: 100%; }
 .thesis-destination h2 { font-size: 23px; font-weight: 600; letter-spacing: -.025em; line-height: 1.08; margin-top: 12px; width: 100%; }
 .thesis-destination h2 span { color: var(--thesis-blue); display: block; font-size: clamp(23px,1.72vw,27px); margin-top: 2px; white-space: nowrap; }
-.thesis-destination>p { color: #aeb1b8; font: 9px 'IBM Plex Mono',monospace; letter-spacing: .04em; margin-top: 8px; }
+.thesis-destination>p { color: var(--text-secondary); font: 11px 'IBM Plex Mono',monospace; letter-spacing: .04em; margin-top: 8px; }
 .thesis-network { flex: 0 0 250px; height: 250px; margin: 2px auto 0; position: relative; width: 250px; }
 .thesis-network-links { height: 100%; inset: 0; position: absolute; width: 100%; }
 .thesis-network-links circle { fill: none; stroke: rgba(91,162,247,.32); stroke-width: .7; }
@@ -39,15 +39,15 @@
 .thesis-network-links .thesis-network-dot { fill: #a9d1ff; filter: drop-shadow(0 0 4px #65a8fa); stroke: none; }
 .thesis-india-core { align-items: center; background: radial-gradient(circle,rgba(34,76,122,.82),rgba(7,16,25,.96)); border: 1px solid #68adff; border-radius: 999px; box-shadow: 0 0 20px rgba(59,130,246,.36),inset 0 0 25px rgba(59,130,246,.18); display: flex; flex-direction: column; height: 84px; justify-content: center; left: 83px; position: absolute; top: 83px; width: 84px; z-index: 2; }
 .thesis-india-core svg { color: #91c2ff; height: 24px; margin-bottom: 3px; width: 24px; }
-.thesis-india-core strong { font: 600 10px 'IBM Plex Mono',monospace; letter-spacing: .12em; }
-.thesis-india-core span { color: #7ba4d4; font: 7px 'IBM Plex Mono',monospace; letter-spacing: .18em; margin-top: 2px; }
+.thesis-india-core strong { font: 600 11px 'IBM Plex Mono',monospace; letter-spacing: .12em; }
+.thesis-india-core span { color: #7ba4d4; font: 11px 'IBM Plex Mono',monospace; letter-spacing: .18em; margin-top: 2px; }
 .thesis-network-node { align-items: center; display: flex; flex-direction: column; gap: 4px; position: absolute; z-index: 3; }
 .thesis-network-node>span { align-items: center; background: #0c1825; border: 1px solid #559cec; border-radius: 999px; box-shadow: 0 0 9px rgba(59,130,246,.32); display: flex; height: 36px; justify-content: center; width: 36px; }
 .thesis-network-node svg { color: #bedcff; height: 16px; stroke-width: 1.7; width: 16px; }
-.thesis-network-node small { color: #bbc1cb; font-size: 8px; white-space: nowrap; }
+.thesis-network-node small { color: #bbc1cb; font-size: 11px; white-space: nowrap; }
 .thesis-network-node--army { left: 107px; top: 0; }.thesis-network-node--navy { left: 20px; top: 52px; }.thesis-network-node--air-force { right: 20px; top: 52px; }.thesis-network-node--isr { left: 20px; top: 159px; }.thesis-network-node--oems { bottom: -1px; left: 107px; }.thesis-network-node--partners { bottom: 15px; right: 20px; }
 @media (max-width:1120px) { .thesis-stage { grid-template-columns: 190px minmax(390px,1.7fr) 280px; }.thesis-origin { width: 190px; }.thesis-vbat-orbit { height: 140px; width: 140px; }.thesis-vbat { height: 108px; width: 108px; }.thesis-network { transform: scale(.9); transform-origin: top center; }.thesis-move-copy { padding-inline: 9px; } }
-@media (max-width:900px) {
+@media (max-width:1250px) {
   .thesis { overflow: visible; }.thesis::before { inset: 100px 0 0; }
   .thesis-system { display: block; min-height: 0; }.thesis-stage { display: flex; flex-direction: column; height: auto; padding: 36px 0 12px; }.thesis-flow-lines { display: none; }.thesis-origin,.thesis-moves,.thesis-destination { align-self: stretch; }
   .thesis-origin { border-left: 1px solid #34577f; justify-self: auto; padding-left: 24px; text-align: left; width: auto; }.thesis-vbat-orbit { height: 132px; margin-left: 0; width: 132px; }.thesis-origin-copy { align-items: flex-start; max-width: 300px; }

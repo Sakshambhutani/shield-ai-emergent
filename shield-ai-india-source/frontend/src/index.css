@@ -2,7 +2,15 @@
 @tailwind components;
 @tailwind utilities;
 
-:root { color-scheme: dark; }
+:root {
+  color-scheme: dark;
+  --text-primary: #eceef2;
+  --text-secondary: #bbc2cc;
+  --text-muted: #98a2b1;
+  --accent: #80b4fa;
+  --surface: #12151c;
+  --border: #2e3546;
+}
 html, body, #root { height: 100%; }
 body { @apply bg-ink text-paper font-sans antialiased; overflow-x: hidden; }
 ::selection { background: rgba(59, 130, 246, 0.35); }
@@ -11,14 +19,14 @@ body { @apply bg-ink text-paper font-sans antialiased; overflow-x: hidden; }
 *::-webkit-scrollbar-thumb { background: #2e3546; border-radius: 4px; }
 
 .num { @apply font-mono tabular-nums tracking-tight; }
-.eyebrow { @apply font-mono text-[11px] uppercase tracking-[0.18em] text-paper-3; }
+.eyebrow { @apply font-mono text-xs uppercase tracking-[0.12em] text-paper-3; }
 .panel { @apply bg-ink-2 border border-line rounded-md; }
 .panel-hover { @apply transition-colors duration-200 hover:bg-ink-3 hover:border-line-2; }
 
 .ev-official { @apply border border-solid border-slate-400/70; }
-.ev-shield { @apply border border-solid border-emerald-500/70; }
-.ev-industry { @apply border border-solid border-amber-500/70; }
-.ev-modelled { @apply border border-dashed border-violet-400/80; }
+.ev-shield { @apply border border-solid border-line-2; }
+.ev-industry { @apply border border-solid border-line-2; }
+.ev-modelled { @apply border border-dashed border-paper-3; }
 
 .stagger > * { animation: rise 300ms ease-out both; }
 .stagger > *:nth-child(2) { animation-delay: 60ms; }
@@ -35,11 +43,18 @@ body { @apply bg-ink text-paper font-sans antialiased; overflow-x: hidden; }
 /* Section-level typography: a single contract across Story, Explore and Present. */
 .screen-heading { display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; flex-shrink: 0; position: relative; z-index: 3; min-width: 0; }
 .screen-heading-copy { min-width: 0; flex: 1; container-type: inline-size; }
-.screen-title { font-size: clamp(24px, 2.7cqw, 32px); font-weight: 600; line-height: 1.2; letter-spacing: -.025em; margin-top: 8px; overflow-wrap: break-word; }
-.screen-subhead { color: #c8c5bd; font-size: 15px; font-weight: 450; line-height: 1.55; margin-top: 10px; }
+.screen-title { font-size: 30px; font-weight: 600; line-height: 1.2; letter-spacing: -.025em; margin-top: 8px; overflow-wrap: break-word; }
+.screen-subhead { color: var(--text-secondary); font-size: 15px; font-weight: 400; line-height: 1.55; margin-top: 10px; }
 .screen-heading-actions { flex-shrink: 0; }
 @media (max-width: 900px) {
   .screen-title { font-size: 24px; }
-  .screen-subhead { font-size: 13px; }
+  .screen-subhead { font-size: 14px; }
 }
 @media (max-width: 767px) { .screen-heading-actions { display: none; } }
+
+/* Shared controls and keyboard navigation remain visible on every surface. */
+button, a, summary, input { -webkit-tap-highlight-color: transparent; }
+:where(button, a, summary, input):focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
+}

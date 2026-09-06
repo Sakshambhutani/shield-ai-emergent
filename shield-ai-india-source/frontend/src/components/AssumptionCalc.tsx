@@ -24,7 +24,7 @@ export function WeightSliders() {
       {WEIGHT_KEYS.map((k) => (
         <Slider key={k} label={WEIGHT_LABELS[k]} value={weights[k]} min={0} max={50} unit="" onChange={(v) => setWeights({ ...weights, [k]: v })} testId={`weight-${k}`} />
       ))}
-      <div className="text-[10px] font-mono text-paper-3">Total weight {total} · normalised in scoring</div>
+      <div className="text-xs font-mono text-paper-3">Total weight {total} · normalised in scoring</div>
     </div>
   );
 }
@@ -35,7 +35,7 @@ export function AssumptionCalc() {
   return (
     <SideDrawer open={calc} onClose={() => setCalc(false)} title="Assumption calculator" eyebrow="Scenario planning" testId="assumption-drawer" width="sm:w-[400px]">
       <div className="space-y-5">
-        <div className="flex items-center justify-between"><EvidenceBadge cls="modelled" /><span className="font-mono text-[10px] text-paper-3">Scenario planning, not company guidance.</span></div>
+        <div className="flex items-center justify-between"><EvidenceBadge cls="modelled" /><span className="font-mono text-xs text-paper-3">Scenario planning, not company guidance.</span></div>
         <div className="space-y-3">
           <div className="eyebrow text-violet-300">Opportunity sizing</div>
           <Slider label="Tactical-UAS autonomy attach" value={assumptions.attach} min={1} max={15} unit="%" onChange={set('attach')} testId="assume-attach" />

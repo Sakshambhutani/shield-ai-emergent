@@ -1,6 +1,6 @@
-.company-roadmap { gap: 8px; }
+.company-roadmap { gap: 16px; }
 .company-roadmap-scroll { flex: 1; min-height: 0; overflow: auto; }
-.company-roadmap-canvas { min-width: 1060px; }
+.company-roadmap-canvas { min-width: 1060px; padding-top: 24px; }
 .mission-corridor { position: relative; height: 629px; }
 .mission-grid { position: absolute; inset: 0 28px; background-image: linear-gradient(90deg, #6079980a 1px, transparent 1px); background-size: 16.6667% 100%; mask-image: linear-gradient(transparent, black 35%, black 65%, transparent); }
 .mission-path-area { position: absolute; inset: 0 28px; }
@@ -10,12 +10,12 @@
 .mission-center { stroke: url(#mission-gradient); stroke-width: 3; stroke-linecap: round; }
 .mission-branch { stroke-width: 1.5; }
 .mission-branch.direct { stroke: #60a5fa; }
-.mission-branch.partner { stroke: #6fbfbc; }
+.mission-branch.partner { stroke: #80b4fa; }
 .mission-direction { stroke: url(#mission-gradient); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
 .company-milestones { margin: 0; padding: 0; list-style: none; }
 .company-milestone { position: absolute; left: var(--position); top: var(--altitude); width: 0; }
 .company-milestone-dot { position: absolute; z-index: 1; left: -6px; top: -6px; width: 13px; height: 13px; background: #0b0d10; border: 2px solid #60a5fa; border-radius: 50%; box-shadow: 0 0 0 6px #0b0d10, 0 0 0 7px #60a5fa20; }
-.company-milestone.last .company-milestone-dot { left: -14px; top: -14px; width: 29px; height: 29px; display: grid; place-items: center; color: #34d399; border-color: #34d399; box-shadow: 0 0 0 7px #34d3990c, 0 0 28px #34d39925; }
+.company-milestone.last .company-milestone-dot { left: -14px; top: -14px; width: 29px; height: 29px; display: grid; place-items: center; color: #80b4fa; border-color: #80b4fa; box-shadow: 0 0 0 7px #80b4fa0c, 0 0 28px #80b4fa25; }
 .company-milestone-dot svg { width: 14px; height: 14px; transform: rotate(45deg); }
 .company-milestone::before { content: ''; position: absolute; width: 1px; height: 12px; background: linear-gradient(#3c4c64, #3c4c6430); left: 0; }
 .company-milestone.above::before { bottom: 12px; }
@@ -24,29 +24,29 @@
 .company-milestone.above .company-milestone-copy { bottom: 24px; }
 .company-milestone.below .company-milestone-copy { top: 40px; }
 .company-milestone.first .company-milestone-copy { left: -60px; }
-.company-milestone.last .company-milestone-copy { left: -260px; border-color: #34d39945; background: linear-gradient(135deg, #10221f, #10151c); }
+.company-milestone.last .company-milestone-copy { left: -260px; border-color: #80b4fa45; background: linear-gradient(135deg, #151e2b, #10151c); }
 button.company-milestone-copy { cursor: pointer; transition: border-color .18s, box-shadow .18s; }
 button.company-milestone-copy:hover, .selected .company-milestone-copy { border-color: #60a5fa; box-shadow: 0 0 20px #3b82f615; }
 button.company-milestone-copy:focus-visible { outline: 2px solid #60a5fa; outline-offset: 4px; }
-.company-month { display: flex; justify-content: space-between; align-items: center; color: #60a5fa; font: 11px/1.4 'IBM Plex Mono', monospace; letter-spacing: .06em; }
+.company-month { display: flex; justify-content: space-between; align-items: center; color: #60a5fa; font: 12px/1.4 'IBM Plex Mono', monospace; letter-spacing: .06em; }
 .company-month svg { width: 13px; height: 13px; }
-.company-milestone h3 { font-size: 16px; line-height: 1.2; font-weight: 600; letter-spacing: -.025em; margin: 5px 0 7px; }
+.company-milestone h3 { font-size: 16px; line-height: 1.4; font-weight: 600; letter-spacing: -.025em; margin: 5px 0 7px; }
 .company-milestone-copy ul { list-style: none; margin: 0; padding: 0; }
-.company-milestone-copy li { color: #a6afbf; font-size: 11px; line-height: 1.6; white-space: nowrap; letter-spacing: -.015em; }
-.company-milestone.last h3, .company-milestone.last .company-month { color: #34d399; }
+.company-milestone-copy li { color: var(--text-secondary); font-size: 12px; line-height: 1.6; white-space: normal; letter-spacing: -.015em; }
+.company-milestone.last h3, .company-milestone.last .company-month { color: #80b4fa; }
 .mission-routes { position: absolute; left: 41%; width: 22%; top: 0; }
 .mission-route { position: absolute; width: 100%; text-align: center; }
 .mission-route.route-0 { top: 341px; }
 .mission-route.route-1 { top: 407px; }
-.mission-route strong { display: block; font: 10px/1.5 'IBM Plex Mono', monospace; color: #60a5fa; }
-.mission-route.route-1 strong { color: #6fbfbc; }
-.mission-route span { display: block; color: #8993a5; font-size: 9px; line-height: 1.6; margin-top: 2px; white-space: nowrap; }
+.mission-route strong { display: block; font: 12px/1.5 'IBM Plex Mono', monospace; color: #60a5fa; }
+.mission-route.route-1 strong { color: #80b4fa; }
+.mission-route span { display: block; color: var(--text-muted); font-size: 12px; line-height: 1.6; margin-top: 2px; white-space: normal; }
 .milestone-panel-section + .milestone-panel-section { border-top: 1px solid #232937; padding-top: 20px; margin-top: 24px; }
-.milestone-panel-section h3 { color: #60a5fa; font: 10px/1.5 'IBM Plex Mono', monospace; text-transform: uppercase; letter-spacing: .1em; margin-bottom: 12px; }
+.milestone-panel-section h3 { color: #60a5fa; font: 12px/1.5 'IBM Plex Mono', monospace; text-transform: uppercase; letter-spacing: .1em; margin-bottom: 12px; }
 .company-milestone-details { display: flex; flex-direction: column; gap: 14px; }
 .company-milestone-details li { padding-left: 14px; border-left: 2px solid #355c89; font-size: 14px; line-height: 1.6; }
-.milestone-panel-section p { font-size: 13px; line-height: 1.7; color: #b8b3a8; margin-top: 12px; }
-.milestone-panel-section .milestone-planning-note { font-size: 11px; color: #7c7870; }
+.milestone-panel-section p { font-size: 13px; line-height: 1.7; color: var(--text-secondary); margin-top: 12px; }
+.milestone-panel-section .milestone-planning-note { font-size: 12px; color: var(--text-muted); }
 @media (max-width: 767px) {
   .company-roadmap-scroll { min-height: 540px; }
 }
