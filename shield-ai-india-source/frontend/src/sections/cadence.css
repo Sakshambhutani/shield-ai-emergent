@@ -48,24 +48,3 @@
   .cadence-ring { transition: none; }
   .show-click-cue .cadence-click-cue { animation: none; }
 }
-.cadence-operating { height: auto; min-height: 100%; gap: 22px; padding-bottom: 24px; }
-.cadence-intro { max-width: 960px; color: var(--text-secondary); font-size: 14px; line-height: 1.7; }
-.cadence-monthly { padding: 22px; display: flex; align-items: center; justify-content: space-between; gap: 24px; border-top: 2px solid var(--accent, #80b4fa); }
-.cadence-eyebrow { color: var(--accent, #80b4fa); font: 12px 'IBM Plex Mono',monospace; letter-spacing: .06em; }
-.cadence-monthly h2 { font-size: 22px; margin: 10px 0; }
-.cadence-operating p { font-size: 13px; line-height: 1.7; color: var(--text-secondary); }
-.cadence-agenda { display: flex; gap: 26px; flex-shrink: 0; }
-.cadence-agenda span { font-size: 12px; color: var(--text-secondary); }
-.cadence-agenda strong { display: block; font: 32px 'IBM Plex Mono',monospace; color: var(--text-primary); margin-bottom: 7px; }
-.cadence-meetings { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 14px; }
-.cadence-meeting { padding: 20px; }
-.cadence-meeting-heading { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 10px; font-size: 12px; color: var(--text-secondary); }
-.cadence-meeting h2,.cadence-rules h2 { font-size: 17px; margin: 14px 0 10px; }
-.cadence-meeting dl { margin: 14px 0; }
-.cadence-meeting dl > div { display: grid; grid-template-columns: 55px 1fr; gap: 12px; border-top: 1px solid #232937; padding: 10px 0; font-size: 12px; line-height: 1.65; }
-.cadence-meeting dt { color: var(--text-muted); }.cadence-meeting dd { color: var(--text-secondary); }
-.cadence-operating summary { cursor: pointer; font-size: 12px; }.cadence-operating details p { margin-top: 10px; }
-.cadence-operating summary:focus-visible { outline: 2px solid var(--accent, #80b4fa); outline-offset: 4px; }
-.cadence-rules { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
-.cadence-rules article { padding: 6px 20px 20px; }.cadence-rules p + p { margin-top: 10px; }
-@media(max-width:750px) { .cadence-monthly { flex-direction: column; align-items: start; } .cadence-meetings,.cadence-rules { grid-template-columns: 1fr; } .cadence-monthly h2 { font-size: 20px; } }
