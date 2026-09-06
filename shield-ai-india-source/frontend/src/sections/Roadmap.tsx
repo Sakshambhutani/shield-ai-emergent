@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import type { CSSProperties } from 'react';
 import { ArrowUpRight, Navigation } from 'lucide-react';
 import { Headline, Screen, SideDrawer } from '@/components/ui';
@@ -17,15 +17,33 @@ const CHECKPOINTS = [
 
 export default function Roadmap() {
   const [selected, setSelected] = useState<number | null>(null);
+  const viewportRef = useRef<HTMLDivElement>(null);
+  const [presentationScale, setPresentationScale] = useState(1);
   const { mode, present } = useStore();
   const interactive = mode === 'explore' && !present;
+  useLayoutEffect(() => {
+    const viewport = viewportRef.current;
+    if (!viewport || !present) {
+      setPresentationScale(1);
+      return;
+    }
+    // Fit the complete corridor, including its endpoint halo, above the footer.
+    const fit = () => {
+      setPresentationScale(Math.max(0.01, Math.min(1, (viewport.clientHeight - 2) / 653, viewport.clientWidth / 1060)));
+      viewport.scrollTo({ top: 0, left: 0 });
+    };
+    fit();
+    const observer = new ResizeObserver(fit);
+    observer.observe(viewport);
+    return () => observer.disconnect();
+  }, [present]);
   useEffect(() => { if (!interactive) setSelected(null); }, [interactive]);
   const milestone = MILESTONES.find((item) => item.month === selected);
 
   return <Screen className={`company-roadmap${present ? ' company-roadmap-present' : ''}`}>
     <Headline title="18-Month Company Roadmap" sub="Proposed company checkpoints across delivery, growth and India capability." right={<SourceButton claimIds={['m-roadmap', 'c-army-select', 'c-jsw', 'c-catalyst']} title="India company roadmap" />} />
-    <div className="company-roadmap-scroll" role="region" aria-label="18-month mission corridor; scroll horizontally on smaller screens" tabIndex={0}>
-      <div className="company-roadmap-canvas" data-testid="company-roadmap">
+    <div ref={viewportRef} className="company-roadmap-scroll" role="region" aria-label="18-month mission corridor; scroll horizontally on smaller screens" tabIndex={0}>
+      <div className="company-roadmap-canvas" data-testid="company-roadmap" style={present ? { zoom: presentationScale } : undefined}>
         <div className="mission-corridor">
           <div className="mission-grid" aria-hidden="true" />
           <div className="mission-path-area">

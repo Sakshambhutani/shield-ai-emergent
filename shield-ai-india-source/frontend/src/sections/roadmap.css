@@ -50,3 +50,6 @@ button.company-milestone-copy:focus-visible { outline: 2px solid #60a5fa; outlin
 @media (max-width: 767px) {
   .company-roadmap-scroll { min-height: 540px; }
 }
+
+/* Fit the complete presentation into the space below its header. */
+.company-roadmap-present .company-roadmap-scroll { min-height: 0; }

@@ -26,4 +26,25 @@
   .cadence-circles { width: min(100%, 620px); }
   .cadence-questions { align-self: stretch; border-left: 0; border-top: 1px solid var(--border, #303a49); padding: 24px 8px; }
 }
-@media (prefers-reduced-motion: reduce) { .cadence-ring { transition: none; } }
+/* A single outward sweep invites interaction without becoming a looping distraction. */
+.cadence-click-cue { fill: #80b4fa16; stroke: var(--accent, #80b4fa); stroke-width: 3; opacity: 0; pointer-events: none; }
+.show-click-cue .cadence-click-cue { animation: cadence-invite 1600ms ease-in-out both; }
+.show-click-cue .cue-operate { animation-delay: 500ms; }
+.show-click-cue .cue-align { animation-delay: 1400ms; }
+.show-click-cue .cue-steer { animation-delay: 2300ms; }
+@keyframes cadence-invite {
+  0%, 100% { opacity: 0; }
+  40% { opacity: .85; }
+}
+@media (hover: hover) {
+  .cadence-layout:not(.has-selection) .cadence-layer:hover .cadence-ring {
+    fill: #80b4fa12;
+    stroke: var(--accent, #80b4fa);
+    stroke-width: 2.5;
+  }
+  .cadence-layer:hover .cadence-horizon-name { fill: var(--accent, #80b4fa); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .cadence-ring { transition: none; }
+  .show-click-cue .cadence-click-cue { animation: none; }
+}

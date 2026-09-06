@@ -46,6 +46,7 @@ function ringPath(outer: number, inner: number) {
 
 export default function Cadence() {
   const [selected, setSelected] = useState<LayerId | null>(null);
+  const [hasInteracted, setHasInteracted] = useState(false);
   const ringRefs = useRef<Partial<Record<LayerId, SVGGElement | null>>>({});
   const active = LAYERS.find(layer => layer.id === selected);
   const close = () => {
@@ -66,7 +67,7 @@ export default function Cadence() {
 
   return <Screen className="cadence-screen">
     <Headline title="Operate. Align. Steer." />
-    <div className={`cadence-layout${active ? ' has-selection' : ''}`}>
+    <div className={`cadence-layout${active ? ' has-selection' : ''}${hasInteracted ? '' : ' show-click-cue'}`}>
       <svg className="cadence-circles" viewBox="0 0 1000 1000" role="group" aria-label="Cadence layers" data-testid="decision-rhythm">
         {LAYERS.map(layer => <g key={layer.id} ref={node => { ringRefs.current[layer.id] = node; }}
           className={`cadence-layer${selected === layer.id ? ' is-selected' : ''}`}
@@ -74,7 +75,9 @@ export default function Cadence() {
           aria-pressed={selected === layer.id} aria-expanded={selected === layer.id}
           aria-controls={selected === layer.id ? 'cadence-questions' : undefined}
           data-testid={`cadence-ring-${layer.id}`}
-          onClick={() => setSelected(selected === layer.id ? null : layer.id)}
+          onPointerEnter={() => setHasInteracted(true)}
+          onFocus={() => setHasInteracted(true)}
+          onClick={() => { setHasInteracted(true); setSelected(selected === layer.id ? null : layer.id); }}
           onKeyDown={event => {
             if (event.key === 'Enter' || event.key === ' ') {
               event.preventDefault();
@@ -82,6 +85,7 @@ export default function Cadence() {
             }
           }}>
           <path d={ringPath(layer.outer, layer.inner)} fillRule="evenodd" className="cadence-ring" />
+          <path d={ringPath(layer.outer, layer.inner)} fillRule="evenodd" className={`cadence-click-cue cue-${layer.id}`} aria-hidden="true" />
           <g textAnchor="middle" className="cadence-ring-copy">
             <text x="500" y={layer.labelY} className="cadence-horizon-name">{layer.name}</text>
             <text x="500" y={layer.cadenceY} className="cadence-period">{layer.cadence}</text>
