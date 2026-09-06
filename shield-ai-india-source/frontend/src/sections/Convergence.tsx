@@ -1,5 +1,6 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { CartesianGrid, ResponsiveContainer, Scatter, ScatterChart, Tooltip, XAxis, YAxis, ZAxis } from 'recharts';
+import { X } from 'lucide-react';
 import { cn } from '@/lib/cn';
 import { Field, Headline, HORIZON_META, Pill, Screen } from '@/components/ui';
 import { EvidenceBadge, SourceButton } from '@/components/Evidence';
@@ -77,9 +78,10 @@ function RankList({ rows, sel, onSelect }: { rows: Row[]; sel: string | null; on
   );
 }
 
-function OpportunityDetail({ s }: { s: Row }) {
+function OpportunityDetail({ s, onClose }: { s: Row; onClose: () => void }) {
   return (
-    <div data-testid="opportunity-detail" className="panel p-4 grid md:grid-cols-6 gap-3 animate-rise shrink-0">
+    <div data-testid="opportunity-detail" className="panel p-4 grid md:grid-cols-6 gap-3 animate-rise shrink-0 relative">
+      <button type="button" data-testid="opportunity-detail-close" onClick={onClose} aria-label="Close opportunity detail" className="absolute right-3 top-3 rounded p-1 text-paper-3 hover:bg-ink-3 hover:text-paper-2"><X className="h-4 w-4" /></button>
       <div className="md:col-span-2"><div className="flex items-center gap-2"><div className="text-base font-medium">{s.title}</div><Pill tone={HORIZON_META[s.horizon].tone}>{HORIZON_META[s.horizon].label}</Pill><SourceButton claimIds={s.claimIds} title={s.title} /></div><div className="text-xs text-paper-2 mt-1">{s.note}</div><div className="mt-1"><PrecedentTag id={s.precedentId} /></div></div>
       <Field label="Mission">{s.mission}</Field>
       <Field label="Buyer · prime">{s.buyer}{s.prime && <div className="text-paper-2 text-xs">{s.prime}</div>}</Field>
@@ -110,7 +112,9 @@ function PriorityLedger() {
 export default function Convergence() {
   const { weights, mode, present } = useStore();
   const [sel, setSel] = useState<string | null>(null);
+  const detailRef = useRef<HTMLDivElement>(null);
   useEffect(() => { if (present) setSel(null); }, [present]);
+  useEffect(() => { if (sel) detailRef.current?.scrollIntoView({ behavior: 'smooth', block: 'nearest' }); }, [sel]);
   const all = useMemo<Row[]>(() => OPPORTUNITIES.map((o) => ({ ...o, ...score(o, weights), z: o.size * 40 })).sort((a, b) => b.total - a.total), [weights]);
   const rows = useMemo(() => (mode === 'explore' ? all : all.filter((r) => !r.component)), [all, mode]);
   const top = useMemo(() => new Set(rows.slice(0, 3).map((r) => r.id)), [rows]);
@@ -143,7 +147,7 @@ export default function Convergence() {
           <WeightsPanel />
         </div>
       </div>
-      {s && <OpportunityDetail s={s} />}
+      {s && <div ref={detailRef}><OpportunityDetail s={s} onClose={() => setSel(null)} /></div>}
     </Screen>
   );
 }
