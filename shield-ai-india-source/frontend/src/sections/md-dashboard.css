@@ -225,3 +225,22 @@
 .md-review-meta { display: flex; justify-content: space-between; gap: 12px; color: #7c7870; font: 10px 'IBM Plex Mono',monospace; }
 .md-planning-content { display: flex; flex-direction: column; gap: 18px; }
 @media(max-width:650px) { .md-review-controls { align-items: stretch; flex-direction: column; } .md-review-tabs button { flex: 1; padding: 9px; } .md-review-meta { flex-direction: column; gap: 5px; } }
+/* Monthly executive review; scenario economics remain a separate drill-down. */
+.md-example-note { color: #b8b3a8; font-size: 12px; line-height: 1.6; }
+.md-decision-cards { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 12px; }
+.md-decision-card { padding: 18px; display: flex; flex-direction: column; gap: 12px; border-top: 2px solid #e3b36c; }
+.md-card-meta { font: 11px/1.5 'IBM Plex Mono',monospace; color: #e3b36c; }
+.md-decision-card h3 { font-size: 16px; font-weight: 600; }
+.md-decision-card p,.md-followthrough p { font-size: 12px; line-height: 1.65; color: #b8b3a8; }
+.md-decision-card details { margin-top: auto; }
+.md-decision-card summary,.md-followthrough summary { cursor: pointer; font-size: 12px; color: #f3efe6; }
+.md-decision-card details p { margin-top: 10px; }
+.md-decision-card footer { border-top: 1px solid #232937; padding-top: 10px; font-size: 11px; color: #b8b3a8; }
+.md-dashboard .md-kpis { grid-template-columns: repeat(4,minmax(0,1fr)); }
+.md-kpi-plan { font-size: 12px; color: #b8b3a8; margin-top: 10px; }
+.md-kpis + .md-table-wrap { margin-top: 12px; }
+.md-followthrough { padding: 18px; display: grid; gap: 10px; }
+.md-followthrough strong { font-size: 14px; }
+.md-dashboard summary:focus-visible { outline: 2px solid #b8b3a8; outline-offset: 4px; }
+@media(max-width:1000px) { .md-decision-cards { grid-template-columns: 1fr; } .md-dashboard .md-kpis { grid-template-columns: repeat(2,minmax(0,1fr)); } }
+@media(max-width:500px) { .md-dashboard .md-kpis { grid-template-columns: 1fr; } .md-section-title { flex-wrap: wrap; } .md-period span:last-child { margin-left: 0; } }

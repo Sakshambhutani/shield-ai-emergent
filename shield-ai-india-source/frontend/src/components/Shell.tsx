@@ -30,10 +30,10 @@ function Nav() {
 }
 
 function ViewControls() {
-  const { present, setPresent, openEvidence } = useStore();
+  const { present, setPresent, openEvidence, sectionIndex } = useStore();
   const buttonClass = 'inline-flex items-center gap-1.5 rounded px-2 py-1 text-xs text-paper-2 hover:text-paper hover:bg-ink-3';
   return <div className="flex items-center gap-1">
-    {!present && <>
+    {!present && SECTIONS[sectionIndex].id !== 'opmodel' && <>
       <button aria-label="Sources" title="Sources" data-testid="sources-btn" onClick={() => openEvidence()} className={buttonClass}><FileText className="h-3.5 w-3.5" /><span className="hidden lg:inline">Sources</span></button>
     </>}
     <button aria-label={present ? 'Exit presentation' : 'Present'} title={present ? 'Exit presentation' : 'Present'} data-testid="present-btn" onClick={() => setPresent(!present)} className={buttonClass}>
@@ -74,8 +74,10 @@ export function Shell({ children }: { children: ReactNode }) {
         <main ref={mainRef} data-testid="main-content" className={cn('flex-1 min-h-0 overflow-y-auto overflow-x-hidden', present ? 'p-6 lg:p-10' : 'p-4 lg:p-6')}>{children}</main>
         <Footer />
       </div>
-      <EvidenceDrawer />
-      <AccountDrawer />
+      {SECTIONS[sectionIndex].id !== 'opmodel' && <>
+        <EvidenceDrawer />
+        <AccountDrawer />
+      </>}
     </div>
   );
 }

@@ -3,6 +3,7 @@ import { Headline, Screen } from '@/components/ui';
 import { DEFAULT_INPUTS, dollars, PROGRAMMES, SCHEDULE, simulate } from '@/data/md-planning';
 import MdAssumptions from './MdAssumptions';
 import MdReview from './MdReview';
+import MdMonthlyReview from './MdMonthlyReview';
 import MdBusinessReview from './MdBusinessReview';
 import MdMetricDetail, { type MdMetric } from './MdMetricDetail';
 import './md-dashboard.css';
@@ -44,13 +45,15 @@ export default function MdDashboard() {
   ];
   return <Screen className="md-dashboard md-numeric">
     <Headline title="MD Operating Dashboard" />
+    <MdMonthlyReview />
+    <section aria-label="Deal coverage"><div className="md-section-title"><h2>Deal coverage</h2><span>Tracked here · pursuits are not signed deals</span></div><div className="md-deal-counts panel">{counts.map(c => <button key={c.label} onClick={() => setDealsOpen(!dealsOpen)} aria-expanded={dealsOpen} aria-controls="md-deal-detail"><strong>{c.count}</strong><span>{c.label}</span></button>)}<button className="md-deal-detail-toggle" onClick={() => setDealsOpen(!dealsOpen)} aria-expanded={dealsOpen} aria-controls="md-deal-detail">{dealsOpen ? 'Hide detail −' : 'Deals & partners ↗'}</button></div>{dealsOpen && <div id="md-deal-detail"><MdBusinessReview /></div>}</section>
+    <MdReview />
+    <details className="md-disclosure md-planning-drilldown"><summary>Scenario planner & financial model<span>Independent assumptions · four-year view</span></summary><div className="md-planning-content">
+    <p className="md-footnote">Changing this scenario does not change the fixed illustrative monthly review above. Model months run from mobilisation, not calendar dates.</p>
     <div className="md-numeric-toolbar"><span>Assumed scenario · review weekly · refresh financials monthly</span><button className="md-register-button" onClick={() => setAssumptionsOpen(true)} aria-haspopup="dialog">Assumptions ↗</button></div>
     <section aria-label="Business KPIs" className="md-kpis">{metrics.map(m => <button key={m.label} className="panel panel-hover md-kpi" onClick={() => setMetric(m.label)} aria-haspopup="dialog"><span className="md-kpi-label">{m.label}<span>↗</span></span><strong className="md-actual">{m.value}</strong><span className="md-metric-context">{m.context}</span></button>)}</section>
     {delay > 0 && <div className="md-timing-note" role="status">First acceptance: M9 → M{firstAcceptance}. Y1 revenue: {dollars(base.years[0].revenue)} → {dollars(model.years[0].revenue)}. Total contract: {dollars(inputs.contract)} unchanged.</div>}
-    <section aria-label="Deal coverage"><div className="md-section-title"><h2>Deal coverage</h2><span>Tracked here · pursuits are not signed deals</span></div><div className="md-deal-counts panel">{counts.map(c => <button key={c.label} onClick={() => setDealsOpen(!dealsOpen)} aria-expanded={dealsOpen} aria-controls="md-deal-detail"><strong>{c.count}</strong><span>{c.label}</span></button>)}<button className="md-deal-detail-toggle" onClick={() => setDealsOpen(!dealsOpen)} aria-expanded={dealsOpen} aria-controls="md-deal-detail">{dealsOpen ? 'Hide detail −' : 'Deals & partners ↗'}</button></div>{dealsOpen && <div id="md-deal-detail"><MdBusinessReview /></div>}</section>
-    <MdReview />
-    <section aria-label="Planning risks"><div className="md-section-title"><h2>Risks & actions</h2><span>Planning watchlist</span></div><div className="md-risk-ledger panel">{risks.map(r => <div key={r.title}><strong>{r.title}</strong><span>{r.signal}</span><small>{r.action}</small></div>)}</div></section>
-    <details className="md-disclosure md-planning-drilldown"><summary>Financial plan & milestones<span>Four-year view · USD millions</span></summary><div className="md-planning-content">
+    <section aria-label="Planning risks"><div className="md-section-title"><h2>Scenario sensitivities</h2><span>Planning watchlist</span></div><div className="md-risk-ledger panel">{risks.map(r => <div key={r.title}><strong>{r.title}</strong><span>{r.signal}</span><small>{r.action}</small></div>)}</div></section>
     <section aria-label="Annual financial metrics"><div className="md-section-title"><h2>Financial performance</h2><span>Y1 = mobilisation year</span></div><div className="md-table-wrap panel"><table className="md-pnl"><thead><tr><th scope="col">USD M</th>{model.years.map(y => <th key={y.year} scope="col">Year {y.year}</th>)}</tr></thead><tbody>{rows.map(row => <tr key={row.label} className={row.total ? 'md-subtotal' : ''}><th scope="row">{row.label}</th>{row.values.map((value, i) => <td key={i}>{dollars(value)}</td>)}</tr>)}</tbody></table></div>{model.futureReceipts > 0 && <div className="md-numeric-tail"><span>Collections after Y4</span><strong>{dollars(model.futureReceipts)}</strong></div>}</section>
     <section aria-label="Delivery milestones"><div className="md-section-title"><h2>Acceptance milestones</h2><span>Contract allocation</span></div><div className="md-gates panel">{SCHEDULE.map(g => <div key={g.month}><span>M{g.month + delay} · {g.share * 100}%</span><strong>{dollars(inputs.contract * g.share)}</strong><small>{g.gate.split(' / ')[0]}</small></div>)}</div></section>
     </div></details>
