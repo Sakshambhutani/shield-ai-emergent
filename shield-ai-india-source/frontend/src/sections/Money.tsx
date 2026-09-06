@@ -166,7 +166,7 @@ export default function Money() {
         <div className="shrink-0"><h1 className="text-2xl sm:text-3xl lg:text-4xl font-semibold tracking-tight leading-tight" data-testid="screen-headline">Where else can Shield’s autonomy stack travel?</h1></div>
         <FuturePossibility />
       </> : <>
-       <Headline title="India’s defence demand is moving toward autonomy" sub="Official pools are context, not TAM. Only Shield-relevant capability universes branch out." right={
+       <Headline title="India’s defence demand is moving toward autonomy" titleClassName="lg:text-4xl xl:text-5xl lg:whitespace-nowrap" sub="Official pools are context, not TAM. Only Shield-relevant capability universes branch out." right={
         <div className="flex gap-2">
           <div data-testid="view-toggle" className="flex rounded border border-line overflow-hidden text-xs">
             {(['budget', 'mission'] as const).map((v) => <button key={v} data-testid={`view-${v}`} onClick={() => setView(v)} className={cn('px-3 py-1 capitalize transition-colors duration-200', view === v ? 'bg-ink-4 text-paper' : 'text-paper-3 hover:text-paper-2')}>{v} view</button>)}
