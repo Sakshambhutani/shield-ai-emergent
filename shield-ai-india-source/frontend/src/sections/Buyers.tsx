@@ -34,7 +34,6 @@ const RADAR_NODES = [
   { id: 'airforce', title: 'Air Force Swarm & Teaming', sub: 'Indian Air Force · swarm systems · air teaming', x: 23, y: 42, horizon: 'Next' },
   { id: 'defence-space', title: 'Defence Space Agency', sub: 'Surveillance · constellation mission autonomy', x: 23, y: 18, horizon: 'Future' },
   { id: 'airborne', title: 'Large Airborne Platforms', sub: 'MALE · HAPS · CCA', examples: 'Tata · Mahindra · Bharat Forge', x: 78, y: 68, horizon: 'Next' },
-  { id: 'partner-maritime-isr', title: 'Maritime ISR', sub: 'Partner platforms · airborne sensing', examples: 'V-BAT · ViDAR', x: 78, y: 51, horizon: 'Next' },
   { id: 'maritime-autonomy', title: 'Maritime Autonomy', sub: 'Shipbuilders · naval primes', examples: 'Saga Defence · L&T · Adani', x: 78, y: 34, horizon: 'Next' },
   { id: 'integrators', title: 'Defence Platforms & Systems', sub: 'BEL · HAL · Goa Shipyard · GRSE · Mazagon', x: 50, y: 25, horizon: 'Next' },
   { id: 'space', title: 'Space Autonomy', sub: 'Private space OEMs', examples: 'Ananth · Centum', x: 78, y: 17, horizon: 'Future' },
