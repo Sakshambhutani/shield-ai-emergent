@@ -49,7 +49,7 @@ export default function Buyers() {
   const openResearch = (id: string) => { lastTrigger.current = document.activeElement as HTMLElement; setSelected(OPPORTUNITY_ARENAS.find((arena) => arena.id === id) ?? null); };
 
   return <Screen className="opportunity-landscape">
-    <Headline title="Where the opportunity landscape opens up" sub="From current foothold to adjacent and future opportunities" />
+    <Headline title="Where can Shield AI play and through which routes?" sub="Product fit and direct government or platform-partner routes for Hivemind, V-BAT, ViDAR and Aechelon." />
     <div className="radar-body" data-testid={explore ? 'opportunity-explore' : 'opportunity-story'}>
       <div className="opportunity-radar" data-testid="opportunity-landscape-map" aria-label="Opportunity radar: B2G Direct on the left, B2B2G on the right; Now at the foothold, Next on the middle arcs, Future on the outer arc">
         <div className="radar-routes"><h2>B2G Direct</h2><h2>B2B2G <span>/ Platform Route</span></h2></div>

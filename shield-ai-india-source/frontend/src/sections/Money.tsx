@@ -50,7 +50,7 @@ export default function Money() {
   const programmes = rowsFor(area);
   const selected = programmes.find(n => n.id === selectedByArea[area]) ?? programmes[0];
   return <section className="market-page" data-testid="market-page">
-    <Headline title="Where can autonomy find a place in India?" sub="Programmes, capability needs and procurement routes across government." />
+    <Headline title="Where is India investing in defence capability?" sub="Programmes, procurement activity and capability needs across defence and security." />
     <div className="market-workspace">
       <nav className="market-area-list" aria-label="Market opportunity areas">
         <div className="market-eyebrow market-area-label">Opportunity areas</div>
