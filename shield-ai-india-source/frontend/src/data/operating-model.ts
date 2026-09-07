@@ -122,7 +122,7 @@ export const OPERATING_FUNCTIONS: OperatingFunction[] = [
 },
 {
   "id": "industrialisation",
-  "name": "Industrialisation & JSW Partnership",
+  "name": "JSW Partnership",
   "mandate": "Make the joint production plan executable through Shield and JSW commitments.",
   "owner": "India Industrialisation lead",
   "kpis": [
@@ -324,56 +324,66 @@ export const OPERATING_FUNCTIONS: OperatingFunction[] = [
 ];
 
 // Current six-month measures shared by the operating model and the KPI tab.
-export const OPERATING_MODEL_KPIS: Record<string, { name: string; definition: string }[]> = {
+export const OPERATING_MODEL_KPIS: Record<string, { name: string; definition: string; indicator: 'Leading' | 'Lagging' }[]> = {
   "growth": [
     {
       "name": "New customer-backed programmes (#)",
+      "indicator": "Leading",
       "definition": "New programmes with a specific application, accountable customer sponsor, tangible customer or partner resource commitment and an identified path to paid work. Army follow-on is recorded separately."
     }
   ],
   "programmes": [
     {
       "name": "Next milestone forecast variance (days)",
+      "indicator": "Leading",
       "definition": "Forecast milestone completion date minus the agreed completion date. Positive values indicate delay; weekly movement uses the previous review forecast."
     },
     {
       "name": "Milestones accepted on time (%)",
+      "indicator": "Lagging",
       "definition": "Milestones formally accepted on or before their original agreed due date divided by milestones due in the reporting period. Late and outstanding milestones remain in the denominator; no percentage is reported when none are due."
     }
   ],
   "autonomy": [
     {
-      "name": "Priority scenarios ready (# / total)",
-      "definition": "Agreed priority scenarios with use case, operating conditions, expected behaviour, acceptance checks and required test inputs ready for development and testing."
+      "name": "Engineering commitments delivered (%)",
+      "indicator": "Lagging",
+      "definition": "Engineering outputs accepted against agreed checks by their original due dates divided by commitments due in the reporting period. Late and outstanding outputs remain in the denominator; individual ticket counts are excluded."
     },
     {
-      "name": "Scenarios validated in simulation (# / total)",
-      "definition": "Priority scenarios passing their agreed simulation checks with recorded evidence, against the fixed agreed priority scenario set. This does not establish flight readiness."
+      "name": "Critical engineering blockers (#)",
+      "indicator": "Leading",
+      "definition": "Unresolved dependencies threatening an upcoming engineering commitment, with an accountable owner, required resolution date and age. Includes access, documentation, interface and customer-input dependencies before flight testing."
     }
   ],
   "people": [
     {
       "name": "Hiring plan attainment (%)",
+      "indicator": "Lagging",
       "definition": "Employees joined divided by planned joins due by the review date. Show six-month hiring progress and total headcount separately."
     },
     {
       "name": "Critical roles filled (# / required)",
+      "indicator": "Leading",
       "definition": "Named critical roles filled by people who have joined, against the roles required for the next programme and engineering milestones."
     }
   ],
   "finance": [
     {
       "name": "Funding coverage (months)",
+      "indicator": "Leading",
       "definition": "Months of dated forecast expenditure covered by accessible cash and confirmed funding available when needed, including planned hiring. Excludes unconfirmed funding and expected customer receipts."
     },
     {
       "name": "Budget variance (%)",
+      "indicator": "Lagging",
       "definition": "Actual spending minus approved budget, divided by that budget for the same closed period. Positive values indicate overspend."
     }
   ],
   "industrialisation": [
     {
       "name": "Transfer deliverables accepted (# / total)",
+      "indicator": "Lagging",
       "definition": "Shield-to-JSW deliverables formally accepted by the receiving owner against a fixed agreed package and evidence requirements. Counts are not a weighted percentage of technology transferred."
     }
   ]
@@ -382,7 +392,7 @@ export const OPERATING_MODEL_KPIS: Record<string, { name: string; definition: st
 export const OPERATING_MODEL_SUMMARIES: Record<string, string> = {
   "growth": "Tracks tangible customer or partner commitment to the next business beyond the Army foothold.",
   "programmes": "Tracks the next milestone forecast and on-time acceptance of milestones due.",
-  "autonomy": "Tracks readiness and simulation validation of agreed Indian ISR scenarios during the build stage.",
+  "autonomy": "Tracks delivery of agreed engineering outputs and critical dependencies threatening upcoming commitments.",
   "people": "Tracks 30 additional hires over six months, from a starting team of 20 to 50, and staffing of critical roles.",
   "finance": "Tracks 18 months of assumed funding coverage against a target above 15 months, and actual spending against budget.",
   "industrialisation": "Tracks receiving-owner acceptance of the agreed Shield-to-JSW transfer package."

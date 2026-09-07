@@ -71,46 +71,8 @@ const SNAPSHOTS: Record<string, KpiSnapshot[]> = {
     }
   ],
   "autonomy": [
-    {
-      "value": "4 / 6",
-      "target": "6 / 6 ready before the simulation campaign",
-      "period": "Illustrative end-of-month-two review",
-      "context": "Six agreed priority scenarios for the proposed Hivemind SDK + V-BAT Indian ISR use case.",
-      "details": [
-        {
-          "label": "Readiness criteria",
-          "text": "Geography and operating conditions, mission expectations, platform configuration, expected behaviour, acceptance checks and test inputs agreed for each scenario."
-        },
-        {
-          "label": "Remaining work",
-          "text": "Two scenarios await customer operating-environment inputs. Engineering lead closes the scenario register before the simulation campaign."
-        },
-        {
-          "label": "Scope control",
-          "text": "Six is an illustrative fixed denominator, not six verified operational capabilities. Record baseline changes separately; edge cases belong within each agreed scenario."
-        }
-      ]
-    },
-    {
-      "value": "2 / 6",
-      "target": "6 / 6 validated before ground-test readiness review",
-      "period": "Simulation campaign to date",
-      "context": "2 passed; 1 tested with unresolved failures; 1 ready but untested; 2 not yet ready.",
-      "details": [
-        {
-          "label": "Evidence",
-          "text": "Each pass requires recorded simulation results against agreed checks and engineering review sign-off. Readiness and validation use the same six-scenario baseline."
-        },
-        {
-          "label": "Next action",
-          "text": "Engineering lead investigates the failed scenario and schedules a rerun; the next review shows failure owner, impact and retest date."
-        },
-        {
-          "label": "Stage boundary",
-          "text": "Simulation results do not imply flight readiness. Add ground and flight validation measures as the programme reaches those stages."
-        }
-      ]
-    }
+    { value: "80%", target: "100%", period: "Illustrative end-of-month-two review", context: "4 of 5 engineering outputs due accepted on time.", details: [{ label: "Basis", text: "Acceptance against agreed checks by original due dates; late and outstanding commitments remain in the denominator." }] },
+    { value: "2", target: "0", period: "Illustrative end-of-month-two review", context: "Customer inputs and HQ configuration access threaten upcoming engineering commitments.", details: [{ label: "Scope", text: "Critical dependencies tracked by owner, age and required resolution date, including before flight testing." }] }
   ],
   "people": [
     {

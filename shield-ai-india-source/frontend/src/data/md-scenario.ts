@@ -62,6 +62,31 @@ export const SCENARIOS = [
  { id: 'o1', label: 'OEM interface baseline', project: 'oem-isr', platform: 'Partner platform', state: 'Ready', owner: 'Solutions lead', next: 'Evaluation scope review', due: '2026-10-16' },
  { id: 'o2', label: 'OEM application scenario', project: 'oem-isr', platform: 'Partner platform', state: 'Blocked', owner: 'Partner BD', next: 'Platform access', due: '2026-10-16' },
 ];
+// Illustrative preparation outputs, separate from customer delivery milestones.
+export const ENGINEERING_PERIOD_START = '2026-09-01';
+export const ENGINEERING_COMMITMENTS = [
+ { id:'eng-docs', project:'army', label:'Initial hardware document register', due:'2026-09-24', acceptedAt:'2026-09-24', owner:'Integration lead', check:'Available documents indexed and gaps assigned' },
+ { id:'eng-workflow', project:'army', label:'ISR simulation workflow checks', due:'2026-09-25', acceptedAt:'2026-09-25', owner:'Autonomy lead', check:'Agreed workflow checks passed in simulation' },
+ { id:'eng-geography', project:'army', label:'Geography configuration checks', due:'2026-09-28', acceptedAt:'2026-09-28', owner:'Simulation lead', check:'Configuration checks passed in the preparation environment' },
+ { id:'eng-test-plan', project:'army', label:'Initial interface test plan', due:'2026-09-29', acceptedAt:'2026-09-29', owner:'Test lead', check:'Interface checks and expected results agreed' },
+ { id:'eng-interface', project:'army', label:'Interface validation fix', due:'2026-09-30', acceptedAt:null, owner:'Integration lead', check:'Failed interface check corrected and rerun passed' },
+ { id:'eng-inputs', project:'army', label:'Customer environment test inputs', due:'2026-10-05', acceptedAt:null, owner:'Programme lead', check:'Missing customer inputs agreed for test preparation' },
+ { id:'eng-access', project:'army', label:'HQ test configuration access', due:'2026-10-08', acceptedAt:null, owner:'Engineering lead', check:'Required HQ configuration accessible to India engineers' },
+ { id:'eng-oem-info', project:'oem-isr', label:'Initial partner platform information register', due:'2026-09-30', acceptedAt:'2026-09-30', owner:'Solutions lead', check:'Received platform information indexed and gaps assigned' },
+ { id:'eng-oem-access', project:'oem-isr', label:'Partner platform access window', due:'2026-10-16', acceptedAt:null, owner:'Partner BD', check:'Platform access window confirmed for evaluation planning' },
+];
+export const ENGINEERING_BLOCKER_LINKS = [
+ { blocker:'customer-input', commitment:'eng-inputs' },
+ { blocker:'hq-access', commitment:'eng-access' },
+ { blocker:'platform', commitment:'eng-oem-access' },
+];
+export const engineeringMetrics = (project: string) => {
+ const commitments = ENGINEERING_COMMITMENTS.filter(c=>c.project===project);
+ const due = commitments.filter(c=>c.due>=ENGINEERING_PERIOD_START&&c.due<=AS_OF);
+ const delivered = due.filter(c=>c.acceptedAt&&c.acceptedAt<=c.due).length;
+ const blockers = ENGINEERING_BLOCKER_LINKS.filter(l=>commitments.some(c=>c.id===l.commitment)).map(l=>BLOCKERS.find(b=>b.id===l.blocker)!);
+ return { commitments, due, delivered, percentage:due.length?Math.round(delivered/due.length*100):null, blockers, oldest:Math.max(0,...blockers.map(b=>days(b.opened,AS_OF))) };
+};
 export const CAPACITY = [
  { team: 'Engineering', current: 12, assigned: 12, target: 30 },
  { team: 'Delivery & support', current: 3, assigned: 3, target: 8 },
@@ -142,6 +167,7 @@ export const JSW: Milestone[] = [
  { id:'readiness', label:'Initial production readiness', group:'Joint readiness', start:'2026-12-11', due:'2026-12-31', forecast:'2026-12-31', previous:'2026-12-31', progress:0, owner:'JSW + Shield programme leads', dependency:'Transfer, tooling and materials', project:'jsw' },
 ];
 export const ASSUMPTIONS = [
+ { label:'Engineering commitments', value:'Army 4 / 5 delivered on time', detail:'Illustrative preparation outputs for 01 Sep–01 Oct 2026, separate from customer delivery milestones. Four outputs accepted by their original due dates; the interface fix remains outstanding. Future commitments are excluded from attainment. Critical dependencies link to the existing blocker register; their age uses the dashboard snapshot date. Scenario checks remain supporting detail.' },
  { label:'Reporting date & roadmap', value:`${date(AS_OF)} · planning snapshot`, detail:'Roadmap anchors: October 2026 baseline; January 2027 engineering environment and initial production; April 2027 first acceptance; October 2027 first paid expansion; April 2028 Army follow-on. These are proposed month-level checkpoints. Exact days and programme durations below are constructed assumptions, not verified contract dates.' },
  { label:'Army order', value:'$500M · 3 years', detail:'User-directed assumption, not a verified order value. Assumed term 01 Oct 2026–30 Sep 2029, signed 30 Sep 2026. Payment shares 10%, 20%, 30%, 30%, 10%; advance received $50M. Remaining receipts follow acceptance by 30 days. No revenue recognised at the initial snapshot; customer advance is not earned revenue. Constructed performance allocations: $100M first acceptance, $150M year two, $150M year three and $100M final handover, recognising $500M in total. Finance must validate entity attribution and revenue recognition.' },
  { label:'Headcount & salaries', value:'20 → 50 · ₹50L per person/year', detail:'Latest user input supersedes the earlier 45-person target. Adds 30 people in six monthly cohorts of five, at each month end, with no exits. Conservative cash forecast charges each forecast month at its ending headcount. Annual salary: 20 × ₹50L = ₹10Cr; 50 × ₹50L = ₹25Cr. The salary assumption is treated as cash salary; add-on costs are separately assumed.' },

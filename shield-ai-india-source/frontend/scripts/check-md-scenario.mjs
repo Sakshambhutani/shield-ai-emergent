@@ -19,6 +19,20 @@ try {
  assert.equal(sum(s.REVENUE_PLAN,'amount'),s.ARMY.value);
  assert.equal(s.RECOGNISED_REVENUE,0);
  assert.equal(s.CURRENT_HEADCOUNT,20);
+ const engineering=s.engineeringMetrics('army');
+ assert.equal(engineering.percentage,80);
+ assert.equal(engineering.due.length,5);
+ assert.equal(engineering.blockers.length,2);
+ assert.equal(engineering.oldest,10);
+ assert.equal(s.engineeringMetrics('oem-isr').percentage,100);
+ assert.equal(s.engineeringMetrics('oem-isr').blockers.length,1);
+ for(const link of s.ENGINEERING_BLOCKER_LINKS){
+  const commitment=s.ENGINEERING_COMMITMENTS.find(c=>c.id===link.commitment);
+  const blocker=s.BLOCKERS.find(b=>b.id===link.blocker);
+  assert.ok(commitment&&blocker);
+  assert.equal(commitment.project,blocker.project);
+ }
+
  assert.equal(s.CRITICAL_JOINING_GAPS.length,2);
  assert.equal(s.JOINING_COMMITMENTS.filter(r=>r.confirmed).length,sum(s.ROLES,'accepted'));
  assert.ok(s.CRITICAL_JOINING_GAPS.every(r=>s.days(s.AS_OF,r.due)<=30));
