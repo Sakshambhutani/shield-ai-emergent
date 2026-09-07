@@ -1,6 +1,6 @@
 .radar-body { @apply flex-1 min-h-0 overflow-auto; }
 .opportunity-radar { @apply h-full flex flex-col; min-height:640px; min-width:850px; }
-.radar-routes { @apply grid grid-cols-[2fr_1fr_2fr] shrink-0 pt-2 pb-3; }
+.radar-routes { @apply grid grid-cols-[46fr_8fr_46fr] shrink-0 pt-2 pb-3; }
 .radar-routes h2 { @apply font-mono text-lg uppercase tracking-[0.18em] text-sig-blue text-center; }
 .radar-routes h2 span { @apply text-paper-3 text-lg tracking-wider; }
 .radar-field { @apply relative flex-1 min-h-0; }
@@ -19,7 +19,8 @@
 .radar-node-now h3 { @apply text-paper font-semibold; }
 .radar-node-now p { @apply text-paper-2; }
 .radar-node-integrators { width:24%; }
-.radar-node-airforce, .radar-node-defence-space { width:27%; }
+.radar-node:not(.radar-node-now):not(.radar-node-integrators) { width:24%; height:120px; display:flex; flex-direction:column; justify-content:center; }
+@media(max-width:1100px){.radar-node:not(.radar-node-now):not(.radar-node-integrators){height:144px}}
 .radar-horizon { @apply absolute font-mono text-lg uppercase tracking-[0.18em] text-paper-3; }
 .radar-horizon-now { left:50%; bottom:0; transform:translateX(-50%); }
 .radar-horizon-next { left:9%; top:33%; }
