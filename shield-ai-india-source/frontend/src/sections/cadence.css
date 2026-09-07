@@ -1,14 +1,14 @@
 .cadence-layout { flex: 1 0 auto; display: flex; align-items: center; justify-content: center; gap: clamp(24px, 4vw, 64px); min-height: 0; }
-.cadence-circles { display: block; width: min(100%, calc(100dvh - 190px), 720px); height: auto; flex-shrink: 0; }
+.cadence-circles { display: block; width: min(100%, calc(100dvh - 165px), 820px); height: auto; flex-shrink: 0; }
 .cadence-layer { cursor: pointer; outline: none; }
 .cadence-ring { fill: #80b4fa04; stroke: #80b4fa55; stroke-width: 1.5; transition: fill 180ms ease, stroke 180ms ease; }
 .cadence-layer.is-selected .cadence-ring { fill: #80b4fa19; stroke: var(--accent, #80b4fa); stroke-width: 2.5; }
 .cadence-layer:focus-visible .cadence-ring { stroke: var(--text-primary, #eef0ec); stroke-width: 3; stroke-dasharray: 5 5; }
 .cadence-ring-copy { pointer-events: none; }
-.cadence-horizon-name { font: 600 30px ui-monospace, monospace; letter-spacing: 4px; fill: var(--text-primary, #e0e2de); }
+.cadence-horizon-name { font: 600 20px ui-monospace, monospace; letter-spacing: 1.5px; fill: var(--text-primary, #e0e2de); }
 .cadence-layer.is-selected .cadence-horizon-name { fill: var(--accent, #80b4fa); }
-.cadence-period { font: 23px system-ui, sans-serif; fill: var(--text-secondary, #a6aeb9); }
-.cadence-question { font: 25px system-ui, sans-serif; fill: var(--text-primary, #e0e2de); }
+.cadence-period { font: 17px system-ui, sans-serif; fill: var(--text-secondary, #a6aeb9); }
+.cadence-question { font: 17px system-ui, sans-serif; fill: var(--text-primary, #e0e2de); }
 .cadence-layout.has-selection { display: grid; grid-template-columns: minmax(0, 1fr) minmax(280px, 350px); }
 .has-selection .cadence-circles { max-width: 100%; justify-self: center; }
 .cadence-questions { border-left: 1px solid var(--border, #303a49); padding: 8px 0 8px 26px; }
@@ -29,9 +29,9 @@
 /* A single outward sweep invites interaction without becoming a looping distraction. */
 .cadence-click-cue { fill: #80b4fa16; stroke: var(--accent, #80b4fa); stroke-width: 3; opacity: 0; pointer-events: none; }
 .show-click-cue .cadence-click-cue { animation: cadence-invite 1600ms ease-in-out both; }
-.show-click-cue .cue-operate { animation-delay: 500ms; }
-.show-click-cue .cue-align { animation-delay: 1400ms; }
-.show-click-cue .cue-steer { animation-delay: 2300ms; }
+.show-click-cue .cue-milestone { animation-delay: 500ms; }
+.show-click-cue .cue-weekly { animation-delay: 1100ms; }
+.show-click-cue .cue-fortnightly { animation-delay: 1700ms; }
 @keyframes cadence-invite {
   0%, 100% { opacity: 0; }
   40% { opacity: .85; }
@@ -48,3 +48,8 @@
   .cadence-ring { transition: none; }
   .show-click-cue .cadence-click-cue { animation: none; }
 }
+
+.show-click-cue .cue-monthly { animation-delay: 2300ms; }
+.show-click-cue .cue-quarterly { animation-delay: 2900ms; }
+
+.cadence-panel-period { font-size: 13px; color: var(--text-secondary); margin-top: 6px; }

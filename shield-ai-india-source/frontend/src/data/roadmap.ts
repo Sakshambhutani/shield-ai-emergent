@@ -6,40 +6,116 @@ export const STAGES = [
 ];
 
 export const GROWTH_ROUTES = [
-  { title: 'Direct / B2G', summary: 'Army → next service → programmes', detail: 'Existing Army programme → next government / service channel → additional programmes' },
-  { title: 'Partner-led / B2B2G', summary: 'OEM / prime → SDK integration → joint programmes', detail: 'Indian OEM / defence prime → Hivemind SDK / Solutions integration → joint programme opportunities' },
+  { title: 'B2G', detail: 'Direct government programmes.' },
+  { title: 'Global Engineering', detail: 'India engineering support for global programmes.' },
+  { title: 'B2B', detail: 'Product and integration engagements with platform partners.' },
 ];
 
+// Proposed checkpoints, not confirmed customer commitments.
 export const MILESTONES = [
-  { month: 0, label: 'M0', title: 'India operation in motion', lines: ['Existing Army programme', 'JSW partnership', 'Initial India team in place'], details: [
-    'The existing Army programme and JSW partnership anchor the India business.',
-    'The initial India team provides the starting point for local execution and customer support.',
-  ], assumption: 'Current commitments provide the foundation; delivery sequencing and the initial capacity baseline must be confirmed.', note: 'Starting position, rather than a new programme award.' },
-  { month: 3, label: 'M3', title: 'Delivery readiness established', lines: ['V-BAT delivery & trial support', 'India Hivemind environment live', 'Bangalore setup & execution model'], details: [
-    'V-BAT delivery and trial support available in India.',
-    'Hivemind configured and validated for the Indian operating environment.',
-    'Bangalore setup operational, with an agreed Shield AI / JSW execution model and critical capacity in place.',
-  ], assumption: 'Readiness depends on product access, required approvals, local infrastructure and critical hiring.', note: 'Readiness is the company state; customer acceptance and trial dates remain externally dependent.' },
-  { month: 6, label: 'M6', title: 'India model proven', lines: ['First India Hivemind proof', 'First OEM / prime pathway active', 'Direct government pipeline advancing'], details: [
-    'A successful India Hivemind technical proof demonstrates that local execution works.',
-    'A serious Indian OEM / defence-prime engagement establishes a Hivemind SDK / Solutions integration pathway.',
-    'The direct government opportunity pipeline is actively progressing alongside the partner route.',
-  ], assumption: 'A suitable proof scope, partner engineering access and customer engagement can be secured.', note: 'Technical proof and an active partner pathway do not imply a contracted programme.' },
-  { month: 12, label: 'M9 / M12', title: 'Growth engines activated', lines: ['Next government / service channel', 'Indian OEM / prime B2B2G route active', 'India integration capability deepening'], details: [
-    'M9: the next government / service channel reaches meaningful evaluation, demo or programme definition.',
-    'M9: additional platform / partner opportunities are qualified.',
-    'M12: both direct B2G and partner-led B2B2G growth routes are active.',
-    'M12: at least one meaningful Indian-platform Hivemind integration progresses, with deeper India ownership.',
-  ], assumption: 'Customer sponsorship, partner bandwidth and platform access support progression across the M9–M12 window.', note: 'This is a combined growth window, shown at its M12 checkpoint. No specific next service is prescribed.' },
-  { month: 15, label: 'M15', title: 'Operating scale taking shape', lines: ['Production / supply-chain readiness', 'Multi-programme support developing', 'Sustainment model taking shape'], details: [
-    'JSW production and supply-chain readiness advance toward repeatable customer delivery.',
-    'India develops the capacity and systems to support multiple programmes concurrently.',
-    'A defined sustainment model supports the transition from individual deliveries to an enduring operation.',
-  ], assumption: 'Industrial readiness and support capacity mature in step with programme demand.', note: 'Readiness milestones should be validated against actual facility, supplier and delivery dependencies.' },
-  { month: 18, label: 'M18', title: 'Repeatable India operation', lines: ['Multiple programme pathways', 'Capture → integration → delivery', 'Local growth + selected global Hivemind'], details: [
-    'Multiple active customer / programme pathways develop through both direct and partner routes.',
-    'A repeatable capture → integration → delivery model is backed by sustainment capability.',
-    'India engineering supports local growth and selected global Hivemind contribution.',
-    'India leadership, operating cadence and P&L visibility support a repeatable multi-programme business.',
-  ], assumption: 'Demand, engineering depth and delivery capacity justify scaling beyond the initial commitment.', note: 'The target is repeatability across programmes, rather than a fixed number of procurement awards.' },
+  {
+    "month": 0,
+    "label": "October 2026",
+    "title": "October 2026 milestones",
+    "lines": [
+      "Army programme underway; Delhi office operational.",
+      "Bengaluru opening targeted; engineering budget approved."
+    ],
+    "details": [
+      "Army programme underway; Delhi office operational.",
+      "Bengaluru opening targeted; engineering budget approved."
+    ],
+    "assumption": "October 2026 is the proposed baseline, using the current internal planning position.",
+    "note": "Starting position based on internal planning; confirm Bengaluru opening and hiring status."
+  },
+  {
+    "month": 3,
+    "label": "January 2027",
+    "title": "January 2027 milestones",
+    "lines": [
+      "Core India team and engineering environment operational.",
+      "JSW initial production started, aligned with its Q4 2026 target."
+    ],
+    "details": [
+      "Core India team and engineering environment operational.",
+      "JSW initial production started, aligned with its Q4 2026 target."
+    ],
+    "assumption": "Proposed planning target, subject to customer schedules, staffing, approvals and programme dependencies.",
+    "note": "JSW announced manufacturing commencement in Q4 2026; actual production start must be confirmed."
+  },
+  {
+    "month": 6,
+    "label": "April 2027",
+    "title": "April 2027 milestones",
+    "lines": [
+      "Army delivery and acceptance checkpoint completed.",
+      "First India-led Hivemind integration demonstrated."
+    ],
+    "details": [
+      "Army delivery and acceptance checkpoint completed.",
+      "First India-led Hivemind integration demonstrated."
+    ],
+    "assumption": "Proposed planning target, subject to customer schedules, staffing, approvals and programme dependencies.",
+    "note": "The Army checkpoint follows the agreed customer delivery and acceptance schedule."
+  },
+  {
+    "month": 9,
+    "label": "July 2027",
+    "title": "July 2027 milestones",
+    "lines": [
+      "Selected government and partner pursuits reach trials or proposals.",
+      "Army follow-on requirements defined."
+    ],
+    "details": [
+      "Selected government and partner pursuits reach trials or proposals.",
+      "Army follow-on requirements defined."
+    ],
+    "assumption": "Proposed planning target, subject to customer schedules, staffing, approvals and programme dependencies.",
+    "note": "Pursuits may span V-BAT, Hivemind, Aechelon and ViDAR; no service or product is preselected."
+  },
+  {
+    "month": 12,
+    "label": "October 2027",
+    "title": "October 2027 milestones",
+    "lines": [
+      "First paid engagement beyond the existing Army programme secured.",
+      "India team delivers a Hivemind integration for an Indian platform partner."
+    ],
+    "details": [
+      "First paid engagement beyond the existing Army programme secured.",
+      "India team delivers a Hivemind integration for an Indian platform partner."
+    ],
+    "assumption": "Proposed planning target, subject to customer schedules, staffing, approvals and programme dependencies.",
+    "note": "A paid engagement may be a scoped project rather than a full procurement award."
+  },
+  {
+    "month": 15,
+    "label": "January 2028",
+    "title": "January 2028 milestones",
+    "lines": [
+      "First global engineering work package delivered from India.",
+      "Local customer support and sustainment capability established."
+    ],
+    "details": [
+      "First global engineering work package delivered from India.",
+      "Local customer support and sustainment capability established."
+    ],
+    "assumption": "Proposed planning target, subject to customer schedules, staffing, approvals and programme dependencies.",
+    "note": "Global programme scope and local support responsibilities will be agreed with headquarters and partners."
+  },
+  {
+    "month": 18,
+    "label": "April 2028",
+    "title": "April 2028 milestones",
+    "lines": [
+      "Army follow-on business secured.",
+      "India team supports multiple revenue-generating programmes."
+    ],
+    "details": [
+      "Army follow-on business secured.",
+      "India team supports multiple revenue-generating programmes."
+    ],
+    "assumption": "Proposed planning target, subject to customer schedules, staffing, approvals and programme dependencies.",
+    "note": "Commercial dates will be refined against customer schedules."
+  }
 ];

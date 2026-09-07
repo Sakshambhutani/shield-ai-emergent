@@ -1,15 +1,16 @@
 .company-roadmap { gap: 16px; }
 .company-roadmap-scroll { flex: 1; min-height: 0; overflow: auto; }
-.company-roadmap-canvas { min-width: 1060px; padding: 24px 0 12px; }
-.mission-corridor { position: relative; height: 629px; }
+.company-roadmap-canvas { min-width: 1060px; padding: 50px 0 12px; }
+.mission-corridor { position: relative; height: 669px; }
 .mission-grid { position: absolute; inset: 0 28px; background-image: linear-gradient(90deg, #6079980a 1px, transparent 1px); background-size: 16.6667% 100%; mask-image: linear-gradient(transparent, black 35%, black 65%, transparent); }
 .mission-path-area { position: absolute; inset: 0 28px; }
-.mission-path { position: absolute; width: 100%; height: 629px; overflow: visible; fill: none; }
+.mission-path { position: absolute; width: 100%; height: 669px; overflow: visible; fill: none; }
 .mission-halo { stroke: url(#mission-gradient); stroke-width: 46; opacity: .035; }
 .mission-boundary { stroke: #456583; stroke-width: 1; opacity: .3; stroke-dasharray: 3 7; }
 .mission-center { stroke: url(#mission-gradient); stroke-width: 3; stroke-linecap: round; }
 .mission-branch { stroke-width: 1.5; }
 .mission-branch.direct { stroke: #60a5fa; }
+.mission-branch.engineering { stroke: #709fea; }
 .mission-branch.partner { stroke: #80b4fa; }
 .mission-direction { stroke: url(#mission-gradient); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
 .company-milestones { margin: 0; padding: 0; list-style: none; }
@@ -20,24 +21,28 @@
 .company-milestone::before { content: ''; position: absolute; width: 1px; height: 12px; background: linear-gradient(#3c4c64, #3c4c6430); left: 0; }
 .company-milestone.above::before { bottom: 12px; }
 .company-milestone.below::before { top: 15px; }
-.company-milestone-copy { position: absolute; width: 280px; left: -140px; text-align: left; padding: 14px 14px; border: 1px solid #283448; border-radius: 5px; background: linear-gradient(135deg, #151e2b, #10151c); }
+.company-milestone-copy { position: absolute; width: 300px; left: -150px; text-align: left; padding: 14px 14px; border: 1px solid #283448; border-radius: 5px; background: linear-gradient(135deg, #151e2b, #10151c); }
 .company-milestone.above .company-milestone-copy { bottom: 24px; }
 .company-milestone.below .company-milestone-copy { top: 40px; }
 .company-milestone.first .company-milestone-copy { left: -60px; }
-.company-milestone.last .company-milestone-copy { left: -260px; border-color: #80b4fa45; background: linear-gradient(135deg, #151e2b, #10151c); }
+.company-milestone.last .company-milestone-copy { left: -280px; border-color: #80b4fa45; background: linear-gradient(135deg, #151e2b, #10151c); }
 button.company-milestone-copy { cursor: pointer; transition: border-color .18s, box-shadow .18s; }
 button.company-milestone-copy:hover, .selected .company-milestone-copy { border-color: #60a5fa; box-shadow: 0 0 20px #3b82f615; }
 button.company-milestone-copy:focus-visible { outline: 2px solid #60a5fa; outline-offset: 4px; }
-.company-month { display: flex; justify-content: space-between; align-items: center; color: #60a5fa; font: 12px/1.4 'IBM Plex Mono', monospace; letter-spacing: .06em; }
+.company-month { display: flex; justify-content: space-between; align-items: center; color: #60a5fa; font: 14px/1.4 'IBM Plex Mono', monospace; letter-spacing: .06em; }
 .company-month svg { width: 13px; height: 13px; }
 .company-milestone h3 { font-size: 16px; line-height: 1.4; font-weight: 600; letter-spacing: -.025em; margin: 5px 0 7px; }
-.company-milestone-copy ul { list-style: none; margin: 0; padding: 0; }
-.company-milestone-copy li { color: var(--text-secondary); font-size: 12px; line-height: 1.6; white-space: normal; letter-spacing: -.015em; }
+.company-milestone-copy ul { list-style: disc; margin: 12px 0 0; padding-left: 16px; }
+.company-milestone-copy li { color: var(--text-secondary); font-size: 14px; line-height: 1.5; white-space: normal; letter-spacing: -.015em; }
+.company-milestone-copy li + li { margin-top: 8px; }
+.company-milestone-copy li::marker { color: #60a5fa; }
 .company-milestone.last h3, .company-milestone.last .company-month { color: #80b4fa; }
 .mission-routes { position: absolute; left: 41%; width: 22%; top: 0; }
 .mission-route { position: absolute; width: 100%; text-align: center; }
-.mission-route.route-0 { top: 341px; }
-.mission-route.route-1 { top: 407px; }
+.mission-route.route-0 { top: 361px; }
+.mission-route.route-1 { top: 392px; }
+.mission-route.route-1 strong { display: inline-block; padding: 0 8px; background: #0b0d10; }
+.mission-route.route-2 { top: 427px; }
 .mission-route strong { display: block; font: 12px/1.5 'IBM Plex Mono', monospace; color: #60a5fa; }
 .mission-route.route-1 strong { color: #80b4fa; }
 .mission-route span { display: block; color: var(--text-muted); font-size: 12px; line-height: 1.6; margin-top: 2px; white-space: normal; }
@@ -53,3 +58,30 @@ button.company-milestone-copy:focus-visible { outline: 2px solid #60a5fa; outlin
 
 /* Fit the complete presentation into the space below its header. */
 .company-roadmap-present .company-roadmap-scroll { min-height: 0; }
+
+.company-milestone.october-2027 .company-milestone-copy { width: 400px; left: -200px; }
+
+.company-milestone.october-2027 .company-milestone-copy { width: 320px; left: -160px; }
+
+/* Neutral palette trial for the roadmap. */
+.company-roadmap .company-milestone-copy {
+  background: #121416;
+  border-color: #303438;
+}
+.company-roadmap .mission-halo { stroke: #a1a1a1; opacity: .025; }
+.company-roadmap .mission-center { stroke: #858b91; }
+.company-roadmap .mission-direction { stroke: #bdc3c9; }
+.company-roadmap .mission-branch { stroke: #858b91; }
+.company-roadmap .company-month { color: #a8bdd0; }
+.company-roadmap .company-milestone-copy li::marker { color: #8f969d; }
+.company-roadmap .mission-route strong { color: #b7bcc2; }
+.company-roadmap .company-milestone-dot {
+  border-color: #9db3c7;
+  box-shadow: 0 0 0 6px #0b0d10, 0 0 0 7px #93999f20;
+}
+.company-roadmap .company-milestone.last .company-milestone-dot { color: #bccbd8; }
+.company-roadmap button.company-milestone-copy:hover,
+.company-roadmap .selected .company-milestone-copy {
+  border-color: #a8bdd0;
+  box-shadow: 0 0 16px #ffffff08;
+}

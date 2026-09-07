@@ -322,3 +322,38 @@ export const OPERATING_FUNCTIONS: OperatingFunction[] = [
   ]
 },
 ];
+
+// Current-stage slide measures, separate from illustrative dashboard snapshots.
+export const OPERATING_MODEL_KPIS: Record<string, { name: string; definition: string }[]> = {
+  programmes: [
+    { name: 'Contract acceptance completion (%)', definition: 'Agreed contractual scope formally accepted by the customer, using fixed acceptance criteria and agreed weighting.' },
+    { name: 'Open acceptance discrepancies (#)', definition: 'Recorded, unresolved discrepancies preventing contractual acceptance.' },
+  ],
+  autonomy: [
+    { name: 'Requirements verified (%)', definition: 'Requirements verified with prescribed evidence and sign-off against the agreed SDK/integration baseline; scope changes recorded separately.' },
+    { name: 'Open integration issues (#)', definition: 'Documented, unresolved interface, configuration, software or platform compatibility issues preventing the agreed integration or acceptance.' },
+  ],
+  people: [
+    { name: 'Hiring plan attainment (%)', definition: 'Employees joined against the approved hiring plan due by the review date.' },
+    { name: 'Offer acceptance rate (%)', definition: 'Accepted offers divided by offers with a recorded accepted or declined decision in the reporting period.' },
+  ],
+  finance: [
+    { name: 'Funding coverage (months)', definition: 'Months of forecast expenditure covered by accessible cash and confirmed funding arrangements, using their availability dates. Unfunded budgets and expected customer receipts are separate.' },
+    { name: 'Budget variance (%)', definition: 'Actual spending minus budgeted spending, divided by budgeted spending for the same period.' },
+  ],
+  industrialisation: [
+    { name: 'Technology-transfer completion (%)', definition: 'Shield AI transfer obligations accepted by JSW against the fixed agreed transfer package. Excludes JSW factory output.' },
+  ],
+  growth: [
+    { name: 'Qualified pipeline coverage (×)', definition: 'Qualified opportunity value divided by the order target for the same horizon. Qualification requires a confirmed customer requirement, identified buying authority and documented procurement route.' },
+  ],
+};
+
+export const OPERATING_MODEL_SUMMARIES: Record<string, string> = {
+  programmes: 'Tracks Army delivery acceptance and unresolved issues preventing handover.',
+  autonomy: 'Tracks verified SDK requirements and unresolved issues preventing integration or acceptance.',
+  people: 'Tracks hiring against plan and whether candidates accept our offers.',
+  finance: 'Tracks funding available for upcoming costs and spending against budget.',
+  industrialisation: 'Tracks JSW acceptance of Shield AI’s agreed technology-transfer commitments.',
+  growth: 'Tracks whether qualified opportunities provide enough pipeline to support the order target.',
+};
