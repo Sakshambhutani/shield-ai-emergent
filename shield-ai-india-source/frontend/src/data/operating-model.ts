@@ -337,8 +337,8 @@ export const OPERATING_MODEL_KPIS: Record<string, { name: string; definition: st
       "definition": "Forecast milestone completion date minus the agreed completion date. Positive values indicate delay; weekly movement uses the previous review forecast."
     },
     {
-      "name": "Open milestone blockers (#)",
-      "definition": "Recorded unresolved dependencies preventing the next agreed milestone, each with an owner, age, required resolution date and impact."
+      "name": "Milestones accepted on time (%)",
+      "definition": "Milestones formally accepted on or before their original agreed due date divided by milestones due in the reporting period. Late and outstanding milestones remain in the denominator; no percentage is reported when none are due."
     }
   ],
   "autonomy": [
@@ -381,7 +381,7 @@ export const OPERATING_MODEL_KPIS: Record<string, { name: string; definition: st
 
 export const OPERATING_MODEL_SUMMARIES: Record<string, string> = {
   "growth": "Tracks tangible customer or partner commitment to the next business beyond the Army foothold.",
-  "programmes": "Tracks the next milestone forecast and blockers requiring weekly resolution.",
+  "programmes": "Tracks the next milestone forecast and on-time acceptance of milestones due.",
   "autonomy": "Tracks readiness and simulation validation of agreed Indian ISR scenarios during the build stage.",
   "people": "Tracks 30 additional hires over six months, from a starting team of 20 to 50, and staffing of critical roles.",
   "finance": "Tracks 18 months of assumed funding coverage against a target above 15 months, and actual spending against budget.",

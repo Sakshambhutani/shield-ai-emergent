@@ -4,6 +4,16 @@ const server=await createServer({server:{middlewareMode:true}});
 try {
  const s=await server.ssrLoadModule('/src/data/md-scenario.ts');
  const sum=(rows,key)=>rows.reduce((a,r)=>a+r[key],0);
+ assert.deepEqual(s.DELIVERY_ACCEPTANCE,{due:0,onTime:0,percentage:null});
+ const acceptanceCases=[
+  {due:'2026-10-10',acceptedAt:'2026-10-10'},
+  {due:'2026-10-11',acceptedAt:'2026-10-12'},
+  {due:'2026-10-12'},
+  {due:'2026-11-01',acceptedAt:'2026-10-15'},
+  {due:'2026-09-30',acceptedAt:'2026-09-30'},
+ ];
+ assert.deepEqual(s.milestoneAcceptance(acceptanceCases,'2026-10-01','2026-10-31'),{due:3,onTime:1,percentage:33});
+
  assert.equal(sum(s.PAYMENTS,'amount'),s.ARMY.value);
  assert.equal(s.ARMY.value,500);
  assert.equal(sum(s.REVENUE_PLAN,'amount'),s.ARMY.value);

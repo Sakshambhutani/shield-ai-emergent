@@ -16,14 +16,13 @@ const ROTORS = [
 
 function OperatingSystem() {
   return (
-    <div className="operating-architecture" data-testid="operating-system" aria-label="Six functions supporting India revenue attainment">
+    <div className="operating-architecture" data-testid="operating-system" aria-label="Six functions supporting India contract bookings">
       <div className="operating-hub" data-testid="company-north-star">
         <svg className="operating-hub-frame" viewBox="0 0 320 260" preserveAspectRatio="none" aria-hidden="true">
           <polygon points="160,1 319,65 319,195 160,259 1,195 1,65" />
         </svg>
-        <div className="operating-hub-name">SHIELD AI INDIA</div>
-        <p className="operating-hub-metric">Revenue attainment (%)</p>
-        <p className="operating-hub-scope">Army follow-on · New Indian programmes · Global engineering</p>
+        <p className="operating-hub-metric">Contract bookings (₹)</p>
+        <p className="operating-hub-scope">Army follow-on · New Indian programmes · Paid integrations</p>
       </div>
       <svg className="operating-spokes" viewBox="0 0 1200 600" preserveAspectRatio="none" aria-hidden="true">
         {ROTORS.map((motor, i) => <path key={i} d={`M600 300 L${motor.x} ${motor.y}`} />)}

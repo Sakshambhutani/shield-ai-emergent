@@ -27,7 +27,7 @@ export const OPPORTUNITIES: Opportunity[] = [
 ];
 export const nearClosure = (o: Opportunity) => o.stage >= STAGES[o.segment].length - 3 && days(AS_OF, o.close) >= 0 && days(AS_OF, o.close) <= 90;
 export const ARMY = { id: 'army', name: 'Indian Army · V-BAT + Hivemind', value: 500, start: '2026-10-01', end: '2029-09-30', entity: 'Shield contracting entity · USD', owner: 'Programme lead' };
-export interface Milestone { id: string; label: string; group: string; start: string; due: string; forecast: string; previous: string; progress: number; owner: string; dependency: string; project: string; receipt?: number }
+export interface Milestone { id: string; label: string; group: string; start: string; due: string; forecast: string; previous: string; progress: number; owner: string; dependency: string; project: string; receipt?: number; acceptedAt?: string }
 export const DELIVERY: Milestone[] = [
  { id: 'scope', label: 'Use case & integration scope', group: 'Army · first acceptance', start: '2026-10-01', due: '2026-10-30', forecast: '2026-11-06', previous: '2026-11-03', progress: 10, owner: 'Programme lead', dependency: 'Customer operating-scenario inputs', project: 'army' },
  { id: 'environment', label: 'Engineering environment ready', group: 'Army · first acceptance', start: '2026-10-01', due: '2027-01-01', forecast: '2027-01-01', previous: '2027-01-01', progress: 5, owner: 'Engineering lead', dependency: 'HQ configuration and access', project: 'army' },
@@ -38,6 +38,13 @@ export const DELIVERY: Milestone[] = [
  { id: 'lot3', label: 'Year-three delivery acceptance', group: 'Army · remaining contract', start: '2028-04-02', due: '2029-04-01', forecast: '2029-04-01', previous: '2029-04-01', progress: 0, owner: 'Programme lead', dependency: 'Year-two acceptance', project: 'army', receipt: 150 },
  { id: 'handover', label: 'Final support handover', group: 'Army · remaining contract', start: '2029-04-02', due: '2029-09-30', forecast: '2029-09-30', previous: '2029-09-30', progress: 0, owner: 'Customer support lead', dependency: 'Final contractual handover', project: 'army', receipt: 50 },
 ];
+// Programme-to-date reporting; due dates retain the original agreed baseline.
+export function milestoneAcceptance(milestones: Milestone[], from: string, through: string) {
+ const due = milestones.filter(m => m.due >= from && m.due <= through);
+ const onTime = due.filter(m => m.acceptedAt && m.acceptedAt <= m.due).length;
+ return { due: due.length, onTime, percentage: due.length ? Math.round(onTime / due.length * 100) : null };
+}
+export const DELIVERY_ACCEPTANCE = milestoneAcceptance(DELIVERY, ARMY.start, AS_OF);
 export interface Blocker { id: string; area: Area; project: string; milestone: string; label: string; owner: string; opened: string; due: string; impact: string; action: string }
 export const BLOCKERS: Blocker[] = [
  { id: 'customer-input', area: 'Delivery', project: 'army', milestone: 'scope', label: 'Customer scenario inputs', owner: 'Programme lead', opened: '2026-09-21', due: '2026-10-05', impact: 'Scope forecast +7 days', action: 'Agree the missing inputs with the customer sponsor.' },

@@ -58,22 +58,14 @@ const SNAPSHOTS: Record<string, KpiSnapshot[]> = {
       ]
     },
     {
-      "value": "2",
-      "target": "0 blockers at the next milestone",
-      "period": "Weekly milestone review",
-      "context": "Customer scenario inputs and partner platform-access confirmation remain open.",
+      "value": "75%",
+      "target": "100%",
+      "period": "Illustrative end-of-month-two review",
+      "context": "3 of 4 milestones due were formally accepted on time.",
       "details": [
         {
-          "label": "Blocker 1",
-          "text": "Customer scenario inputs: Programme lead; open 10 days; resolution required by review date + 3 days. Prevents scope agreement."
-        },
-        {
-          "label": "Blocker 2",
-          "text": "Partner platform-access confirmation: Engineering lead; open 5 days; resolution required by review date + 5 days. Prevents integration-plan sign-off."
-        },
-        {
-          "label": "Review action",
-          "text": "Confirm accountable owners and resolution evidence weekly; retain original dates and escalate any further movement of the milestone."
+          "label": "Calculation",
+          "text": "Three milestones accepted by their original agreed due dates divided by four milestones due in the reporting period. The fourth remains in the denominator even if accepted late or still outstanding."
         }
       ]
     }
