@@ -383,7 +383,7 @@ export const OPERATING_MODEL_SUMMARIES: Record<string, string> = {
   "growth": "Tracks tangible customer or partner commitment to the next business beyond the Army foothold.",
   "programmes": "Tracks the next milestone forecast and blockers requiring weekly resolution.",
   "autonomy": "Tracks readiness and simulation validation of agreed Indian ISR scenarios during the build stage.",
-  "people": "Tracks 25 additional hires over six months, from a starting team of 20, and staffing of critical roles.",
+  "people": "Tracks 30 additional hires over six months, from a starting team of 20 to 50, and staffing of critical roles.",
   "finance": "Tracks 18 months of assumed funding coverage against a target above 15 months, and actual spending against budget.",
   "industrialisation": "Tracks receiving-owner acceptance of the agreed Shield-to-JSW transfer package."
 };
