@@ -1,0 +1,235 @@
+import { OPERATING_FUNCTIONS, OPERATING_MODEL_KPIS } from './operating-model';
+
+interface KpiSnapshot {
+  value: string;
+  target: string;
+  period: string;
+  context: string;
+  details: { label: string; text: string }[];
+}
+
+// Dedicated build-stage examples; no changes to the Overview portfolio scenario.
+const SNAPSHOTS: Record<string, KpiSnapshot[]> = {
+  "growth": [
+    {
+      "value": "1 / 2",
+      "target": "2 new customer-backed programmes in six months",
+      "period": "Six-month build plan",
+      "context": "Illustrative: one Indian platform partner has agreed an ISR integration scope.",
+      "details": [
+        {
+          "label": "Commitment evidence",
+          "text": "Named partner engineering team and platform access committed; a customer engineering sponsor owns the evaluation. Written scope and resource commitment required to count."
+        },
+        {
+          "label": "Next commercial decision",
+          "text": "Partner sponsor to decide on the paid integration proposal at the next monthly review; proposal scope, decision date and owner recorded in the opportunity log."
+        },
+        {
+          "label": "Army follow-on",
+          "text": "Tracked separately from new programmes. No additional Army follow-on award assumed in this example."
+        },
+        {
+          "label": "Target basis",
+          "text": "Two is a proposed management target subject to engineering capacity. Meetings, general MoUs, AoN and RFP activity alone do not qualify."
+        }
+      ]
+    }
+  ],
+  "programmes": [
+    {
+      "value": "+7 days",
+      "target": "0 days against the agreed milestone date",
+      "period": "Illustrative end-of-month-two review",
+      "context": "Next milestone: ISR use-case and integration scope agreement. Forecast worsened by 3 days since last week.",
+      "details": [
+        {
+          "label": "Date comparison",
+          "text": "Agreed completion: review date + 7 days. Current forecast: review date + 14 days. Previous weekly forecast: review date + 11 days. Variance +7 days; weekly movement +3 days."
+        },
+        {
+          "label": "Completion evidence",
+          "text": "Customer-approved ISR use-case scope and agreed integration boundaries, with programme and engineering owners signing off."
+        },
+        {
+          "label": "Accountability",
+          "text": "Programme lead owns recovery and confirms customer inputs and partner access at the next weekly review."
+        }
+      ]
+    },
+    {
+      "value": "2",
+      "target": "0 blockers at the next milestone",
+      "period": "Weekly milestone review",
+      "context": "Customer scenario inputs and partner platform-access confirmation remain open.",
+      "details": [
+        {
+          "label": "Blocker 1",
+          "text": "Customer scenario inputs: Programme lead; open 10 days; resolution required by review date + 3 days. Prevents scope agreement."
+        },
+        {
+          "label": "Blocker 2",
+          "text": "Partner platform-access confirmation: Engineering lead; open 5 days; resolution required by review date + 5 days. Prevents integration-plan sign-off."
+        },
+        {
+          "label": "Review action",
+          "text": "Confirm accountable owners and resolution evidence weekly; retain original dates and escalate any further movement of the milestone."
+        }
+      ]
+    }
+  ],
+  "autonomy": [
+    {
+      "value": "4 / 6",
+      "target": "6 / 6 ready before the simulation campaign",
+      "period": "Illustrative end-of-month-two review",
+      "context": "Six agreed priority scenarios for the proposed Hivemind SDK + V-BAT Indian ISR use case.",
+      "details": [
+        {
+          "label": "Readiness criteria",
+          "text": "Geography and operating conditions, mission expectations, platform configuration, expected behaviour, acceptance checks and test inputs agreed for each scenario."
+        },
+        {
+          "label": "Remaining work",
+          "text": "Two scenarios await customer operating-environment inputs. Engineering lead closes the scenario register before the simulation campaign."
+        },
+        {
+          "label": "Scope control",
+          "text": "Six is an illustrative fixed denominator, not six verified operational capabilities. Record baseline changes separately; edge cases belong within each agreed scenario."
+        }
+      ]
+    },
+    {
+      "value": "2 / 6",
+      "target": "6 / 6 validated before ground-test readiness review",
+      "period": "Simulation campaign to date",
+      "context": "2 passed; 1 tested with unresolved failures; 1 ready but untested; 2 not yet ready.",
+      "details": [
+        {
+          "label": "Evidence",
+          "text": "Each pass requires recorded simulation results against agreed checks and engineering review sign-off. Readiness and validation use the same six-scenario baseline."
+        },
+        {
+          "label": "Next action",
+          "text": "Engineering lead investigates the failed scenario and schedules a rerun; the next review shows failure owner, impact and retest date."
+        },
+        {
+          "label": "Stage boundary",
+          "text": "Simulation results do not imply flight readiness. Add ground and flight validation measures as the programme reaches those stages."
+        }
+      ]
+    }
+  ],
+  "people": [
+    {
+      "value": "75%",
+      "target": "100% of planned joins due",
+      "period": "Illustrative end of month two",
+      "context": "6 / 8 joins due; 6 / 25 six-month hires completed; total team 26 / 45.",
+      "details": [
+        {
+          "label": "Calculation",
+          "text": "6 employees joined \u00f7 8 planned joins due = 75%. Six-month progress is separately 6 \u00f7 25 = 24%."
+        },
+        {
+          "label": "Planning basis",
+          "text": "Starting team 20; add 25 over six months. Assumes no exits, producing target headcount 45. The eight joins due by month two are illustrative; the phased plan needs agreement."
+        },
+        {
+          "label": "Next action",
+          "text": "People lead provides confirmed joining dates for the two delayed hires and updates downstream milestone impacts."
+        }
+      ]
+    },
+    {
+      "value": "3 / 4",
+      "target": "4 / 4 by required start dates",
+      "period": "Illustrative end of month two",
+      "context": "Three of four roles designated critical to the next milestone are staffed.",
+      "details": [
+        {
+          "label": "Counting rule",
+          "text": "The three filled critical roles are included in the six joined employees; they are not additional headcount. Accepted offers without a start do not count."
+        },
+        {
+          "label": "Remaining gap",
+          "text": "One integration role remains open. People and Engineering leads agree interim cover and a joining date before the next milestone."
+        }
+      ]
+    }
+  ],
+  "finance": [
+    {
+      "value": "18 months",
+      "target": ">15 months",
+      "period": "Six-month hiring-plan funding forecast",
+      "context": "Coverage includes planned growth from 20 to 45 people.",
+      "details": [
+        {
+          "label": "Funding basis",
+          "text": "User-provided planning assumption: 18 months. The dated cash forecast must include accessible cash and confirmed funding availability against payroll, hiring and other expenditure."
+        },
+        {
+          "label": "Review action",
+          "text": "Finance refreshes coverage monthly and after material hiring or expenditure changes. Escalate at 15 months or below, or earlier if any payment precedes funding availability."
+        },
+        {
+          "label": "Reporting boundary",
+          "text": "Portfolio contract values, proposed allocations and expected receipts do not automatically count as available India funding."
+        }
+      ]
+    },
+    {
+      "value": "+5%",
+      "target": "\u22640% overspend",
+      "period": "Illustrative last closed month",
+      "context": "Actual spend $210k against approved budget $200k.",
+      "details": [
+        {
+          "label": "Calculation",
+          "text": "($210k \u2212 $200k) \u00f7 $200k \u00d7 100 = +5%, or $10k overspend."
+        },
+        {
+          "label": "Variance explanation",
+          "text": "Illustrative $10k unplanned onboarding and equipment expense. Finance and People leads reconcile the expense and revise the remaining-period forecast."
+        },
+        {
+          "label": "Review action",
+          "text": "Monthly close review; agree corrective action for overspend and investigate material underspend that signals delayed execution. This is distinct from the existing portfolio\u2019s 13-week forecast."
+        }
+      ]
+    }
+  ],
+  "industrialisation": [
+    {
+      "value": "6 / 8",
+      "target": "8 / 8 by agreed package completion",
+      "period": "Illustrative end-of-month-two transfer review",
+      "context": "6 accepted; 6 due by this review; 2 remaining; 0 overdue.",
+      "details": [
+        {
+          "label": "Package boundary",
+          "text": "Fixed Shield-to-JSW transfer package, excluding JSW factory output and HQ-to-India knowledge transfer. Counts do not assume equal deliverable value."
+        },
+        {
+          "label": "Remaining deliverables",
+          "text": "Documentation pack: HQ transfer lead, receiving owner JSW technical lead, due review date + 14 days. Training demonstration: India training lead, receiving owner JSW training lead, due review date + 28 days."
+        },
+        {
+          "label": "Acceptance evidence",
+          "text": "Receiving-owner sign-off against each deliverable\u2019s agreed criteria. Training acceptance requires demonstration of the agreed task, not attendance alone."
+        }
+      ]
+    }
+  ]
+};
+
+export const MD_FUNCTIONAL_KPIS = ['growth', 'programmes', 'autonomy', 'people', 'finance', 'industrialisation'].map(id => {
+  const team = OPERATING_FUNCTIONS.find(team => team.id === id)!;
+  return {
+    id,
+    name: id === 'autonomy' ? 'Hivemind Engineering' : team.name,
+    owner: team.owner,
+    kpis: OPERATING_MODEL_KPIS[id].map((metric, index) => ({ ...metric, ...SNAPSHOTS[id][index] })),
+  };
+});

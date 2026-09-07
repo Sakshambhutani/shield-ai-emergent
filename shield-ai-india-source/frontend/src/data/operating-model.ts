@@ -323,37 +323,67 @@ export const OPERATING_FUNCTIONS: OperatingFunction[] = [
 },
 ];
 
-// Current-stage slide measures, separate from illustrative dashboard snapshots.
+// Current six-month measures shared by the operating model and the KPI tab.
 export const OPERATING_MODEL_KPIS: Record<string, { name: string; definition: string }[]> = {
-  programmes: [
-    { name: 'Contract acceptance completion (%)', definition: 'Agreed contractual scope formally accepted by the customer, using fixed acceptance criteria and agreed weighting.' },
-    { name: 'Open acceptance discrepancies (#)', definition: 'Recorded, unresolved discrepancies preventing contractual acceptance.' },
+  "growth": [
+    {
+      "name": "New customer-backed programmes (#)",
+      "definition": "New programmes with a specific application, accountable customer sponsor, tangible customer or partner resource commitment and an identified path to paid work. Army follow-on is recorded separately."
+    }
   ],
-  autonomy: [
-    { name: 'Requirements verified (%)', definition: 'Requirements verified with prescribed evidence and sign-off against the agreed SDK/integration baseline; scope changes recorded separately.' },
-    { name: 'Open integration issues (#)', definition: 'Documented, unresolved interface, configuration, software or platform compatibility issues preventing the agreed integration or acceptance.' },
+  "programmes": [
+    {
+      "name": "Next milestone forecast variance (days)",
+      "definition": "Forecast milestone completion date minus the agreed completion date. Positive values indicate delay; weekly movement uses the previous review forecast."
+    },
+    {
+      "name": "Open milestone blockers (#)",
+      "definition": "Recorded unresolved dependencies preventing the next agreed milestone, each with an owner, age, required resolution date and impact."
+    }
   ],
-  people: [
-    { name: 'Hiring plan attainment (%)', definition: 'Employees joined against the approved hiring plan due by the review date.' },
-    { name: 'Offer acceptance rate (%)', definition: 'Accepted offers divided by offers with a recorded accepted or declined decision in the reporting period.' },
+  "autonomy": [
+    {
+      "name": "Priority scenarios ready (# / total)",
+      "definition": "Agreed priority scenarios with use case, operating conditions, expected behaviour, acceptance checks and required test inputs ready for development and testing."
+    },
+    {
+      "name": "Scenarios validated in simulation (# / total)",
+      "definition": "Priority scenarios passing their agreed simulation checks with recorded evidence, against the fixed agreed priority scenario set. This does not establish flight readiness."
+    }
   ],
-  finance: [
-    { name: 'Funding coverage (months)', definition: 'Months of forecast expenditure covered by accessible cash and confirmed funding arrangements, using their availability dates. Unfunded budgets and expected customer receipts are separate.' },
-    { name: 'Budget variance (%)', definition: 'Actual spending minus budgeted spending, divided by budgeted spending for the same period.' },
+  "people": [
+    {
+      "name": "Hiring plan attainment (%)",
+      "definition": "Employees joined divided by planned joins due by the review date. Show six-month hiring progress and total headcount separately."
+    },
+    {
+      "name": "Critical roles filled (# / required)",
+      "definition": "Named critical roles filled by people who have joined, against the roles required for the next programme and engineering milestones."
+    }
   ],
-  industrialisation: [
-    { name: 'Technology-transfer completion (%)', definition: 'Shield AI transfer obligations accepted by JSW against the fixed agreed transfer package. Excludes JSW factory output.' },
+  "finance": [
+    {
+      "name": "Funding coverage (months)",
+      "definition": "Months of dated forecast expenditure covered by accessible cash and confirmed funding available when needed, including planned hiring. Excludes unconfirmed funding and expected customer receipts."
+    },
+    {
+      "name": "Budget variance (%)",
+      "definition": "Actual spending minus approved budget, divided by that budget for the same closed period. Positive values indicate overspend."
+    }
   ],
-  growth: [
-    { name: 'Qualified pipeline coverage (×)', definition: 'Qualified opportunity value divided by the order target for the same horizon. Qualification requires a confirmed customer requirement, identified buying authority and documented procurement route.' },
-  ],
+  "industrialisation": [
+    {
+      "name": "Transfer deliverables accepted (# / total)",
+      "definition": "Shield-to-JSW deliverables formally accepted by the receiving owner against a fixed agreed package and evidence requirements. Counts are not a weighted percentage of technology transferred."
+    }
+  ]
 };
 
 export const OPERATING_MODEL_SUMMARIES: Record<string, string> = {
-  programmes: 'Tracks Army delivery acceptance and unresolved issues preventing handover.',
-  autonomy: 'Tracks verified SDK requirements and unresolved issues preventing integration or acceptance.',
-  people: 'Tracks hiring against plan and whether candidates accept our offers.',
-  finance: 'Tracks funding available for upcoming costs and spending against budget.',
-  industrialisation: 'Tracks JSW acceptance of Shield AI’s agreed technology-transfer commitments.',
-  growth: 'Tracks whether qualified opportunities provide enough pipeline to support the order target.',
+  "growth": "Tracks tangible customer or partner commitment to the next business beyond the Army foothold.",
+  "programmes": "Tracks the next milestone forecast and blockers requiring weekly resolution.",
+  "autonomy": "Tracks readiness and simulation validation of agreed Indian ISR scenarios during the build stage.",
+  "people": "Tracks 25 additional hires over six months, from a starting team of 20, and staffing of critical roles.",
+  "finance": "Tracks 18 months of assumed funding coverage against a target above 15 months, and actual spending against budget.",
+  "industrialisation": "Tracks receiving-owner acceptance of the agreed Shield-to-JSW transfer package."
 };

@@ -24,7 +24,7 @@ export default function MdPortfolio() {
   const plannedFlights = TRIAL_CAMPAIGNS.reduce((s, t) => s + t.planned, 0);
   const acceptedReports = TRIAL_CAMPAIGNS.reduce((s, t) => s + t.accepted, 0);
   return <div className="md-portfolio">
-    <div className="md-period"><span>{dateLabel(PORTFOLIO_DATE)}</span><span>Illustrative case · all figures assumed</span></div>
+    <div className="md-period">{dateLabel(PORTFOLIO_DATE)}</div>
     <div className="md-portfolio-controls">
       <div className="md-portfolio-nav" role="group" aria-label="Dashboard views">{VIEWS.map(v => <button key={v} aria-pressed={view === v} onClick={() => navigate(v)}>{v}</button>)}</div>
       {view !== 'Overview' && view !== 'KPIs' && <label>Programme<select aria-label="Filter dashboard programme" value={programme} onChange={e => setProgramme(e.target.value)}><option value="all">All programmes</option>{PROGRAMME_PORTFOLIO.map(p => <option key={p.id} value={p.id}>{p.name}</option>)}</select></label>}
