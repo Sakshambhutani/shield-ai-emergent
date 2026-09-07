@@ -1,8 +1,8 @@
 .radar-body { @apply flex-1 min-h-0 overflow-auto; }
 .opportunity-radar { @apply h-full flex flex-col; min-height:440px; min-width:850px; }
 .radar-routes { @apply grid grid-cols-2 shrink-0 pt-2 pb-3; }
-.radar-routes h2 { @apply font-mono text-xs uppercase tracking-[0.18em] text-sig-blue text-center; }
-.radar-routes h2 span { @apply text-paper-3 text-xs tracking-wider; }
+.radar-routes h2 { @apply font-mono text-lg uppercase tracking-[0.18em] text-sig-blue text-center; }
+.radar-routes h2 span { @apply text-paper-3 text-lg tracking-wider; }
 .radar-field { @apply relative flex-1 min-h-0; }
 .radar-geometry { @apply absolute inset-0 w-full h-full; }
 .radar-arc { fill:none; stroke:theme('colors.sig.blue'); stroke-opacity:.3; stroke-width:1; vector-effect:non-scaling-stroke; }
@@ -20,13 +20,13 @@
 .radar-node-now p { @apply text-paper-2; }
 .radar-node-integrators { width:19%; }
 .radar-node-strategic { width:29%; }
-.radar-horizon { @apply absolute font-mono text-xs uppercase tracking-[0.18em] text-paper-3; }
+.radar-horizon { @apply absolute font-mono text-lg uppercase tracking-[0.18em] text-paper-3; }
 .radar-horizon-now { left:50%; bottom:0; transform:translateX(-50%); }
 .radar-horizon-next { left:18%; top:34%; }
 .radar-horizon-future { left:9%; top:4%; }
 button.radar-node { @apply cursor-pointer transition-colors duration-200 hover:border-sig-blue; }
 button.radar-node:focus-visible { @apply outline outline-2 outline-offset-4 outline-sig-blue; }
-@media(max-width:900px){.radar-body{min-height:440px}.radar-node h3{font-size:15px}.radar-routes h2{font-size:12px}}
+@media(max-width:900px){.radar-body{min-height:440px}.radar-node h3{font-size:15px}.radar-routes h2,.radar-routes h2 span{font-size:14px}}
 @media(prefers-reduced-motion:reduce){.radar-node{animation:none!important;transition:none!important}}
 
 @keyframes radar-reveal{from{opacity:0}to{opacity:1}}
