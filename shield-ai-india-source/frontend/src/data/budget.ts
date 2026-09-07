@@ -80,7 +80,6 @@ export const MARKET_TREE: BudgetNode[] = [
   ...FUTURE_POOLS,
   capability('future-idex', 'future-drdo', 'iDEX / ADITI · DIO / DDP', 'Related defence-innovation route, not a subdivision of DRDO capital. iDEX and ADITI are administered through DIO / Department of Defence Production. Eligibility and specific challenges determine access.', ['c-market-innovation-routes']),
   capability('future-tdf', 'future-drdo-cap', 'TDF · DRDO technology development', 'DRDO-executed innovation route. No separable autonomy allocation is inferred from the parent capital budget.', ['c-market-innovation-routes']),
-  capability('future-autonomy-rd', 'future-drdo-cap', 'Autonomy R&D / sensing / mission planning', 'Potential capability relevance for research and technology-development calls; not a verified funded autonomy programme or Shield allocation.', ['c-drdo-budget', 'c-market-innovation-routes']),
   capability('future-cg-shipborne', 'future-coastguard-capital', 'Shipborne UAS', 'Requirement history: the four-system Coast Guard RFP was retracted on 1 September 2026. Not an active award.', ['c-market-coast-uas']),
   capability('future-cg-male', 'future-coastguard-capital', 'MALE RPAS', 'Coast Guard RFI dated 15 July 2026. RFI establishes a requirement, not a contract or disclosed programme value.', ['c-market-coast-uas']),
   capability('future-cg-isr', 'future-coastguard-capital', 'Maritime ISR', 'Capability supported by maritime aerial-surveillance requirements; no separate budget is assumed.', ['c-market-coast-uas']),
