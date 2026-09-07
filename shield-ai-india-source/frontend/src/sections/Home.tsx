@@ -1,11 +1,11 @@
-import { BarChart3, Boxes, Factory, Layers3, Network, Plane, Radar, Ship, Users } from 'lucide-react';
+import { Boxes, Factory, GitBranch, Handshake, Microchip, Plane, Radar, Ship, Users } from 'lucide-react';
 import { Headline, Screen } from '@/components/ui';
 import './home.css';
 
 const STEPS = [
-  { number: '01', title: 'Deliver', copy: 'Make the current programme work exceptionally well.', icon: BarChart3 },
-  { number: '02', title: 'Build demand', copy: 'Win repeat orders and new programmes for V-BAT.', icon: Layers3 },
-  { number: '03', title: 'Broaden', copy: 'Expand Hivemind across Indian platforms and partners.', icon: Network },
+  { number: '01', title: 'Deliver & deepen', copy: 'Turn Army delivery into lasting trust and repeat orders.', icon: Handshake },
+  { number: '02', title: 'Open programmes', copy: 'Build demand across government and platform partners.', icon: GitBranch },
+  { number: '03', title: 'Build engineering', copy: 'Integrate Hivemind in India for Indian and global programmes.', icon: Microchip },
 ] as const;
 
 const NETWORK_NODES = [
@@ -65,23 +65,23 @@ function IndiaNetwork() {
 export default function Home() {
   return (
     <Screen className="thesis">
-      <Headline title="From India entry point to India scale" sub="One proven foothold. The next 18 months are about turning it into a repeatable autonomy business." />
+      <Headline title="From an Army foothold to a broader India business" sub="Grow through trusted delivery, new programmes and engineering in India for global needs." />
 
       <div className="thesis-system" data-testid="strategy-journey">
         <div className="thesis-stage">
         <FlowLines />
         <section className="thesis-origin" data-testid="today-node">
-          <div className="thesis-time-label">TODAY</div><h2>A real foothold</h2>
+          <div className="thesis-time-label">OUR FOOTHOLD</div><h2>A real foothold</h2>
           <div className="thesis-vbat-orbit"><VBatMark /></div>
           <div className="thesis-origin-copy">
             <div><strong>Indian Army</strong><span>V-BAT + Hivemind</span></div>
-            <div><strong>JSW partnership</strong><span>Local manufacturing underway</span></div>
-            <div><strong>Visible production ramp</strong><span>50 → 150 → 300 export commitment</span><span>300/year capacity → expandable to 450</span></div>
+            <div><strong>JSW partnership</strong><span>Local manufacturing underway</span><span>300/year capacity → expandable to 450</span></div>
+            <div><strong>Visible production ramp</strong><span>50 → 150 → 300 export commitment</span></div>
           </div>
         </section>
 
-        <section className="thesis-moves" aria-label="Next 18 months">
-          <div className="thesis-time-label">NEXT 18 MONTHS</div>
+        <section className="thesis-moves" aria-label="How we grow">
+          <div className="thesis-time-label">HOW WE GROW</div>
           <div className="thesis-move-list">
             {STEPS.map(({ number, title, copy, icon: Icon }) => (
               <article className="thesis-move" key={number} data-testid={`strategy-step-${number.slice(1)}`}>
@@ -93,10 +93,14 @@ export default function Home() {
         </section>
 
         <section className="thesis-destination" data-testid="month-18-destination">
-          <div className="thesis-time-label">18-MONTH AMBITION</div>
+          <div className="thesis-time-label">OUR AMBITION</div>
           <h2>A BROADER INDIA<span>AUTONOMY BUSINESS</span></h2>
-          <p>V-BAT + Hivemind + Indian platforms</p>
           <IndiaNetwork />
+          <div className="thesis-products" aria-label="Product portfolio">
+            <span>V-BAT</span><span>Hivemind (Solutions &amp; SDK)</span>
+            <span>Aechelon</span><span>ViDAR</span>
+            <span className="thesis-product-future">X-BAT <small>Future</small></span>
+          </div>
         </section>
         </div>
       </div>

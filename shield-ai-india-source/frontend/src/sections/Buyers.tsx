@@ -29,14 +29,14 @@ function ResearchDrawer({ arena, onClose }: { arena: OpportunityArena | null; on
 }
 
 const RADAR_NODES = [
-  { id: 'army', title: 'Army ISR & Tactical Autonomy', sub: 'Current foothold: V-BAT + Hivemind', examples: 'Potential: broader ISR · multi-agent mission autonomy', x: 50, y: 87, horizon: 'Now' },
-  { id: 'maritime-isr', title: 'Maritime ISR', sub: 'Indian Navy · Indian Coast Guard', x: 23, y: 66, horizon: 'Next' },
-  { id: 'airforce', title: 'Air Force Swarm & Teaming', sub: 'Indian Air Force · swarm systems · air teaming', x: 23, y: 42, horizon: 'Next' },
-  { id: 'defence-space', title: 'Defence Space Agency', sub: 'Surveillance · constellation mission autonomy', x: 23, y: 18, horizon: 'Future' },
-  { id: 'airborne', title: 'Large Airborne Platforms', sub: 'MALE · HAPS · CCA', examples: 'Tata · Mahindra · Bharat Forge', x: 77, y: 66, horizon: 'Next' },
-  { id: 'maritime-autonomy', title: 'Maritime Autonomy', sub: 'Shipbuilders · naval primes', examples: 'Saga Defence · L&T · Adani', x: 77, y: 42, horizon: 'Next' },
-  { id: 'integrators', title: 'Defence Platforms & Systems', sub: 'BEL · HAL · Goa Shipyard · GRSE · Mazagon', x: 50, y: 25, horizon: 'Next' },
-  { id: 'space', title: 'Space Autonomy', sub: 'Private space OEMs', examples: 'Ananth · Centum', x: 77, y: 18, horizon: 'Future' },
+  { id: 'army', title: 'Army ISR', sub: 'V-BAT · Hivemind SDK', x: 20, y: 70, horizon: 'Now' },
+  { id: 'maritime-isr', title: 'Maritime ISR', sub: 'Indian Navy · Coast Guard', x: 9, y: 44, horizon: 'Next' },
+  { id: 'airforce', title: 'Air Force Teaming', sub: 'Swarms · Collaborative aircraft', x: 9, y: 18, horizon: 'Next' },
+  { id: 'defence-space', title: 'Defence Space', sub: 'Defence Space Agency', x: 31, y: 18, horizon: 'Future' },
+  { id: 'airborne', title: 'Airborne Autonomy', sub: 'MALE · HAPS · CCA', examples: 'Tata · Mahindra · Bharat Forge', x: 80, y: 70, horizon: 'Next' },
+  { id: 'maritime-autonomy', title: 'Maritime Autonomy', sub: 'Surface · Undersea', examples: 'Saga Defence · L&T · Adani', x: 80, y: 44, horizon: 'Next' },
+  { id: 'integrators', title: 'Defence PSUs', sub: 'BEL · HAL · Goa Shipyard · GRSE · Mazagon', x: 31, y: 44, horizon: 'Next' },
+  { id: 'space', title: 'Space Autonomy', sub: 'Satellite OEMs', examples: 'Ananth · Centum', x: 80, y: 18, horizon: 'Future' },
 ];
 
 export default function Buyers() {
@@ -49,10 +49,10 @@ export default function Buyers() {
   const openResearch = (id: string) => { lastTrigger.current = document.activeElement as HTMLElement; setSelected(OPPORTUNITY_ARENAS.find((arena) => arena.id === id) ?? null); };
 
   return <Screen className="opportunity-landscape">
-    <Headline title="Where can Shield AI play and through which routes?" sub="Product fit across direct government, PSU and private platform-partner routes for Hivemind, V-BAT, ViDAR and Aechelon." />
+    <Headline title="Where can Shield AI India create value?" sub="Domestic opportunities for Hivemind, V-BAT, ViDAR and Aechelon, alongside India-based engineering for global programmes." />
     <div className="radar-body" data-testid={explore ? 'opportunity-explore' : 'opportunity-story'}>
-      <div className="opportunity-radar" data-testid="opportunity-landscape-map" aria-label="Opportunity radar: B2G on the left, PSU in the centre, B2B2G on the right; Army foothold at the base">
-        <div className="radar-routes"><h2>B2G</h2><h2>PSU</h2><h2>B2B2G</h2></div>
+      <div className="opportunity-radar" data-testid="opportunity-landscape-map" aria-label="Opportunity radar: government and PSUs on the left, global capability in the centre, platform partners on the right; Shield AI India at the base">
+        <div className="radar-routes"><h2>B2G</h2><h2>B2B2G</h2></div>
         <div className="radar-field">
           <svg className="radar-geometry" viewBox="0 0 1200 560" preserveAspectRatio="none" aria-hidden="true">
             <defs><radialGradient id="radar-glow" cx="50%" cy="90%" r="50%"><stop offset="0%" stopColor="#3B82F6" stopOpacity=".13" /><stop offset="65%" stopColor="#3B82F6" stopOpacity="0" /></radialGradient></defs>
@@ -60,11 +60,16 @@ export default function Buyers() {
             <path className="radar-arc radar-outer" d="M 70 40 A 530 480 0 0 0 1130 40" />
             <path className="radar-arc" d="M 220 180 A 380 340 0 0 0 980 180" />
             <path className="radar-arc radar-inner" d="M 390 330 A 210 190 0 0 0 810 330" />
-            <path className="radar-divider" d="M 600 30 L 600 520" />
+            <path className="radar-divider" d="M 636 510 L 636 246" />
+            <path className="radar-branch" d="M 636 510 Q 240 510 240 392 M 636 510 Q 960 510 960 392" />
           </svg>
-          <div className="radar-horizon radar-horizon-now">Now</div>
+          <article className="radar-node radar-node-next radar-gcc" aria-label="Global Capability Centre">
+            <h3>Global Engineering</h3>
+            <p>India engineering for global programmes</p>
+          </article>
+          <article className="radar-node radar-foundation"><h3>Shield AI India</h3></article>
           {RADAR_NODES.map((node) => {
-            const content = <><h3>{node.title}</h3><p>{node.sub}</p>{'examples' in node && <p>{node.examples}</p>}</>;
+            const content = <><h3>{node.title}</h3>{node.sub && <p>{node.sub}{'examples' in node && ` (${node.examples})`}</p>}</>;
             const className = `radar-node radar-node-${node.horizon.toLowerCase()} radar-node-${node.id}`;
             const style = { left: `${node.x}%`, top: `${node.y}%` };
             return explore ? <button key={node.id} data-testid={`arena-${node.id}`} className={className} style={style} onClick={() => openResearch(node.id)} aria-label={`Explore ${node.title}`}>{content}</button>
@@ -73,7 +78,7 @@ export default function Buyers() {
         </div>
       </div>
     </div>
-    {explore && <p className="radar-caption">Select an opportunity to explore the research. Horizons show proximity, not priority.</p>}
+    {explore && <p className="radar-caption">Select an opportunity to explore the research. GCC represents a proposed global engineering role.</p>}
     <ResearchDrawer arena={selected} onClose={closeResearch} />
   </Screen>;
 }

@@ -32,11 +32,11 @@ const HORIZON_KEYS = Object.keys(HORIZON_META) as HorizonKey[];
 const xTick = (v: number): string => { if (v <= 1.5) return 'Hard to enter'; if (v >= 5) return 'Easy to enter'; return ''; };
 const yTick = (v: number): string => { if (v <= 1.5) return 'Low'; if (v >= 5) return 'High'; return ''; };
 const PRIORITIES = [
-  { number: '01', title: 'Army reference programme', description: 'Deliver, prove and expand V-BAT + Hivemind' },
-  { number: '02', title: 'Win the next India programmes', description: 'Focus on the highest-fit opportunities across services' },
-  { number: '03', title: 'Hivemind across Indian platforms', description: 'Build OEM / prime pathways' },
-  { number: '04', title: 'India production & sustainment', description: 'Turn JSW into scalable industrial capability' },
-  { number: '05', title: 'Global Hivemind engineering hub', description: 'Build autonomy in India for India + global programmes' },
+  { number: '01', title: 'Deliver and grow the Army programme', description: 'Prove V-BAT and Hivemind in Indian missions; earn repeat orders.' },
+  { number: '02', title: 'Open maritime programmes', description: 'Build qualified opportunities in naval ISR and maritime autonomy.' },
+  { number: '03', title: 'Embed Hivemind with Indian partners', description: 'Develop SDK and Solutions integrations with selected PSUs and OEMs.' },
+  { number: '04', title: 'Scale production and sustainment', description: 'Build JSW readiness for reliable manufacturing, support and follow-on demand.' },
+  { number: '05', title: 'Build India engineering capacity', description: 'Develop integration and testing capability for Indian and global programmes.' },
 ];
 
 function BubbleTip({ payload }: { payload?: readonly { payload: Row }[] }) {
@@ -129,19 +129,19 @@ function PriorityLedger() {
       <AircraftSchematic />
       <svg className="mission-connectors" viewBox="0 0 1200 620" preserveAspectRatio="none" fill="none" aria-hidden="true">
         <g strokeWidth="1">
-          <path d="M310 130H420L600 144" />
-          <path d="M890 130H817L748 220" />
-          <path d="M310 337H398L516 229" />
-          <path d="M890 337H803L634 335" />
-          <path d="M600 496V470 M600 440V390" />
+          <path d="M600 104V157" />
+          <path d="M310 312H430" />
+          <path d="M890 312H770" />
+          <path d="M310 502H430L563 454" />
+          <path d="M890 502H770L637 454" />
         </g>
         <g className="mission-system-nodes">
-          <circle cx="600" cy="144" r="3" /><circle cx="748" cy="220" r="3" />
-          <circle cx="516" cy="229" r="3" /><circle cx="634" cy="335" r="3" />
-          <circle cx="600" cy="390" r="3" />
+          <circle cx="600" cy="157" r="3" />
+          <circle cx="430" cy="312" r="3" /><circle cx="770" cy="312" r="3" />
+          <circle cx="563" cy="454" r="3" /><circle cx="637" cy="454" r="3" />
         </g>
       </svg>
-      <div className="eyebrow mission-centre-label">SHIELD AI INDIA · 18-MONTH MISSION</div>
+      <div className="eyebrow mission-centre-label">SHIELD AI INDIA</div>
       <ol className="mission-callouts">
         {PRIORITIES.map((priority) => <li key={priority.number} className={`mission-callout mission-callout--${priority.number}`}>
           <span aria-hidden="true" className="num mission-callout-number">{priority.number}</span>
@@ -162,7 +162,7 @@ export default function Convergence() {
   const s = all.find((r) => r.id === sel) ?? null;
   return (
     <Screen>
-      <Headline title="Five 18-month priorities." sub="Large budgets do not automatically equal attractive opportunities; accessibility, architecture and timing matter." />
+      <Headline title="Five priorities for the next 18 months" sub="Grow the Army foothold, open maritime opportunities and build the capabilities to scale." />
       {mode === 'story' ? <PriorityLedger /> : <>
       <div className="grid lg:grid-cols-3 gap-3 flex-1 min-h-0">
         <div className="lg:col-span-2 panel p-3 flex flex-col min-h-[420px]" data-testid="bubble-chart">
