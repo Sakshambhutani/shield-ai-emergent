@@ -29,14 +29,15 @@ function ResearchDrawer({ arena, onClose }: { arena: OpportunityArena | null; on
 }
 
 const RADAR_NODES = [
-  { id: 'army', title: 'Army Tactical ISR', sub: 'V-BAT + Hivemind · current foothold', x: 50, y: 87, horizon: 'Now' },
-  { id: 'maritime-isr', title: 'Maritime ISR', sub: 'Navy · Coast Guard', x: 23, y: 48, horizon: 'Next' },
-  { id: 'control', title: 'Mission & Control Layer', sub: 'Orchestration · common control', x: 27, y: 67, horizon: 'Next' },
-  { id: 'strategic', title: 'Strategic Direct Programmes', sub: 'Air Force · tri-service · advanced autonomy', x: 21, y: 20, horizon: 'Future' },
-  { id: 'airborne', title: 'Large Airborne Platforms', sub: 'MALE · HAPS · CCA', examples: 'Tata · Mahindra · Bharat Forge', x: 79, y: 46, horizon: 'Next' },
-  { id: 'maritime-autonomy', title: 'Maritime Autonomy', sub: 'Shipbuilders · naval primes', examples: 'Saga Defence · L&T · Adani', x: 75, y: 70, horizon: 'Next' },
+  { id: 'army', title: 'Army ISR & Tactical Autonomy', sub: 'Current foothold: V-BAT + Hivemind', examples: 'Potential: broader ISR · multi-agent mission autonomy', x: 50, y: 87, horizon: 'Now' },
+  { id: 'maritime-isr', title: 'Maritime ISR', sub: 'Indian Navy · Indian Coast Guard', x: 23, y: 65, horizon: 'Next' },
+  { id: 'airforce', title: 'Air Force Swarm & Teaming', sub: 'Indian Air Force · swarm systems · air teaming', x: 23, y: 42, horizon: 'Next' },
+  { id: 'defence-space', title: 'Defence Space Agency', sub: 'Surveillance · constellation mission autonomy', x: 23, y: 18, horizon: 'Future' },
+  { id: 'airborne', title: 'Large Airborne Platforms', sub: 'MALE · HAPS · CCA', examples: 'Tata · Mahindra · Bharat Forge', x: 78, y: 68, horizon: 'Next' },
+  { id: 'partner-maritime-isr', title: 'Maritime ISR', sub: 'Partner platforms · airborne sensing', examples: 'V-BAT · ViDAR', x: 78, y: 51, horizon: 'Next' },
+  { id: 'maritime-autonomy', title: 'Maritime Autonomy', sub: 'Shipbuilders · naval primes', examples: 'Saga Defence · L&T · Adani', x: 78, y: 34, horizon: 'Next' },
   { id: 'integrators', title: 'Defence Platforms & Systems', sub: 'BEL · HAL · Goa Shipyard · GRSE · Mazagon', x: 50, y: 25, horizon: 'Next' },
-  { id: 'space', title: 'Space Autonomy', sub: 'Private space OEMs', examples: 'Ananth · Centum', x: 83, y: 19, horizon: 'Future' },
+  { id: 'space', title: 'Space Autonomy', sub: 'Private space OEMs', examples: 'Ananth · Centum', x: 78, y: 17, horizon: 'Future' },
 ];
 
 export default function Buyers() {
