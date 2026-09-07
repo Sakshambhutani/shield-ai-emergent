@@ -68,14 +68,23 @@ export const ENGINEERING_READINESS = [
  { label: 'Test inputs & acceptance checks', complete: 4, total: 6 },
 ];
 export const ROLES = [
- { role: 'Autonomy engineers', count: 10, team: 'Engineering', critical: true, due: '2026-11-01', stage: 'Interviewing', applied: 72, screening: 20, interviewing: 12, offered: 2, accepted: 1, joined: 0 },
+ { role: 'Autonomy engineers', count: 10, team: 'Engineering', critical: true, due: '2026-11-01', stage: 'Interviewing', applied: 72, screening: 20, interviewing: 12, offered: 2, accepted: 2, joined: 0 },
  { role: 'Integration engineers', count: 5, team: 'Engineering', critical: true, due: '2026-11-01', stage: 'Offers', applied: 40, screening: 8, interviewing: 6, offered: 2, accepted: 1, joined: 0 },
  { role: 'Simulation / test engineers', count: 3, team: 'Engineering', critical: true, due: '2026-12-01', stage: 'Interviewing', applied: 28, screening: 8, interviewing: 4, offered: 1, accepted: 0, joined: 0 },
- { role: 'Field / programme support', count: 5, team: 'Delivery & support', critical: false, due: '2027-01-01', stage: 'Screening', applied: 35, screening: 12, interviewing: 5, offered: 0, accepted: 1, joined: 0 },
+ { role: 'Field / programme support', count: 5, team: 'Delivery & support', critical: false, due: '2027-01-01', stage: 'Screening', applied: 35, screening: 12, interviewing: 5, offered: 0, accepted: 0, joined: 0 },
  { role: 'BD / partnership managers', count: 2, team: 'BD & partnerships', critical: false, due: '2027-02-01', stage: 'Screening', applied: 20, screening: 6, interviewing: 2, offered: 0, accepted: 0, joined: 0 },
  { role: 'People / finance / operations', count: 5, team: 'People, finance & operations', critical: false, due: '2027-03-01', stage: 'Posted', applied: 30, screening: 10, interviewing: 2, offered: 0, accepted: 0, joined: 0 },
 ];
 export const HIRING_PLAN = Array.from({ length: 6 }, (_, i) => ({ month: ['Oct 26','Nov 26','Dec 26','Jan 27','Feb 27','Mar 27'][i], planned: 5, cumulative: 25 + i * 5, actual: 20, due: new Date(Date.UTC(2026,10+i,0)).toISOString().slice(0,10) }));
+// Five named critical openings due within 30 days; confirmed joins require dated acceptance.
+export const JOINING_COMMITMENTS = [
+ { id: 'AUT-01', role: 'Autonomy engineer', due: '2026-10-31', forecast: '2026-10-26', confirmed: true, milestone: 'Simulation demonstration' },
+ { id: 'AUT-02', role: 'Autonomy engineer', due: '2026-10-31', forecast: '2026-10-28', confirmed: true, milestone: 'Simulation demonstration' },
+ { id: 'INT-01', role: 'Integration engineer', due: '2026-10-31', forecast: '2026-10-30', confirmed: true, milestone: 'Engineering environment ready' },
+ { id: 'AUT-03', role: 'Autonomy engineer', due: '2026-10-31', forecast: '2026-11-09', confirmed: false, milestone: 'Simulation demonstration' },
+ { id: 'INT-02', role: 'Integration engineer', due: '2026-10-31', forecast: '2026-11-12', confirmed: false, milestone: 'Engineering environment ready' },
+];
+export const CRITICAL_JOINING_GAPS = JOINING_COMMITMENTS.filter(r=>days(AS_OF,r.due)>=0 && days(AS_OF,r.due)<=30 && (!r.confirmed || r.forecast>r.due));
 export const CURRENT_HEADCOUNT = BASE_HEADCOUNT + ROLES.reduce((s,r)=>s+r.joined,0);
 export const MONTHLY_PAYROLL = CURRENT_HEADCOUNT * SALARY_LAKH / 100 / 12;
 export const OVERHEAD_RATE = .25;
@@ -131,7 +140,7 @@ export const ASSUMPTIONS = [
  { label:'Headcount & salaries', value:'20 → 50 · ₹50L per person/year', detail:'Latest user input supersedes the earlier 45-person target. Adds 30 people in six monthly cohorts of five, at each month end, with no exits. Conservative cash forecast charges each forecast month at its ending headcount. Annual salary: 20 × ₹50L = ₹10Cr; 50 × ₹50L = ₹25Cr. The salary assumption is treated as cash salary; add-on costs are separately assumed.' },
  { label:'Operating expenditure', value:'25% people overhead + ₹0.30Cr/month', detail:'Constructed allowance for benefits and related people overhead at 25% of salary plus ₹30L monthly facilities, tools and travel. September actuals contain ₹4L additional setup expense. All India operating figures are INR crore; contract values are USD millions. No FX conversion or cross-entity cash aggregation.' },
  { label:'Funding coverage', value:`18 months · ${inr(REQUIRED_FUNDING)}`, detail:`Assume ${inr(CURRENT_CASH)} accessible India cash and ${inr(CONFIRMED_FUNDING)} confirmed HQ funding arriving 01 Dec 2026. Funding is constructed to meet the 18-month growing-team expenditure forecast. Target >15 months; an additional decision is needed before the threshold is reached. Army receipts are held by the contracting entity and excluded from India funding.` },
- { label:'BD and hiring samples', value:'6 opportunities · 30 vacancies', detail:'OEM A/B and PSU A/B are fictional placeholders. All scopes, values, stages, candidates and dates are constructed. Near closure requires a commercial-stage opportunity and a forecast signature within 90 days. No current opportunity qualifies; zero is intentional. Candidate current-stage counts are mutually exclusive; applications are cumulative. Customer-backed target: two new programmes in six months; Army follow-on tracked separately.' },
+ { label:'BD and hiring samples', value:'6 opportunities · 30 vacancies', detail:'OEM A/B and PSU A/B are fictional placeholders. All scopes, values, stages, candidates and dates are constructed. Near closure requires a commercial-stage opportunity and a forecast signature within 90 days. No current opportunity qualifies; zero is intentional. Five critical openings are due 31 Oct: two autonomy and one integration candidate have confirmed dates in October; one autonomy and one integration opening forecast November without confirmed joins. These are part of the 30 vacancies, not additional posts. Candidate current-stage counts are mutually exclusive; applications are cumulative. Customer-backed target: two new programmes in six months; Army follow-on tracked separately.' },
  { label:'Engineering & JSW', value:'6 Army scenarios · 8 transfer items', detail:'Early simulation work is exploratory against a proposed baseline and does not constitute contractual or flight acceptance. Two OEM scenarios are approved presales work, not an order. JSW has accepted six of eight example transfer items. Joint Gantt progress is estimated work completion, distinct from receiving-owner acceptance. JSW owns facility and supplier actions; procurement and capital spending are not India operating expenditure.' },
  { label:'Procurement routes', value:'B2B · B2G · PSUs', detail:'Stages are management templates, not universal legal gates. Use the actual tender route; emergency procurement is a route, not a mandatory pre-AoN stage. PSU procurement follows the specific organisation. Paid pilots move to Delivery when signed; the follow-on remains in BD.' },
 ];

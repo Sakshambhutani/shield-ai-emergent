@@ -23,7 +23,7 @@ export default function Dashboard() {
  {area==='Business Development'&&<BusinessDevelopment inspect={setDetail} initial={initial}/>}
  {area==='Delivery'&&<Delivery inspect={setDetail} initial={initial}/>}
  {area==='Engineering'&&<Engineering inspect={setDetail}/>}
- {area==='Hiring'&&<Hiring inspect={setDetail}/>}
+ {area==='Hiring'&&<Hiring inspect={setDetail} initial={initial}/>}
  {area==='Finance'&&<Finance inspect={setDetail}/>}
  {area==='JSW Partnership'&&<JswPartnership inspect={setDetail}/>}
  </div>

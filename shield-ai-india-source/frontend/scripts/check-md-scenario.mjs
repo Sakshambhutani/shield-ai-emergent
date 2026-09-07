@@ -9,6 +9,9 @@ try {
  assert.equal(sum(s.REVENUE_PLAN,'amount'),s.ARMY.value);
  assert.equal(s.RECOGNISED_REVENUE,0);
  assert.equal(s.CURRENT_HEADCOUNT,20);
+ assert.equal(s.CRITICAL_JOINING_GAPS.length,2);
+ assert.equal(s.JOINING_COMMITMENTS.filter(r=>r.confirmed).length,sum(s.ROLES,'accepted'));
+ assert.ok(s.CRITICAL_JOINING_GAPS.every(r=>s.days(s.AS_OF,r.due)<=30));
  assert.equal(sum(s.ROLES,'count'),s.TARGET_HEADCOUNT-s.BASE_HEADCOUNT);
  assert.equal(sum(s.HIRING_PLAN,'planned'),30);
  assert.equal(sum(s.CAPACITY,'current'),20);
