@@ -7,66 +7,93 @@ const LAYERS = [
   {
     "id": "milestone",
     "name": "VALIDATE",
-    "cadence": "Milestone-based",
+    "cadence": "At agreed milestones",
     "outer": 110,
     "inner": 0,
     "labelY": 490,
-    "questions": [
-      "Has the Army or partner accepted the agreed delivery evidence?",
-      "What remains open across V-BAT, Hivemind or technology transfer?",
-      "Can we approve handover and trigger any associated payment?"
+    "measures": [
+      "Deliverables completed",
+      "Validation results",
+      "Open acceptance items"
+    ],
+    "decisions": [
+      "Accept",
+      "Close gaps",
+      "Confirm handover"
     ]
   },
   {
     "id": "weekly",
     "name": "OPERATE",
-    "cadence": "Weekly",
+    "cadence": "Typically weekly",
     "outer": 200,
     "inner": 110,
     "labelY": 338,
-    "questions": [
-      "What is blocking the next Army delivery or Hivemind integration?",
-      "Are hiring, access or funding gaps holding up work?",
-      "What needs action from India, US teams or JSW this week?"
+    "measures": [
+      "Milestone movement",
+      "Open blockers",
+      "Critical joining gaps",
+      "Near-term cash exceptions"
+    ],
+    "decisions": [
+      "Recover",
+      "Assign ownership",
+      "Escalate"
     ]
   },
   {
     "id": "fortnightly",
     "name": "ALIGN",
-    "cadence": "Fortnightly",
+    "cadence": "Fortnightly / as needed",
     "outer": 290,
     "inner": 200,
     "labelY": 248,
-    "questions": [
-      "Are India, US teams and JSW working to the same delivery commitments?",
-      "Where do engineering capacity or partner dependencies need resolution?",
-      "Can we support new customer evaluations without delaying the Army programme?"
+    "measures": [
+      "Shared dependencies",
+      "Engineering capacity",
+      "Customer and partner commitments"
+    ],
+    "decisions": [
+      "Agree owners and dates",
+      "Resolve resource conflicts"
     ]
   },
   {
     "id": "monthly",
     "name": "REVIEW",
-    "cadence": "Monthly",
+    "cadence": "Typically monthly",
     "outer": 380,
     "inner": 290,
     "labelY": 158,
-    "questions": [
-      "Are Army acceptance and Hivemind integration progressing against plan?",
-      "Are hiring and available funding keeping pace with the planned team growth?",
-      "Are customer relationships turning into credible opportunities?"
+    "measures": [
+      "Functional KPI trends",
+      "Hiring versus plan",
+      "Budget variance",
+      "Funding coverage",
+      "BD progression"
+    ],
+    "decisions": [
+      "Correct performance",
+      "Update forecasts"
     ]
   },
   {
     "id": "quarterly",
     "name": "STEER",
-    "cadence": "Quarterly",
+    "cadence": "Quarterly / when priorities change",
     "outer": 470,
     "inner": 380,
     "labelY": 68,
-    "questions": [
-      "Are we turning the Army foothold into follow-on business?",
-      "Which new programmes deserve investment next?",
-      "When can India take on global engineering work, and what must change in staffing, funding or partner support?"
+    "measures": [
+      "New-business potential",
+      "Army follow-on",
+      "Delivery capacity",
+      "Hiring and funding outlook"
+    ],
+    "decisions": [
+      "Invest",
+      "Prioritise",
+      "Defer"
     ]
   }
 ] as const;
@@ -86,7 +113,7 @@ function ringPath(outer: number, inner: number) {
 }
 
 export default function Cadence() {
-  const [selected, setSelected] = useState<LayerId | null>(null);
+  const [selected, setSelected] = useState<LayerId | null>('milestone');
   const [hasInteracted, setHasInteracted] = useState(false);
   const ringRefs = useRef<Partial<Record<LayerId, SVGGElement | null>>>({});
   const active = LAYERS.find(layer => layer.id === selected);
@@ -112,7 +139,7 @@ export default function Cadence() {
       <svg className="cadence-circles" viewBox="0 0 1000 1000" role="group" aria-label="Cadence layers" data-testid="decision-rhythm">
         {LAYERS.map(layer => <g key={layer.id} ref={node => { ringRefs.current[layer.id] = node; }}
           className={`cadence-layer${selected === layer.id ? ' is-selected' : ''}`}
-          role="button" tabIndex={0} aria-label={`${layer.name}. ${layer.cadence}. Show review questions`}
+          role="button" tabIndex={0} aria-label={`${layer.name}. ${layer.cadence}. Show measures and decisions`}
           aria-pressed={selected === layer.id} aria-expanded={selected === layer.id}
           aria-controls={selected === layer.id ? 'cadence-questions' : undefined}
           data-testid={`cadence-ring-${layer.id}`}
@@ -135,10 +162,17 @@ export default function Cadence() {
       {active && <aside id="cadence-questions" className="cadence-questions" aria-labelledby="cadence-questions-title" aria-live="polite">
         <div className="cadence-panel-heading">
           <h2 id="cadence-questions-title">{active.name}</h2>
-          <button type="button" onClick={close} aria-label="Close questions"><X size={18} /></button>
+          <button type="button" onClick={close} aria-label="Close cadence details"><X size={18} /></button>
         </div>
         <p className="cadence-panel-period">{active.cadence}</p>
-        <ul>{active.questions.map(question => <li key={question}>{question}</li>)}</ul>
+        <section className="cadence-panel-section" aria-labelledby="cadence-review-title">
+          <h3 id="cadence-review-title">Review</h3>
+          <ul>{active.measures.map(measure => <li key={measure}>{measure}</li>)}</ul>
+        </section>
+        <section className="cadence-panel-section cadence-panel-decisions" aria-labelledby="cadence-decide-title">
+          <h3 id="cadence-decide-title">Decide</h3>
+          <div className="cadence-decision-labels">{active.decisions.map(decision => <span key={decision}>{decision}</span>)}</div>
+        </section>
       </aside>}
     </div>
   </Screen>;

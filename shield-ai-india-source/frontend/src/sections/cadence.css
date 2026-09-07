@@ -16,9 +16,9 @@
 .cadence-panel-heading h2 { font: 600 14px ui-monospace, monospace; letter-spacing: .15em; color: var(--accent, #80b4fa); }
 .cadence-panel-heading button { color: var(--text-muted, #9199a4); padding: 6px; border-radius: 4px; }
 .cadence-panel-heading button:focus-visible { outline: 2px solid var(--accent, #80b4fa); outline-offset: 2px; }
-.cadence-questions ul { list-style: disc; margin: 24px 0 0; padding-left: 18px; display: grid; gap: 22px; }
-.cadence-questions li { padding-left: 4px; font-size: 15px; line-height: 1.65; color: var(--text-primary, #e0e2de); }
-.cadence-questions li::marker { color: var(--text-muted, #9199a4); }
+.cadence-questions ul { list-style: disc; margin: 10px 0 0; padding-left: 16px; display: grid; gap: 6px; }
+.cadence-questions li { font-size: 14px; line-height: 1.5; color: var(--text-primary, #e0e2de); }
+.cadence-questions li::marker { color: #80b4fa99; font-size: 10px; }
 @media (max-width: 950px) {
   .cadence-screen { height: auto; min-height: 100%; }
   .cadence-layout { flex-direction: column; padding: 16px 0; }
@@ -29,6 +29,7 @@
 /* A single outward sweep invites interaction without becoming a looping distraction. */
 .cadence-click-cue { fill: #80b4fa16; stroke: var(--accent, #80b4fa); stroke-width: 3; opacity: 0; pointer-events: none; }
 .show-click-cue .cadence-click-cue { animation: cadence-invite 1600ms ease-in-out both; }
+.show-click-cue .is-selected .cadence-click-cue { animation: none; }
 .show-click-cue .cue-milestone { animation-delay: 500ms; }
 .show-click-cue .cue-weekly { animation-delay: 1100ms; }
 .show-click-cue .cue-fortnightly { animation-delay: 1700ms; }
@@ -37,7 +38,7 @@
   40% { opacity: .85; }
 }
 @media (hover: hover) {
-  .cadence-layout:not(.has-selection) .cadence-layer:hover .cadence-ring {
+  .cadence-layer:not(.is-selected):hover .cadence-ring {
     fill: #80b4fa12;
     stroke: var(--accent, #80b4fa);
     stroke-width: 2.5;
@@ -53,3 +54,9 @@
 .show-click-cue .cue-quarterly { animation-delay: 2900ms; }
 
 .cadence-panel-period { font-size: 13px; color: var(--text-secondary); margin-top: 6px; }
+
+.cadence-panel-section { margin-top: 22px; }
+.cadence-panel-section h3 { font: 500 11px ui-monospace, monospace; text-transform: uppercase; letter-spacing: .12em; color: var(--text-muted); }
+.cadence-panel-decisions { border-top: 1px solid var(--border, #303a49); padding-top: 18px; }
+.cadence-decision-labels { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+.cadence-decision-labels span { padding: 5px 9px; border: 1px solid #80b4fa55; border-radius: 4px; font-size: 12px; line-height: 1.5; color: var(--text-primary); }
