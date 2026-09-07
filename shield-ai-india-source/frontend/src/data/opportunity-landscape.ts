@@ -3,7 +3,7 @@ import type { CUSTOMER_PROGRAMMES } from './platform-ecosystem';
 export interface OpportunityArena {
   id: string;
   title: string;
-  route: 'direct' | 'partner';
+  route: 'direct' | 'psu' | 'partner';
   horizon: 'Now' | 'Next' | 'Future';
   description: string;
   shield: string;
@@ -32,19 +32,19 @@ export const OPPORTUNITY_ARENAS: OpportunityArena[] = [
     context: 'Longer-term room to expand through advanced autonomy, specialised ISR and strategic government programmes. These are possible domains, not established Shield opportunities.',
     accounts: [], programmes: ['drdo'], claimIds: ['c-hivemind-agnostic', 'c-aechelon'] },
   { id: 'airborne', title: 'Large airborne platform programmes', route: 'partner', horizon: 'Next',
-    description: 'Become the autonomy layer inside an Indian-built aircraft.', shield: 'Hivemind Enterprise + Solutions', examples: 'HAL · Tata · L&T · Adani',
+    description: 'Become the autonomy layer inside an Indian-built aircraft.', shield: 'Hivemind Enterprise + Solutions', examples: 'MALE: Tata · Mahindra · Bharat Forge',
     context: 'MALE, HAPS, CCA, future unmanned aircraft and manned-unmanned teaming create platform-led routes. The 87-MALE requirement is one shared programme, not additive opportunities for each potential prime. Names are examples, not confirmed partnerships.',
     accounts: ['hal', 'newspace'], programmes: ['airforce'], claimIds: ['c-male', 'c-male-pipeline', 'c-haps', 'c-cats', 'c-hal-warrior-2026', 'c-lt-incumbent', 'c-adani-incumbent', 'c-tasl-lm'] },
   { id: 'maritime-autonomy', title: 'Maritime autonomy', route: 'partner', horizon: 'Next',
-    description: 'Mission autonomy for surface, undersea and shipborne systems.', shield: 'Hivemind Maritime + Solutions', examples: 'GRSE · L&T · KSSL',
+    description: 'Mission autonomy for surface, undersea and shipborne systems.', shield: 'Hivemind Maritime + Solutions', examples: 'Saga Defence · L&T · Adani',
     context: 'Indian naval primes, shipyards and systems companies can provide access to autonomous surface vessels, undersea systems, mine countermeasures, ASW and shipborne unmanned programmes. Product fit must be established separately for each domain.',
     accounts: ['grse', 'kssl', 'mdl'], programmes: [], claimIds: ['c-grse-platforms', 'c-kssl-underwater', 'c-mdl-xlauv', 'c-tt'] },
-  { id: 'integrators', title: 'Systems / integrator-led autonomy', route: 'partner', horizon: 'Next',
-    description: 'Software and orchestration through electronics, C2 and mission-system providers.', shield: 'Hivemind Solutions + orchestration', examples: 'BEL · systems integrators',
+  { id: 'integrators', title: 'Systems & C2', route: 'psu', horizon: 'Next',
+    description: 'Software and orchestration through electronics, C2 and mission-system providers.', shield: 'Hivemind Solutions + orchestration', examples: 'BEL · HAL · Goa Shipyard · GRSE · Mazagon',
     context: 'Some architectures sit with defence electronics, sensor, C2 or mission-system providers. Shield’s potential role is the software, autonomy and orchestration layer, subject to access to system interfaces.',
     accounts: ['bel'], programmes: [], claimIds: ['c-bel-platforms', 'c-bel-a2ncs', 'c-hivemind-agnostic'] },
   { id: 'space', title: 'Space / advanced autonomy', route: 'partner', horizon: 'Future',
-    description: 'Longer-term possibilities in satellite, constellation and edge autonomy.', shield: 'Potential autonomy / mission software',
+    description: 'Longer-term possibilities in satellite, constellation and edge autonomy.', shield: 'Potential autonomy / mission software', examples: 'Ananth · Centum',
     context: 'Defence space, satellite autonomy, constellation coordination and edge autonomy remain future possibilities. The route could be through Indian satellite/platform partners or direct strategic programmes. An on-orbit demonstration does not establish current Indian business.',
     accounts: [], programmes: ['space'], claimIds: ['c-sbs3', 'c-novi'] },
 ];

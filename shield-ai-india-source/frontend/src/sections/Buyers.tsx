@@ -16,7 +16,7 @@ function ResearchDrawer({ arena, onClose }: { arena: OpportunityArena | null; on
   const sources = [...new Set(claims.flatMap((claim) => claim.sourceIds))].map((id) => SOURCE_MAP[id]).filter(Boolean);
   return <SideDrawer open={!!arena} onClose={onClose} title={arena?.title ?? ''} eyebrow="Opportunity landscape · Research" testId="opportunity-research-drawer" width="sm:w-[560px]">
     {arena && <div className="space-y-5">
-      <div className="flex gap-2"><Pill tone={arena.route === 'direct' ? 'blue' : 'purple'}>{arena.route === 'direct' ? 'B2G Direct' : 'B2B2G'}</Pill><Pill>{arena.horizon}</Pill></div>
+      <div className="flex gap-2"><Pill tone={arena.route === 'direct' ? 'blue' : 'purple'}>{arena.route === 'direct' ? 'B2G' : arena.route === 'psu' ? 'PSU' : 'B2B2G'}</Pill><Pill>{arena.horizon}</Pill></div>
       <p className="text-sm text-paper-2 leading-relaxed">{arena.context}</p>
       <Field label="Potential Shield route">{arena.shield}</Field>
       {arena.examples && <Field label="Example customers / partners">{arena.examples}</Field>}
@@ -33,10 +33,10 @@ const RADAR_NODES = [
   { id: 'maritime-isr', title: 'Maritime ISR', sub: 'Navy · Coast Guard', x: 23, y: 48, horizon: 'Next' },
   { id: 'control', title: 'Mission & Control Layer', sub: 'Orchestration · common control', x: 27, y: 67, horizon: 'Next' },
   { id: 'strategic', title: 'Strategic Direct Programmes', sub: 'Air Force · tri-service · advanced autonomy', x: 21, y: 20, horizon: 'Future' },
-  { id: 'airborne', title: 'Large Airborne Platforms', sub: 'MALE · HAPS · CCA', x: 79, y: 46, horizon: 'Next' },
-  { id: 'maritime-autonomy', title: 'Maritime Autonomy', sub: 'Shipbuilders · naval primes', x: 75, y: 70, horizon: 'Next' },
-  { id: 'integrators', title: 'Systems & C2', sub: 'BEL · integrators', x: 59, y: 25, horizon: 'Next' },
-  { id: 'space', title: 'Space Autonomy', sub: 'Defence Space · satellite OEMs', x: 83, y: 19, horizon: 'Future' },
+  { id: 'airborne', title: 'Large Airborne Platforms', sub: 'MALE · HAPS · CCA', examples: 'MALE examples: Tata · Mahindra · Bharat Forge', x: 79, y: 46, horizon: 'Next' },
+  { id: 'maritime-autonomy', title: 'Maritime Autonomy', sub: 'Shipbuilders · naval primes', examples: 'Examples: Saga Defence · L&T · Adani', x: 75, y: 70, horizon: 'Next' },
+  { id: 'integrators', title: 'Systems & C2', sub: 'BEL · HAL · Goa Shipyard · GRSE · Mazagon', x: 50, y: 25, horizon: 'Next' },
+  { id: 'space', title: 'Space Autonomy', sub: 'Private space OEMs', examples: 'Examples: Ananth · Centum', x: 83, y: 19, horizon: 'Future' },
 ];
 
 export default function Buyers() {
@@ -49,10 +49,10 @@ export default function Buyers() {
   const openResearch = (id: string) => { lastTrigger.current = document.activeElement as HTMLElement; setSelected(OPPORTUNITY_ARENAS.find((arena) => arena.id === id) ?? null); };
 
   return <Screen className="opportunity-landscape">
-    <Headline title="Where can Shield AI play and through which routes?" sub="Product fit and direct government or platform-partner routes for Hivemind, V-BAT, ViDAR and Aechelon." />
+    <Headline title="Where can Shield AI play and through which routes?" sub="Product fit across direct government, PSU and private platform-partner routes for Hivemind, V-BAT, ViDAR and Aechelon." />
     <div className="radar-body" data-testid={explore ? 'opportunity-explore' : 'opportunity-story'}>
-      <div className="opportunity-radar" data-testid="opportunity-landscape-map" aria-label="Opportunity radar: B2G Direct on the left, B2B2G on the right; Now at the foothold, Next on the middle arcs, Future on the outer arc">
-        <div className="radar-routes"><h2>B2G Direct</h2><h2>B2B2G <span>/ Platform Route</span></h2></div>
+      <div className="opportunity-radar" data-testid="opportunity-landscape-map" aria-label="Opportunity radar: B2G on the left, PSU in the centre, B2B2G on the right; Now at the foothold, Next on the middle arcs, Future on the outer arc">
+        <div className="radar-routes"><h2>B2G</h2><h2>PSU</h2><h2>B2B2G</h2></div>
         <div className="radar-field">
           <svg className="radar-geometry" viewBox="0 0 1200 560" preserveAspectRatio="none" aria-hidden="true">
             <defs><radialGradient id="radar-glow" cx="50%" cy="90%" r="50%"><stop offset="0%" stopColor="#3B82F6" stopOpacity=".13" /><stop offset="65%" stopColor="#3B82F6" stopOpacity="0" /></radialGradient></defs>
@@ -66,7 +66,7 @@ export default function Buyers() {
           <div className="radar-horizon radar-horizon-next">Next</div>
           <div className="radar-horizon radar-horizon-future">Future</div>
           {RADAR_NODES.map((node) => {
-            const content = <><h3>{node.title}</h3><p>{node.sub}</p></>;
+            const content = <><h3>{node.title}</h3><p>{node.sub}</p>{'examples' in node && <p>{node.examples}</p>}</>;
             const className = `radar-node radar-node-${node.horizon.toLowerCase()} radar-node-${node.id}`;
             const style = { left: `${node.x}%`, top: `${node.y}%` };
             return explore ? <button key={node.id} data-testid={`arena-${node.id}`} className={className} style={style} onClick={() => openResearch(node.id)} aria-label={`Explore ${node.title}`}>{content}</button>
