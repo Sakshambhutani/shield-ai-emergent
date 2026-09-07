@@ -33,7 +33,7 @@ const RADAR_NODES = [
   { id: 'maritime-isr', title: 'Maritime ISR', sub: 'Navy · Coast Guard', x: 23, y: 48, horizon: 'Next' },
   { id: 'control', title: 'Mission & Control Layer', sub: 'Orchestration · common control', x: 27, y: 67, horizon: 'Next' },
   { id: 'strategic', title: 'Strategic Direct Programmes', sub: 'Air Force · tri-service · advanced autonomy', x: 21, y: 20, horizon: 'Future' },
-  { id: 'airborne', title: 'Large Airborne Platforms', sub: 'MALE · HAPS · CCA', examples: 'MALE examples: Tata · Mahindra · Bharat Forge', x: 79, y: 46, horizon: 'Next' },
+  { id: 'airborne', title: 'Large Airborne Platforms', sub: 'MALE · HAPS · CCA', examples: 'Examples: Tata · Mahindra · Bharat Forge', x: 79, y: 46, horizon: 'Next' },
   { id: 'maritime-autonomy', title: 'Maritime Autonomy', sub: 'Shipbuilders · naval primes', examples: 'Examples: Saga Defence · L&T · Adani', x: 75, y: 70, horizon: 'Next' },
   { id: 'integrators', title: 'Systems & C2', sub: 'BEL · HAL · Goa Shipyard · GRSE · Mazagon', x: 50, y: 25, horizon: 'Next' },
   { id: 'space', title: 'Space Autonomy', sub: 'Private space OEMs', examples: 'Examples: Ananth · Centum', x: 83, y: 19, horizon: 'Future' },
