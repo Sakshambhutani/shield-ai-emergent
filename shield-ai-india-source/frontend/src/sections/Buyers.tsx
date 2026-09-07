@@ -51,7 +51,7 @@ export default function Buyers() {
   return <Screen className="opportunity-landscape">
     <Headline title="Where can Shield AI play and through which routes?" sub="Product fit across direct government, PSU and private platform-partner routes for Hivemind, V-BAT, ViDAR and Aechelon." />
     <div className="radar-body" data-testid={explore ? 'opportunity-explore' : 'opportunity-story'}>
-      <div className="opportunity-radar" data-testid="opportunity-landscape-map" aria-label="Opportunity radar: B2G on the left, PSU in the centre, B2B2G on the right; Now at the foothold, Next on the middle arcs, Future on the outer arc">
+      <div className="opportunity-radar" data-testid="opportunity-landscape-map" aria-label="Opportunity radar: B2G on the left, PSU in the centre, B2B2G on the right; Army foothold at the base">
         <div className="radar-routes"><h2>B2G</h2><h2>PSU</h2><h2>B2B2G</h2></div>
         <div className="radar-field">
           <svg className="radar-geometry" viewBox="0 0 1200 560" preserveAspectRatio="none" aria-hidden="true">
@@ -63,8 +63,6 @@ export default function Buyers() {
             <path className="radar-divider" d="M 600 30 L 600 520" />
           </svg>
           <div className="radar-horizon radar-horizon-now">Now</div>
-          <div className="radar-horizon radar-horizon-next">Next</div>
-          <div className="radar-horizon radar-horizon-future">Future</div>
           {RADAR_NODES.map((node) => {
             const content = <><h3>{node.title}</h3><p>{node.sub}</p>{'examples' in node && <p>{node.examples}</p>}</>;
             const className = `radar-node radar-node-${node.horizon.toLowerCase()} radar-node-${node.id}`;
