@@ -7,11 +7,11 @@ import { Headline } from '@/components/ui';
 import './market.css';
 
 const AREAS = [
-  { id: 'mod', title: 'Defence Services', summary: 'UAS, ISR & autonomous systems', intro: 'Visible programmes across tactical, air and maritime systems.' },
-  { id: 'future-drdo', title: 'Research & innovation', summary: 'DRDO · iDEX · ADITI · TDF', intro: 'Research and innovation routes where autonomy capabilities can be developed.' },
-  { id: 'future-coastguard', title: 'Coastal security', summary: 'Indian Coast Guard', intro: 'Aerial surveillance and unmanned maritime requirements.' },
-  { id: 'future-mha', title: 'Border & internal security', summary: 'MHA · CAPFs', intro: 'Surveillance and protection capabilities to investigate within modernisation.' },
-  { id: 'future-space', title: 'Military space', summary: 'SBS-III · surveillance', intro: 'Space-based surveillance and potential autonomous mission management.' },
+  { id: 'mod', title: 'Defence Services (IA,IN,IAF)', summary: 'UAS, ISR & autonomous systems', intro: 'Visible programmes across tactical, air and maritime systems.' },
+  { id: 'future-drdo', title: 'Research & innovation (DRDO)', summary: 'DRDO · iDEX · ADITI · TDF', intro: 'Research and innovation routes where autonomy capabilities can be developed.' },
+  { id: 'future-coastguard', title: 'Coastal security (ICG)', summary: 'Indian Coast Guard', intro: 'Aerial surveillance and unmanned maritime requirements.' },
+  { id: 'future-mha', title: 'Border & internal security (MHA)', summary: 'MHA · CAPFs', intro: 'Surveillance and protection capabilities to investigate within modernisation.' },
+  { id: 'future-space', title: 'Military space (DSA)', summary: 'SBS-III · surveillance', intro: 'Space-based surveillance and potential autonomous mission management.' },
 ];
 const rowsFor = (owner: string) => MARKET_TREE.filter(n => n.relevant && n.id !== owner && !(n.value?.includes('₹') && /annual|budget|capital/i.test(n.tag ?? '')) && budgetPath(MARKET_TREE, n.id).some(p => p.id === owner) && !MARKET_TREE.some(c => c.parent === n.id));
 function status(n: BudgetNode) {
