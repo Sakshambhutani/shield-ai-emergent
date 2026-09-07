@@ -39,7 +39,7 @@ export const OPPORTUNITY_ARENAS: OpportunityArena[] = [
     description: 'Mission autonomy for surface, undersea and shipborne systems.', shield: 'Hivemind Maritime + Solutions', examples: 'Saga Defence · L&T · Adani',
     context: 'Indian naval primes, shipyards and systems companies can provide access to autonomous surface vessels, undersea systems, mine countermeasures, ASW and shipborne unmanned programmes. Product fit must be established separately for each domain.',
     accounts: ['grse', 'kssl', 'mdl'], programmes: [], claimIds: ['c-grse-platforms', 'c-kssl-underwater', 'c-mdl-xlauv', 'c-tt'] },
-  { id: 'integrators', title: 'Systems & C2', route: 'psu', horizon: 'Next',
+  { id: 'integrators', title: 'Defence Platforms & Systems', route: 'psu', horizon: 'Next',
     description: 'Software and orchestration through electronics, C2 and mission-system providers.', shield: 'Hivemind Solutions + orchestration', examples: 'BEL · HAL · Goa Shipyard · GRSE · Mazagon',
     context: 'Some architectures sit with defence electronics, sensor, C2 or mission-system providers. Shield’s potential role is the software, autonomy and orchestration layer, subject to access to system interfaces.',
     accounts: ['bel'], programmes: [], claimIds: ['c-bel-platforms', 'c-bel-a2ncs', 'c-hivemind-agnostic'] },
