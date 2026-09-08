@@ -75,8 +75,7 @@ export default function Home() {
           <div className="thesis-vbat-orbit"><VBatMark /></div>
           <div className="thesis-origin-copy">
             <div><strong>Indian Army</strong><span>V-BAT + Hivemind</span></div>
-            <div><strong>JSW partnership</strong><span>Local manufacturing underway</span><span>300/year capacity → expandable to 450</span></div>
-            <div><strong>Visible production ramp</strong><span>50 → 150 → 300 export commitment</span></div>
+            <div><strong>JSW partnership</strong><span>Local manufacturing underway</span><span>Capacity expandable to 450</span></div>
           </div>
         </section>
 

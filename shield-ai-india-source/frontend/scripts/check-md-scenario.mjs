@@ -15,7 +15,7 @@ try {
  assert.deepEqual(s.milestoneAcceptance(acceptanceCases,'2026-10-01','2026-10-31'),{due:3,onTime:1,percentage:33});
 
  assert.equal(sum(s.PAYMENTS,'amount'),s.ARMY.value);
- assert.equal(s.ARMY.value,500);
+ assert.equal(s.ARMY.value,20);
  assert.equal(sum(s.REVENUE_PLAN,'amount'),s.ARMY.value);
  assert.equal(s.RECOGNISED_REVENUE,0);
  assert.equal(s.CURRENT_HEADCOUNT,20);
