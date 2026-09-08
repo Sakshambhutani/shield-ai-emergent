@@ -51,6 +51,16 @@ try {
  assert.equal(s.OPPORTUNITIES.filter(s.nearClosure).length,0);
  assert.equal(s.OPPORTUNITIES.filter(o=>o.backed).length,1);
  assert.equal(s.TRANSFERS.filter(t=>t.accepted).length,6);
+ assert.equal(s.VENDOR_AREAS.length,8);
+ assert.equal(s.VENDOR_AREAS.filter(v=>v.stage==='Onboarded').length,3);
+ assert.equal(s.SUPPLIER_STAGES.reduce((n,stage)=>n+s.VENDOR_AREAS.filter(v=>v.stage===stage).length,0),8);
+ assert.equal(s.JSW.length,8);
+ assert.equal(s.TRANSFER_PACKAGES['Supplier enablement'].filter(t=>!t.accepted&&t.due<s.AS_OF).length,1);
+ assert.equal(s.TRANSFER_PACKAGES.MRO.filter(t=>t.due<=s.AS_OF).length,0);
+ assert.equal(s.days(s.JSW_NEXT_GATE.due,s.JSW_NEXT_GATE.forecast),0);
+ assert.equal(s.JSW.find(m=>m.id==='mro-capability').forecastPending,true);
+ assert.equal(s.JSW_DECISIONS.filter(d=>d.status==='Pending').length,2);
+
  for(const role of s.ROLES) assert.ok(role.screening+role.interviewing+role.offered+role.accepted+role.joined<=role.applied);
  for(const o of s.OPPORTUNITIES) assert.ok(s.STAGES[o.segment][o.stage]);
  for(const m of [...s.DELIVERY,...s.JSW]) {assert.ok(s.days(m.start,m.due)>=0);assert.ok(s.days(m.start,m.forecast)>=0);assert.ok(m.progress>=0&&m.progress<=100);}

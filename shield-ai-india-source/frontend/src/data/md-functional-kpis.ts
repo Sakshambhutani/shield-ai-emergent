@@ -1,3 +1,4 @@
+import { PEOPLE_METRICS } from './md-people';
 import { OPERATING_FUNCTIONS, OPERATING_MODEL_KPIS } from './operating-model';
 
 interface KpiSnapshot {
@@ -74,44 +75,7 @@ const SNAPSHOTS: Record<string, KpiSnapshot[]> = {
     { value: "80%", target: "100%", period: "Illustrative end-of-month-two review", context: "4 of 5 engineering outputs due accepted on time.", details: [{ label: "Basis", text: "Acceptance against agreed checks by original due dates; late and outstanding commitments remain in the denominator." }] },
     { value: "2", target: "0", period: "Illustrative end-of-month-two review", context: "Customer inputs and HQ configuration access threaten upcoming engineering commitments.", details: [{ label: "Scope", text: "Critical dependencies tracked by owner, age and required resolution date, including before flight testing." }] }
   ],
-  "people": [
-    {
-      "value": "75%",
-      "target": "100% of planned joins due",
-      "period": "Illustrative end of month two",
-      "context": "6 / 8 joins due; 6 / 25 six-month hires completed; total team 26 / 45.",
-      "details": [
-        {
-          "label": "Calculation",
-          "text": "6 employees joined \u00f7 8 planned joins due = 75%. Six-month progress is separately 6 \u00f7 25 = 24%."
-        },
-        {
-          "label": "Planning basis",
-          "text": "Starting team 20; add 25 over six months. Assumes no exits, producing target headcount 45. The eight joins due by month two are illustrative; the phased plan needs agreement."
-        },
-        {
-          "label": "Next action",
-          "text": "People lead provides confirmed joining dates for the two delayed hires and updates downstream milestone impacts."
-        }
-      ]
-    },
-    {
-      "value": "3 / 4",
-      "target": "4 / 4 by required start dates",
-      "period": "Illustrative end of month two",
-      "context": "Three of four roles designated critical to the next milestone are staffed.",
-      "details": [
-        {
-          "label": "Counting rule",
-          "text": "The three filled critical roles are included in the six joined employees; they are not additional headcount. Accepted offers without a start do not count."
-        },
-        {
-          "label": "Remaining gap",
-          "text": "One integration role remains open. People and Engineering leads agree interim cover and a joining date before the next milestone."
-        }
-      ]
-    }
-  ],
+  "people": PEOPLE_METRICS,
   "finance": [
     {
       "value": "18 months",
@@ -174,7 +138,9 @@ const SNAPSHOTS: Record<string, KpiSnapshot[]> = {
           "text": "Receiving-owner sign-off against each deliverable\u2019s agreed criteria. Training acceptance requires demonstration of the agreed task, not attendance alone."
         }
       ]
-    }
+    },
+    { "value": "3 / 8 areas", "target": "8 / 8 by agreed onboarding gates", "period": "Illustrative 01 Oct 2026 snapshot", "context": "Eight illustrative capability areas: three onboarded, two evaluating, two qualifying and one selected. Counts represent onboarding coverage, not deliveries.", "details": [{ "label": "Ownership", "text": "Shield supports identification and technical approval; JSW owns commercial selection and onboarding. Supplier records are illustrative." }] },
+    { "value": "3 / 4 due", "target": "All due deliverables accepted", "period": "Illustrative 01 Oct 2026 snapshot", "context": "3/5 total accepted; 4 due; 1 overdue; 1 future.", "details": [{ "label": "Pending", "text": "Qualification support package overdue since 30 Sep; onboarding handover due 30 Nov. Separate from production and MRO transfer packages." }] }
   ]
 };
 

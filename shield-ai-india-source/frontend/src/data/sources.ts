@@ -1,6 +1,8 @@
 import type { Source } from './types';
 
 export const SOURCES: Source[] = [
+  { id: 's-jsw-uas-facility', title: 'JSW Defence Commences Construction of Next-Gen UAS Facility in Hyderabad', publisher: 'JSW', date: '2025', url: 'https://www.jsw.in/newsroom/press/jsw-defence-commences-construction-of-next-gen-uas-facility-in-hyderabad/', cls: 'company' },
+  { id: 's-airbus-c295-suppliers', title: 'Tata Advanced Systems and Airbus inaugurate C295 Final Assembly Line in Vadodara, India', publisher: 'Airbus', date: '2024-10-28', url: 'https://www.airbus.com/en/newsroom/press-releases/2024-10-tata-advanced-systems-and-airbus-inaugurate-c295-final-assembly-line-vadodara-india', cls: 'company' },
   { id: 's-market-innovation-routes', title: 'Defence innovation: iDEX, ADITI and TDF', publisher: 'Ministry of Defence / PIB', date: '2026 · checked 2026-09-06', url: 'https://www.pib.gov.in/PressNoteDetails.aspx?ModuleId=3&NoteId=158925&lang=1&reg=1', cls: 'official' },
   { id: 's-market-coast-rfi', title: 'MALE RPA Request for Information', publisher: 'Indian Coast Guard', date: '2026-07-15', url: 'https://www.indiancoastguard.gov.in/news', cls: 'official' },
   { id: 's-market-coast-retraction', title: 'Retraction of RFP for four Coast Guard Shipborne UAS', publisher: 'Indian Coast Guard', date: '2026-09-01', url: 'https://indiancoastguard.gov.in/hi/node/2159', cls: 'official' },

@@ -34,25 +34,25 @@ export const MILESTONES = [
     "title": "January 2027 milestones",
     "lines": [
       "Core India team and engineering environment operational.",
-      "JSW initial production started, aligned with its Q4 2026 target."
+      "JSW joint readiness checkpoint: transfer, vendor onboarding, facility, tooling and team capability reviewed."
     ],
     "details": [
       "Core India team and engineering environment operational.",
-      "JSW initial production started, aligned with its Q4 2026 target."
+      "JSW joint readiness checkpoint: transfer, vendor onboarding, facility, tooling and team capability reviewed."
     ],
     "assumption": "Proposed planning target, subject to customer schedules, staffing, approvals and programme dependencies.",
-    "note": "JSW announced manufacturing commencement in Q4 2026; actual production start must be confirmed."
+    "note": "Q4 2026 announced production target; confirm actual commencement separately from joint capability-readiness checkpoints."
   },
   {
     "month": 6,
     "label": "April 2027",
     "title": "April 2027 milestones",
     "lines": [
-      "Army delivery and acceptance checkpoint completed.",
+      "Army delivery and acceptance checkpoint completed; initial JSW customer support ready before delivery.",
       "First India-led Hivemind integration demonstrated."
     ],
     "details": [
-      "Army delivery and acceptance checkpoint completed.",
+      "Army delivery and acceptance checkpoint completed; initial JSW customer support ready before delivery.",
       "First India-led Hivemind integration demonstrated."
     ],
     "assumption": "Proposed planning target, subject to customer schedules, staffing, approvals and programme dependencies.",
@@ -94,11 +94,11 @@ export const MILESTONES = [
     "title": "January 2028 milestones",
     "lines": [
       "First global engineering work package delivered from India.",
-      "Local customer support and sustainment capability established."
+      "Expanded JSW local MRO capability targeted; acceptance scope and forecast to be agreed."
     ],
     "details": [
       "First global engineering work package delivered from India.",
-      "Local customer support and sustainment capability established."
+      "Expanded JSW local MRO capability targeted; acceptance scope and forecast to be agreed."
     ],
     "assumption": "Proposed planning target, subject to customer schedules, staffing, approvals and programme dependencies.",
     "note": "Global programme scope and local support responsibilities will be agreed with headquarters and partners."

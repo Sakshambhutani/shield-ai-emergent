@@ -1,3 +1,4 @@
+import { PEOPLE_METRICS } from './md-people';
 import { PORTFOLIO_TOTALS, TRIAL_CAMPAIGNS } from './md-portfolio';
 
 export interface FunctionalKpi {
@@ -123,7 +124,7 @@ export const OPERATING_FUNCTIONS: OperatingFunction[] = [
 {
   "id": "industrialisation",
   "name": "JSW Partnership",
-  "mandate": "Make the joint production plan executable through Shield and JSW commitments.",
+  "mandate": "Deliver production transfer, supplier development including ISR payloads, and phased JSW after-sales readiness.",
   "owner": "India Industrialisation lead",
   "kpis": [
     {
@@ -356,18 +357,7 @@ export const OPERATING_MODEL_KPIS: Record<string, { name: string; definition: st
       "definition": "Unresolved dependencies threatening an upcoming engineering commitment, with an accountable owner, required resolution date and age. Includes access, documentation, interface and customer-input dependencies before flight testing."
     }
   ],
-  "people": [
-    {
-      "name": "Hiring plan attainment (%)",
-      "indicator": "Lagging",
-      "definition": "Employees joined divided by planned joins due by the review date. Show six-month hiring progress and total headcount separately."
-    },
-    {
-      "name": "Critical roles filled (# / required)",
-      "indicator": "Leading",
-      "definition": "Named critical roles filled by people who have joined, against the roles required for the next programme and engineering milestones."
-    }
-  ],
+  "people": PEOPLE_METRICS.map(({ name, definition, indicator }) => ({ name, definition, indicator })),
   "finance": [
     {
       "name": "Funding coverage (months)",
@@ -385,7 +375,9 @@ export const OPERATING_MODEL_KPIS: Record<string, { name: string; definition: st
       "name": "Transfer deliverables accepted (# / total)",
       "indicator": "Lagging",
       "definition": "Shield-to-JSW deliverables formally accepted by the receiving owner against a fixed agreed package and evidence requirements. Counts are not a weighted percentage of technology transferred."
-    }
+    },
+    { "name": "Vendor onboarding coverage (# / areas)", "indicator": "Leading", "definition": "Capability areas covered by technically approved and commercially onboarded vendors. Counts areas, not unique vendors or delivered supplies." },
+    { "name": "Supplier-enablement deliverables accepted (# / due)", "indicator": "Lagging", "definition": "Shield supplier identification, evaluation and onboarding-support deliverables accepted by JSW divided by deliverables due at the review date. Future deliverables remain separate." }
   ]
 };
 
@@ -393,7 +385,7 @@ export const OPERATING_MODEL_SUMMARIES: Record<string, string> = {
   "growth": "Tracks tangible customer or partner commitment to the next business beyond the Army foothold.",
   "programmes": "Tracks the next milestone forecast and on-time acceptance of milestones due.",
   "autonomy": "Tracks delivery of agreed engineering outputs and critical dependencies threatening upcoming commitments.",
-  "people": "Tracks 30 additional hires over six months, from a starting team of 20 to 50, and staffing of critical roles.",
+  "people": "Illustrative month-two HR review: 20 to 45 people; tracks hiring against plan, critical role coverage, new-joiner readiness and capabilities without backup.",
   "finance": "Tracks 18 months of assumed funding coverage against a target above 15 months, and actual spending against budget.",
-  "industrialisation": "Tracks receiving-owner acceptance of the agreed Shield-to-JSW transfer package."
+  "industrialisation": "Tracks production transfer acceptance, vendor onboarding coverage and Shield supplier-enablement commitments. MRO readiness follows delivery gates and the longer-term capability plan."
 };

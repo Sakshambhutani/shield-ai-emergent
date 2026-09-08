@@ -105,3 +105,21 @@ button.mc-card:hover { border-color:#80b4fa; background:#181e26; }
 @media(max-width:600px) { .mc-cards { gap:8px; }.mc-card { padding:13px; }.mc-card strong { font-size:25px; }.mc-card .mc-metric-label { min-height:35px; font-size:11px; }.mc-nav { gap:3px; }.mc-nav button { padding:9px 10px; font-size:11px; }.mc-controls { align-items:stretch; }.mc-controls label { flex-direction:column; align-items:start; width:100%; }.mc-controls select { width:100%; }.mc-finance-ledger { grid-template-columns:repeat(2,minmax(0,1fr)); }.mc-commitments { grid-template-columns:1fr; }.mc-commitments button { border-bottom:1px solid #30363e; }.mc-chart { height:230px; padding:8px; }.mc-strip { flex-direction:column; }.mc-panel-title { padding:13px; } }
 
 .mc-gantt-group { padding:9px 18px; color:#8fa3bb; background:#19212c; font-size:10px; letter-spacing:.06em; text-transform:uppercase; border-top:1px solid #30363e; }
+
+.mc-jsw-caption { display:flex; flex-wrap:wrap; gap:12px; align-items:center; color:#969a9f; font-size:11px; }
+.mc-jsw-controls { display:flex; flex-wrap:wrap; gap:12px; padding:12px 18px; }
+.mc-jsw-controls label { display:flex; align-items:center; gap:12px; color:#969a9f; font-size:12px; }
+.mc-jsw-controls select { background:#191d22; color:#eceef2; border:1px solid #414952; border-radius:4px; padding:8px; max-width:100%; }
+.mc-jsw-date { display:block; margin-top:5px; color:#969a9f; }
+.mc-card strong { overflow-wrap:anywhere; }
+
+.mc-jsw-compact .mc-gantt-group { display:none; }
+.mc-jsw-compact .mc-gantt-row { padding:7px 14px; }
+.mc-jsw-compact .mc-gantt-row small { margin-top:2px; }
+.mc-jsw-compact table td,.mc-jsw-compact table th { padding:8px 14px; }
+.mc-jsw-compact { display:grid; gap:16px; }
+.mc-jsw-fold { border:1px solid #343b43; border-radius:5px; background:#14171b; }
+.mc-jsw-fold summary { padding:15px 18px; cursor:pointer; font-size:13px; }
+.mc-jsw-fold summary span { color:#969a9f; font-size:11px; margin-left:16px; }
+.mc-jsw-fold .mc-panel { border:0; }
+.mc-jsw-fold summary:focus-visible { outline:2px solid #80b4fa; }

@@ -1,3 +1,4 @@
+import { PEOPLE_AS_OF, PEOPLE_ASSUMPTION_ROWS } from '@/data/md-people';
 import { useEffect, useRef, useState } from 'react';
 import { X } from 'lucide-react';
 import { Headline } from '@/components/ui';
@@ -15,7 +16,7 @@ export default function Dashboard() {
  const [area,setArea]=useState<Area>('Overview');const [initial,setInitial]=useState('All');const [detail,setDetail]=useState<Detail|null>(null);const dialog=useRef<HTMLDialogElement>(null);
  const navigate=(next:Area,filter='All')=>{setArea(next);setInitial(filter);};
  useEffect(()=>{if(detail)dialog.current?.showModal();else dialog.current?.close();},[detail]);
- return <div className="md-cut"><div className="mc-header"><Headline title="MD Dashboard"/><div className="mc-toolbar"><time dateTime={AS_OF}>{date(AS_OF)}</time><button className="mc-link" onClick={()=>setDetail({title:'Planning assumptions',rows:ASSUMPTIONS.map(a=>[`${a.label} · ${a.value}`,a.detail])})}>Assumptions ↗</button></div>
+ return <div className="md-cut"><div className="mc-header"><Headline title="MD Dashboard"/><div className="mc-toolbar"><span><time dateTime={area === 'HR' ? PEOPLE_AS_OF : AS_OF}>{date(area === 'HR' ? PEOPLE_AS_OF : AS_OF)}</time>{area === 'HR' && ' · Illustrative review'}</span><button className="mc-link" onClick={()=>setDetail({title:area === 'HR' ? 'HR planning assumptions' : 'Planning assumptions',rows:area === 'HR' ? PEOPLE_ASSUMPTION_ROWS : ASSUMPTIONS.map(a=>[`${a.label} · ${a.value}`,a.detail])})}>Assumptions ↗</button></div>
  <nav className="mc-nav" aria-label="MD dashboard areas">{AREAS.map(a=><button key={a} aria-current={a===area?'page':undefined} onClick={()=>navigate(a)}>{a}</button>)}</nav>
  </div>
  <div className="mc-view" key={area+initial} aria-label={area}>
