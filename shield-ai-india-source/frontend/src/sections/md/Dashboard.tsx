@@ -21,10 +21,10 @@ export default function Dashboard() {
  <div className="mc-view" key={area+initial} aria-label={area}>
  {area==='Overview'&&<Overview navigate={navigate}/>}
  {area==='Business Development'&&<BusinessDevelopment inspect={setDetail} initial={initial}/>}
- {area==='Delivery'&&<Delivery inspect={setDetail} initial={initial}/>}
+ {area==='Operations'&&<Delivery inspect={setDetail} initial={initial}/>}
  {area==='Engineering'&&<Engineering inspect={setDetail}/>}
- {area==='Hiring'&&<Hiring inspect={setDetail} initial={initial}/>}
- {area==='Finance'&&<Finance inspect={setDetail}/>}
+ {area==='HR'&&<Hiring inspect={setDetail} initial={initial}/>}
+ {area==='Finance and Legal'&&<Finance inspect={setDetail}/>}
  {area==='JSW Partnership'&&<JswPartnership inspect={setDetail}/>}
  </div>
  <dialog className="mc-drawer" ref={dialog} aria-labelledby="mc-detail-title" onCancel={()=>setDetail(null)} onClick={e=>{if(e.target===e.currentTarget){const r=e.currentTarget.getBoundingClientRect();if(e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom)setDetail(null);}}} onKeyDown={e=>e.stopPropagation()}><header><h2 id="mc-detail-title">{detail?.title}</h2><button onClick={()=>setDetail(null)} aria-label="Close details"><X size={20}/></button></header><dl>{detail?.rows.map(([label,value],i)=><div key={`${label}-${i}`}><dt>{label}</dt><dd>{value}</dd></div>)}</dl></dialog>
