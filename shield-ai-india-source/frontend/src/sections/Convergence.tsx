@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { CartesianGrid, ResponsiveContainer, Scatter, ScatterChart, Tooltip, XAxis, YAxis, ZAxis } from 'recharts';
-import { X } from 'lucide-react';
+import { Factory, Monitor, Plane, ScanEye, Users, X } from 'lucide-react';
 import { cn } from '@/lib/cn';
 import { Field, Headline, HORIZON_META, Pill, Screen } from '@/components/ui';
 import { SourceButton } from '@/components/Evidence';
@@ -32,11 +32,31 @@ const HORIZON_KEYS = Object.keys(HORIZON_META) as HorizonKey[];
 const xTick = (v: number): string => { if (v <= 1.5) return 'Hard to enter'; if (v >= 5) return 'Easy to enter'; return ''; };
 const yTick = (v: number): string => { if (v <= 1.5) return 'Low'; if (v >= 5) return 'High'; return ''; };
 const PRIORITIES = [
-  { number: '01', title: 'Deliver and grow the Army programme', description: 'Prove V-BAT and Hivemind in Indian missions; earn repeat orders.' },
-  { number: '02', title: 'Open maritime programmes', description: 'Build qualified opportunities in naval ISR and maritime autonomy.' },
-  { number: '03', title: 'Embed Hivemind with Indian partners', description: 'Develop SDK and Solutions integrations with selected PSUs and OEMs.' },
-  { number: '04', title: 'Scale production and sustainment', description: 'Build JSW readiness for reliable manufacturing, support and follow-on demand.' },
-  { number: '05', title: 'Build India engineering capacity', description: 'Develop integration and testing capability for Indian and global programmes.' },
+  { number: '01', icon: Plane, title: 'Build India’s sovereign autonomy business', bullets: [
+    'Secure paid Hivemind integrations with Indian OEMs',
+    'Pursue aircraft autonomy and collaborative mission programmes',
+    'Enable Indian mission development through Hivemind SDK',
+  ] },
+  { number: '02', icon: ScanEye, title: 'Expand operational ISR adoption', bullets: [
+    'Deliver the Army programme and earn repeat orders',
+    'Pursue naval shipborne V-BAT requirements',
+    'Validate mission performance and sensor integration',
+  ] },
+  { number: '03', icon: Monitor, title: 'Establish aviation simulation and training', bullets: [
+    'Identify funded requirements across services',
+    'Partner with aircraft OEMs and simulator integrators',
+    'Secure an initial Aechelon programme in India',
+  ] },
+  { number: '04', icon: Factory, title: 'Deliver JSW production and sustainment', bullets: [
+    'Execute technology transfer and qualify local production',
+    'Establish training, spares, maintenance and repair',
+    'Align capacity with contracted demand',
+  ] },
+  { number: '05', icon: Users, title: 'Build an accountable India organisation', bullets: [
+    'Establish commercial, programme and technical ownership',
+    'Define decision rights across India, JSW and global teams',
+    'Manage against bookings, cash and delivery milestones',
+  ] },
 ];
 
 function BubbleTip({ payload }: { payload?: readonly { payload: Row }[] }) {
@@ -99,53 +119,33 @@ function WeightsPanel() {
   return null;
 }
 
-function AircraftSchematic() {
-  return <svg className="mission-aircraft" viewBox="0 0 480 420" fill="none" aria-hidden="true">
-    <g className="mission-construction" strokeWidth="1">
-      <path d="M240 12V408 M24 187H456" strokeDasharray="3 8" />
-      <path d="M30 164V146H450V164 M30 139V153 M450 139V153 M210 34H194V368H210 M187 34H201 M187 368H201" />
-      <path d="M224 18H212V30 M256 18H268V30 M212 388V400H224 M256 400H268V388" />
-    </g>
-    <g className="mission-airframe" strokeWidth="1.4" strokeLinejoin="round">
-      {/* Straight high-aspect-ratio wing, fuselage and aft duct in plan view. */}
-      <path d="M226 170L34 178L26 203L225 211 M254 170L446 178L454 203L255 211" />
-      <path d="M52 181L49 199L224 201 M428 181L431 199L256 201 M116 175L113 205 M364 175L367 205" />
-      <path d="M240 34C228 43 222 66 222 96L224 246L230 282H250L256 246L258 96C258 66 252 43 240 34Z" />
-      <path d="M228 83Q240 70 252 83L252 119Q240 125 228 119Z M224 148H256 M225 218H255 M229 250H251" />
-      <path d="M230 270L202 286L199 346Q240 366 281 346L278 286L250 270 M207 291Q240 280 273 291L275 340Q240 354 205 340Z" />
-      <path d="M204 305H276 M203 326H277 M240 285V351 M202 318L177 340V357L201 346 M278 318L303 340V357L279 346 M234 350L232 376H248L246 350" />
-      <ellipse cx="240" cy="317" rx="9" ry="13" />
-    </g>
-    <g className="mission-airframe-detail" strokeWidth="1">
-      <path d="M234 133H246 M234 138H246 M234 143H246 M234 229H246 M234 234H246 M234 239H246" />
-      <circle cx="240" cy="58" r="3" />
-    </g>
-  </svg>;
+function AircraftVisual() {
+  return <img className="mission-aircraft" src="/images/priorities-vbat.png" alt="V-BAT aircraft render with upright fuselage, horizontal wings and aft ducted fan" />;
 }
 
 function PriorityLedger() {
   return <section data-testid="priority-ledger" aria-label="18-month mission priorities" className="mission-priorities">
     <div className="mission-blueprint">
-      <AircraftSchematic />
+      <AircraftVisual />
       <svg className="mission-connectors" viewBox="0 0 1200 620" preserveAspectRatio="none" fill="none" aria-hidden="true">
         <g strokeWidth="1">
-          <path d="M600 104V157" />
-          <path d="M310 312H430" />
-          <path d="M890 312H770" />
-          <path d="M310 502H430L563 454" />
-          <path d="M890 502H770L637 454" />
+          <path d="M600 155V175" />
+          <path d="M354 290H380L430 342" />
+          <path d="M846 290H820L770 342" />
+          <path d="M354 514H460L563 470" />
+          <path d="M846 514H740L637 470" />
         </g>
         <g className="mission-system-nodes">
-          <circle cx="600" cy="157" r="3" />
-          <circle cx="430" cy="312" r="3" /><circle cx="770" cy="312" r="3" />
-          <circle cx="563" cy="454" r="3" /><circle cx="637" cy="454" r="3" />
+          <circle cx="600" cy="175" r="3" />
+          <circle cx="430" cy="342" r="3" /><circle cx="770" cy="342" r="3" />
+          <circle cx="563" cy="470" r="3" /><circle cx="637" cy="470" r="3" />
         </g>
       </svg>
       <div className="eyebrow mission-centre-label">SHIELD AI INDIA</div>
       <ol className="mission-callouts">
         {PRIORITIES.map((priority) => <li key={priority.number} className={`mission-callout mission-callout--${priority.number}`}>
-          <span aria-hidden="true" className="num mission-callout-number">{priority.number}</span>
-          <div><h2>{priority.title}</h2><p>{priority.description}</p></div>
+          <span aria-hidden="true" className="mission-callout-icon"><priority.icon strokeWidth={1.5} /></span>
+          <div><h2>{priority.title}</h2><ul>{priority.bullets.map((bullet) => <li key={bullet}>{bullet}</li>)}</ul></div>
         </li>)}
       </ol>
     </div>
@@ -162,7 +162,7 @@ export default function Convergence() {
   const s = all.find((r) => r.id === sel) ?? null;
   return (
     <Screen>
-      <Headline title="Five priorities for the next 18 months" sub="Grow the Army foothold, open maritime opportunities and build the capabilities to scale." />
+      <Headline title="Five priorities for the next 18 months" sub="Grow autonomy, ISR and simulation businesses, supported by Indian production and delivery capability." />
       {mode === 'story' ? <PriorityLedger /> : <>
       <div className="grid lg:grid-cols-3 gap-3 flex-1 min-h-0">
         <div className="lg:col-span-2 panel p-3 flex flex-col min-h-[420px]" data-testid="bubble-chart">
