@@ -1,6 +1,9 @@
+import { ANNUAL } from '@/data/md-plan';
+import { inr } from '@/data/md-scenario';
+import { OPPORTUNITIES, nearClosure, formatUsdMillionsInInr, engineeringMetrics, TRANSFER_PACKAGES } from '@/data/md-scenario';
 import { AS_OF, BLOCKERS, COSTS, CRITICAL_JOINING_GAPS, DELIVERY, FUNDING_COVERAGE, JSW, JSW_DECISIONS, date, days, type Area } from '@/data/md-scenario';
 import { Badge, Cards, Metric, Panel, Table } from './Shared';
-export default function Overview({ navigate }: { navigate: (area: Area, filter?: string)=>void }) {
+export default function Overview({ navigate }: { navigate: (area: Area, filter?: string, section?: string)=>void }) {
  const decisions=[...BLOCKERS,...JSW_DECISIONS.filter(d=>d.status==='Pending').map(d=>({...d,area:'JSW Partnership' as Area}))];
  const milestones=[...DELIVERY,...JSW].filter(m=>days(AS_OF,m.due)>=0).sort((a,b)=>a.due.localeCompare(b.due)).slice(0,5);
  const atRisk=DELIVERY.filter(m=>days(m.due,m.forecast)>0);
@@ -10,12 +13,14 @@ export default function Overview({ navigate }: { navigate: (area: Area, filter?:
  const delta=actual-budget;
  const signed=(n:number)=>`${n>0?'+':''}${n}`;
  return <>
- <Cards>
-  <Metric label="Delivery at risk" value={`${atRisk.length} milestones`} sub={`${signed(movement)} days WoW`} tone="mc-amber" onClick={()=>navigate('Operations','At risk')}/>
-  <Metric label="Critical hiring gaps" value={`${CRITICAL_JOINING_GAPS.length} roles`} onClick={()=>navigate('HR','Joining gaps')}/>
-  <Metric label="Funding coverage" value={`${FUNDING_COVERAGE} months`} onClick={()=>navigate('Finance and Legal')} tone="mc-green"/>
-  <Metric label="Budget variance · Sep" value={`${delta>0?'+':''}${(delta/budget*100).toFixed(1)}%`} sub={`₹${Math.abs(delta*100).toFixed(0)}L ${delta>=0?'over':'under'}`} tone={delta>0?'mc-amber':''} onClick={()=>navigate('Finance and Legal')}/>
- </Cards>
+ <div className="mc-overview-six"><Cards>
+<Metric label="Delivery at risk" value={`${atRisk.length} milestones`} sub={`${signed(movement)} days WoW`} tone="mc-amber" onClick={()=>navigate('Operations','At risk','operations-schedule')}/>
+<Metric label="Critical engineering blockers" value={engineeringMetrics('army').blockers.length} onClick={()=>navigate('Engineering','All','engineering-blockers')}/>
+<Metric label="Critical hiring gaps" value={`${CRITICAL_JOINING_GAPS.length} roles`} onClick={()=>navigate('HR','Joining gaps','hr-joining')}/>
+<Metric label="JSW production transfer accepted" value={`${TRANSFER_PACKAGES.Production.filter(t=>t.accepted).length} / ${TRANSFER_PACKAGES.Production.length}`} onClick={()=>navigate('JSW Partnership','All','jsw-transfer-acceptance')}/>
+<Metric label="India opex budget · FY26–27" value={inr(ANNUAL[1].opex)} sub="Annual model plan" onClick={()=>navigate('Finance and Legal','All','finance-spending')}/>
+<Metric label="Order closure target · FY26–27" value={inr(ANNUAL[1].orders)} sub="Annual model plan" onClick={()=>navigate('Business Development','All','bd-plan')}/>
+</Cards></div>
  <Panel title="Decisions required" aside={<Badge tone="amber">{decisions.length} open</Badge>}>
   <Table headers={['Due','Decision','Impact','Action']}>
    {decisions.slice().sort((a,b)=>a.due.localeCompare(b.due)).map(b=><tr key={b.id}>

@@ -1,14 +1,53 @@
-import { useState } from 'react';
-import { ARMY, AS_OF, CASH_CURVE, CASH_FORECAST, CONFIRMED_FUNDING, COSTS, CURRENT_BURN, CURRENT_CASH, FUNDING_COVERAGE, PAYMENTS, RECOGNISED_REVENUE, REVENUE_PLAN, date, days, inr, usd } from '@/data/md-scenario';
-import { Badge, Bars, Cards, Choice, Empty, Lines, Metric, Panel, Table, type Inspect } from './Shared';
-export default function Finance({ inspect }: { inspect: Inspect }) {
- const [window,setWindow]=useState('Full contract');
- const actual=COSTS.reduce((s,c)=>s+c.actual,0); const budget=COSTS.reduce((s,c)=>s+c.budget,0);
- const payments=PAYMENTS.filter(p=>window==='Full contract'||!p.received&&days(AS_OF,p.due)>=0&&days(AS_OF,p.due)<=90);
- return <><Cards><Metric label="Available India cash" value={inr(CURRENT_CASH)} onClick={()=>inspect({title:'India funding',rows:[['Accessible cash',inr(CURRENT_CASH)],['Confirmed HQ funding',inr(CONFIRMED_FUNDING)],['Transfer date','01 Dec 2026'],['Contract receipts','Held separately by contracting entity']]})}/><Metric label="Funding coverage" value={`${FUNDING_COVERAGE} months`} tone="mc-green"/><Metric label="Current monthly burn" value={inr(CURRENT_BURN)}/><Metric label="Budget variance · Sep" value={`+${((actual-budget)/budget*100).toFixed(1)}%`} sub={`${inr(actual)} actual / ${inr(budget)} budget`} tone="mc-amber"/></Cards>
- <div className="mc-two"><Panel title="India cash forecast" aside={<span>INR crore · 18 months</span>}><Lines data={CASH_CURVE.map(m=>({label:m.month,balance:m.balance,burn:m.burn}))} unit="Cr" series={[{key:'balance',name:'Closing cash',color:'#80b4fa'},{key:'burn',name:'Monthly burn',color:'#d5b17a'}]}/></Panel><Panel title="Last closed month · September" aside={<span>INR crore</span>}><Bars data={COSTS.map(c=>({label:c.label.split(' / ')[0],budget:c.budget,actual:c.actual}))} unit="Cr" series={[{key:'budget',name:'Budget',color:'#53677f'},{key:'actual',name:'Actual',color:'#80b4fa'}]}/></Panel></div>
- <div className="mc-strip"><span>Oct–Dec expenditure <b>{inr(CASH_FORECAST.slice(0,3).reduce((s,m)=>s+m.burn,0))}</b></span><span>Jan–Mar expenditure <b>{inr(CASH_FORECAST.slice(3,6).reduce((s,m)=>s+m.burn,0))}</b></span><span>HQ funding · 01 Dec <b>{inr(CONFIRMED_FUNDING)}</b></span></div>
- <Panel title="Army contract · USD" aside={<span>01 Oct 2026–30 Sep 2029</span>}><div className="mc-finance-ledger">{[['Signed order',usd(ARMY.value)],['Recognised revenue',usd(RECOGNISED_REVENUE)],['Invoiced',usd(2)],['Cash collected',usd(PAYMENTS.filter(p=>p.received).reduce((s,p)=>s+p.amount,0))],['Outstanding invoices',usd(0)],['Unbilled order value',usd(PAYMENTS.filter(p=>!p.received).reduce((s,p)=>s+p.amount,0))]].map(([l,v])=><button key={l} onClick={()=>inspect({title:l,rows:[['Amount',v],['Entity',ARMY.entity],['Basis',l==='Recognised revenue'?'No performance obligations assumed satisfied at this snapshot. Advance is not earned revenue.':'See constructed Army contract and payment assumptions.']]})}><span>{l}</span><strong>{v}</strong></button>)}</div></Panel>
- <Panel title="Contract revenue & receipts forecast" aside={<span>USD millions · calendar year</span>}><Bars data={[2026,2027,2028,2029].map(year=>({label:String(year),revenue:REVENUE_PLAN.filter(r=>r.date.startsWith(String(year))).reduce((s,r)=>s+r.amount,0),receipts:PAYMENTS.filter(p=>p.due.startsWith(String(year))).reduce((s,p)=>s+p.amount,0)}))} unit="M" series={[{key:'revenue',name:'Recognised revenue plan',color:'#80b4fa'},{key:'receipts',name:'Contract receipts',color:'#53677f'}]}/></Panel>
- <Panel title="Billing & collection schedule" aside={<Choice label="Payment window" value={window} options={['Full contract','Next 90 days']} onChange={setWindow}/>}><Table headers={['Invoice / gate','Amount','Invoice date','Receipt date','Status']}>{payments.map(p=><tr key={p.id}><th scope="row"><button className="mc-link" onClick={()=>inspect({title:p.label,rows:[['Invoice',p.id],['Order',ARMY.name],['Amount',usd(p.amount)],['Invoice date',date(p.invoice)],['Payment due',date(p.due)],['Condition',p.received?'Contract advance received':'Acceptance evidence and invoice'],['Licence / commercial','Scope and entitlements require confirmation before handover; no extra licence value assumed.']]})}>{p.label}</button><small>{p.id}</small></th><td>{usd(p.amount)}</td><td>{date(p.invoice)}</td><td>{date(p.due)}</td><td><Badge tone={p.received?'green':''}>{p.received?'Received':'Scheduled'}</Badge></td></tr>)}</Table>{!payments.length&&<Empty text="0 contractual receipts scheduled in the next 90 days"/>}</Panel></>;
+import { CASH_PLAN } from '@/data/md-cash-plan';
+import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
+import { useSectionLink } from './useSectionLink';
+import { ANNUAL_SPENDING } from '@/data/md-finance-spend';
+import { ANNUAL, YEARS, type Year } from '@/data/md-plan';
+import { inr, date } from '@/data/md-scenario';
+import { Bars, Cards, Metric, Panel, Table } from './Shared';
+
+export default function Finance() {
+ const [params]=useSearchParams(),location=useLocation(),navigate=useNavigate();
+ const selected=params.get('fy');
+ const year:Year=YEARS.includes(selected as Year)?selected as Year:'FY26–27';
+ const plan=ANNUAL.find(p=>p.year===year)!;
+ const cash=CASH_PLAN.find(p=>p.year===year)!;
+ const spending=ANNUAL_SPENDING.find(p=>p.label===year)!;
+ const jump=useSectionLink('Finance and Legal');
+ const selectYear=(fy:Year)=>{const next=new URLSearchParams(params);next.set('fy',fy);navigate({pathname:location.pathname,search:next.toString(),hash:''});};
+ const variance=spending.variance;
+ const varianceText=variance===null?'—':`${inr(Math.abs(variance))} ${variance>0?'over':variance<0?'under':'on budget'}`;
+ return <>
+ <nav className="mc-controls" aria-label="Finance financial year"><div className="mc-choices">{YEARS.map(fy=><button key={fy} aria-pressed={year===fy} onClick={()=>selectYear(fy)}>{fy}</button>)}</div></nav>
+ <Cards>
+<Metric onClick={()=>jump('finance-variance',{fy:year})} label="Budget variance" value={varianceText} sub={variance===null?'No spending yet':`Against ${inr(spending.periodBudget!)} period budget`} tone={variance!==null&&variance>0?'mc-amber':''}/>
+<Metric onClick={()=>jump('finance-spending',{fy:year})} label="Spent to date" value={spending.spent===null?'—':inr(spending.spent)} sub={spending.spent===null?'Future year':`Estimated · ${spending.period}`}/>
+<Metric onClick={()=>jump('finance-spending',{fy:year})} label="Expense budget" value={inr(spending.planned)} sub={`${inr(plan.opex)} opex + ${inr(plan.execution)} execution`}/>
+<Metric onClick={()=>jump('finance-revenue',{fy:year})} label="Earnings plan" value={inr(plan.revenue+plan.tot)} sub={`${inr(plan.revenue)} revenue + ${inr(plan.tot)} ToT`}/>
+</Cards>
+ <Panel collapsible={false} id="finance-spending" title="Spending by FY"><div id="finance-variance" tabIndex={-1} style={{scrollMarginTop:16}} className="mc-strip">
+  <span>{year} · {spending.spent===null?'plan only':spending.period}</span>
+  <span>Period budget <b>{spending.periodBudget===null?'—':inr(spending.periodBudget)}</b></span>
+  <span>Variance <b style={{color:variance!==null&&variance>0?'#d5b17a':undefined}}>{varianceText}{variance!==null&&spending.periodBudget?` (${(Math.abs(variance)/spending.periodBudget*100).toFixed(1)}%)`:''}</b></span>
+ </div><Bars data={ANNUAL_SPENDING} unit="Cr" series={[
+  {key:'planned',name:'Planned',color:'#53677f'},
+  {key:'spent',name:'Spent · estimated through Sep 2026',color:'#80b4fa'},
+ ]}/></Panel>
+ <Panel collapsible={false} id="finance-revenue" title="Earnings by FY"><Bars data={ANNUAL.map(p=>({label:p.year,revenue:p.revenue,tot:p.tot}))} unit="Cr" series={[
+  {key:'revenue',name:'Customer revenue plan',color:'#80b4fa'},
+  {key:'tot',name:'ToT earnings plan',color:'#53677f'},
+ ]}/></Panel>
+ <Panel title={cash.projected?'Cash & funding · projection':'Cash & funding · estimate'}><div className="mc-strip">
+  <button className="mc-link" onClick={()=>jump('finance-cash',{fy:year})}>Bank balance <b>{inr(cash.closing)}</b></button>
+  <button className="mc-link" onClick={()=>jump('finance-collections',{fy:year})}>{cash.projected?'Projected collections':'Collections to date'} <b>{inr(cash.collections)}</b></button>
+  <button className="mc-link" onClick={()=>jump('finance-funding',{fy:year})}>Cumulative HQ funding <b>{inr(cash.cumulativeFunding)}</b></button>
+ </div></Panel>
+ <Panel id="finance-cash" title="Cash summary" aside={<span>{date(cash.asOf)}</span>}><Table headers={['Cash movement','Amount']}>
+  <tr><th>Opening bank balance</th><td>{inr(cash.opening)}</td></tr>
+  <tr id="finance-collections" tabIndex={-1} style={{scrollMarginTop:16}}><th>+ Customer and ToT collections</th><td>{inr(cash.collections)}</td></tr>
+  <tr id="finance-funding" tabIndex={-1} style={{scrollMarginTop:16}}><th>+ HQ funding during this FY</th><td>{inr(cash.funding)}</td></tr>
+  <tr><th>− Cash payments</th><td>{inr(cash.payments)}</td></tr>
+  <tr><th>= Closing bank balance</th><td>{inr(cash.closing)}</td></tr>
+ </Table><p className="mc-currency-note">Planning estimates: ₹40 Cr initial HQ funding; 50% of earnings collected in-year and 50% the next year. September uses half-year collections. Payments follow the spending estimates; future years are projections. These are not verified bank balances.</p></Panel>
+ </>;
 }

@@ -1,3 +1,4 @@
+import { formatUsdMillionsInInr } from '@/lib/currency';
 import { PEOPLE_METRICS } from './md-people';
 import { PORTFOLIO_TOTALS, TRIAL_CAMPAIGNS } from './md-portfolio';
 
@@ -39,7 +40,7 @@ export const OPERATING_FUNCTIONS: OperatingFunction[] = [
       "value": "1 / 2 routes",
       "target": "2 / 2 before bid commitment",
       "definition": "Routes with a named user sponsor, buying authority, dated funding decision and documented procurement route / active government pursuit routes.",
-      "why": "Tests whether the $9.2M opportunity can become a real buying decision.",
+      "why": `Tests whether the ${formatUsdMillionsInInr(9.2)} opportunity can become a real buying decision.`,
       "dependency": "Maritime capital and urgent pilot; Commercial validates the route, Engineering confirms availability.",
       "trigger": "A route lacks a funding or authority checkpoint within 30 days of the bid / pilot decision.",
       "cadence": "Weekly; at every bid decision",
@@ -103,7 +104,7 @@ export const OPERATING_FUNCTIONS: OperatingFunction[] = [
       "dependency": "Army user team, field engineering and HQ product release.",
       "trigger": "More than 7 days forecast slip; MD agrees a recovery plan and customer communication within 48 hours.",
       "cadence": "Weekly; after every readiness review",
-      "basis": "Army commitment 30 Sep 2026 versus forecast 14 Oct 2026; $2.8M receipt depends on witnessed acceptance. This is a forecast slip, not elapsed lateness as of 07 Sep.",
+      "basis": `Army commitment 30 Sep 2026 versus forecast 14 Oct 2026; ${formatUsdMillionsInInr(2.8)} receipt depends on witnessed acceptance. This is a forecast slip, not elapsed lateness as of 07 Sep.`,
       "tone": "red"
     },
     {
@@ -146,7 +147,7 @@ export const OPERATING_FUNCTIONS: OperatingFunction[] = [
       "value": "6 / 8 deliverables",
       "target": "8 / 8 by 15 Oct",
       "definition": "Shield-owned technical-transfer and training deliverables accepted by JSW / deliverables due in the current transfer package.",
-      "why": "Measures what Shield can deliver to support JSW production and unlock the $450k transfer payment.",
+      "why": `Measures what Shield can deliver to support JSW production and unlock the ${formatUsdMillionsInInr(0.45)} transfer payment.`,
       "dependency": "HQ documentation and product configuration; India training team; JSW acceptance owner.",
       "trigger": "Any transfer deliverable forecasts late enough to move training or the 31 Oct payment.",
       "cadence": "Weekly until transfer acceptance",
@@ -231,20 +232,20 @@ export const OPERATING_FUNCTIONS: OperatingFunction[] = [
       "dependency": "Programmes supplies acceptance; Commercial clears invoicing; each entity Treasury collects.",
       "trigger": "Any invoice overdue more than 7 days or forecast acceptance moves a receipt in the next 90 days.",
       "cadence": "Weekly cash review; monthly close",
-      "basis": "Assume all 5 settled first-stage portfolio receipts, totalling $5.33M, were due between 01 Jun and 07 Sep 2026; 4 were on time and 1 was collected 5 days late. Future $3.25M receipts remain conditional on Army and JSW acceptance.",
+      "basis": `Assume all 5 settled first-stage portfolio receipts, totalling ${formatUsdMillionsInInr(5.33)}, were due between 01 Jun and 07 Sep 2026; 4 were on time and 1 was collected 5 days late. Future ${formatUsdMillionsInInr(3.25)} receipts remain conditional on Army and JSW acceptance.`,
       "tone": "amber"
     },
     {
       "name": "India operating forecast against allocation",
       "headline": "India spend vs allocation",
-      "value": "$615k / $660k",
-      "target": "Stay within $660k allocation",
+      "value": `${formatUsdMillionsInInr(0.615)} / ${formatUsdMillionsInInr(0.66)}`,
+      "target": `Stay within ${formatUsdMillionsInInr(0.66)} allocation`,
       "definition": "Forecast India people, support and operating cash spend for the next 13 weeks / the agreed India allocation. Show headroom separately from cross-entity contract receipts.",
       "why": "Keeps Army recovery, bid work and engagement spending affordable.",
       "dependency": "People, Engineering and BD supply forecasts; HQ agrees the India funding allocation.",
       "trigger": "Forecast spend exceeds the allocation, or a weekly payment lacks a dated funding transfer.",
       "cadence": "Weekly; rolling 13 weeks",
-      "basis": "Assume $615k forecast against $660k allocation, leaving $45k headroom. Forecast includes the $45k Army recovery allowance, $30k first bid tranche and $33k engagement budget. These are inside the forecast, not additions.",
+      "basis": `Assume ${formatUsdMillionsInInr(0.615)} forecast against ${formatUsdMillionsInInr(0.66)} allocation, leaving ${formatUsdMillionsInInr(0.045)} headroom. Forecast includes the ${formatUsdMillionsInInr(0.045)} Army recovery allowance, ${formatUsdMillionsInInr(0.03)} first bid tranche and ${formatUsdMillionsInInr(0.033)} engagement budget. These are inside the forecast, not additions.`,
       "tone": "green"
     },
     {
@@ -257,7 +258,7 @@ export const OPERATING_FUNCTIONS: OperatingFunction[] = [
       "dependency": "Programme and Engineering leads forecast remaining effort; HQ Finance validates entity allocations.",
       "trigger": "At least 2 percentage points erosion or an unpriced scope change before work starts.",
       "cadence": "Monthly; at scope or schedule change",
-      "basis": "Assume Army contract $20M, baseline delivery cost $13M and current estimate-at-completion $13.4M: margin 35% versus 33%. This programme contribution excludes India overhead, taxes and financing.",
+      "basis": `Assume Army contract ${formatUsdMillionsInInr(20)}, baseline delivery cost ${formatUsdMillionsInInr(13)} and current estimate-at-completion ${formatUsdMillionsInInr(13.4)}: margin 35% versus 33%. This programme contribution excludes India overhead, taxes and financing.`,
       "tone": "amber"
     },
     {

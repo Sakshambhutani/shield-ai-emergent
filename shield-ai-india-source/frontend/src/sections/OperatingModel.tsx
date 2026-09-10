@@ -1,3 +1,5 @@
+import { useLayoutEffect, useRef, useState } from 'react';
+import { FX_NOTE } from '@/lib/currency';
 import { Headline, Screen } from '@/components/ui';
 import { OPERATING_FUNCTIONS, OPERATING_MODEL_KPIS, OPERATING_MODEL_SUMMARIES } from '@/data/operating-model';
 import './operating-model.css';
@@ -7,30 +9,41 @@ const SLIDE_FUNCTIONS = ['growth', 'autonomy', 'programmes', 'people', 'industri
 // Read left to right, then top to bottom, preserving the six existing positions.
 const FUNCTION_POSITIONS = [0, 1, 3, 2, 5, 4];
 
-const ROTORS = [
-  { x: 140, y: 127 }, { x: 340, y: 127 },
-  { x: 440, y: 300 }, { x: 40, y: 300 },
-  { x: 340, y: 473 }, { x: 140, y: 473 },
-];
-
 function OperatingSystem() {
+  const architectureRef = useRef<HTMLDivElement>(null);
+  const [connectors, setConnectors] = useState<{ d: string; x: number; y: number }[]>([]);
+
+  useLayoutEffect(() => {
+    const root = architectureRef.current!;
+    const update = () => {
+      const bounds = root.getBoundingClientRect();
+      const hub = root.querySelector('.operating-hub')!.getBoundingClientRect();
+      setConnectors(Array.from(root.querySelectorAll('.operating-function')).map((panel) => {
+        const rect = panel.getBoundingClientRect();
+        const heading = panel.querySelector('.operating-function-name')!.getBoundingClientRect();
+        const left = rect.left < hub.left;
+        const x = (left ? rect.right + 16 : rect.left - 16) - bounds.left;
+        const y = heading.top + heading.height / 2 - bounds.top;
+        const endX = (left ? hub.left + 12 : hub.right - 12) - bounds.left;
+        const endY = hub.top + hub.height / 2 - bounds.top;
+        const elbowX = x + (left ? 1 : -1) * Math.min(48, Math.abs(endX - x) / 3);
+        return { x, y, d: `M${x} ${y} H${elbowX} L${endX} ${endY}` };
+      }));
+    };
+    const observer = new ResizeObserver(update);
+    observer.observe(root);
+    root.querySelectorAll('.operating-function, .operating-hub').forEach((element) => observer.observe(element));
+    update();
+    return () => observer.disconnect();
+  }, []);
+
   return (
-    <div className="operating-architecture" data-testid="operating-system" aria-label="Six functions supporting India contract bookings">
+    <div ref={architectureRef} className="operating-architecture" data-testid="operating-system" aria-label="Six functions supporting India contract bookings">
       <div className="operating-aircraft">
-        <svg className="operating-airframe" viewBox="0 0 480 600" aria-hidden="true">
-          {ROTORS.map((motor, i) => <g key={i}>
-            <path className="operating-arm" d={`M240 300 L${motor.x} ${motor.y}`} />
-            <path className="operating-callout-line" d={`M${motor.x < 240 ? 0 : 480} ${motor.y} H${motor.x}`} />
-            <g className="operating-rotor" transform={`translate(${motor.x} ${motor.y})`}>
-              <circle className="operating-rotor-disc" r="38" />
-              <circle className="operating-rotor-track" r="31" />
-              <g transform={`rotate(${i % 2 ? -35 : 35})`}>
-                <ellipse className="operating-blade" cx="0" cy="-15" rx="6" ry="18" />
-                <ellipse className="operating-blade" cx="0" cy="15" rx="6" ry="18" />
-              </g>
-              <circle className="operating-motor" r="7" />
-            </g>
-          </g>)}
+        <img className="operating-airframe" src="/images/operating-xbat.png" alt="" aria-hidden="true" />
+        <svg className="operating-guides" viewBox="0 0 600 600" aria-hidden="true">
+          <circle cx="300" cy="300" r="220" />
+          <path d="M300 0 V600 M60 300 H540" />
         </svg>
         <div className="operating-hub" data-testid="company-north-star">
           <svg className="operating-hub-frame" viewBox="0 0 220 140" preserveAspectRatio="none" aria-hidden="true">
@@ -39,7 +52,12 @@ function OperatingSystem() {
           <p className="operating-hub-metric">Contract bookings (₹)</p>
         </div>
       </div>
-      <p className="operating-hub-scope">Army follow-on · New Indian programmes · Paid integrations</p>
+      <svg className="operating-connectors" aria-hidden="true">
+        {connectors.map(({ d, x, y }, i) => <g key={SLIDE_FUNCTIONS[i].id}>
+          <path d={d} />
+          <circle cx={x} cy={y} r="2.5" />
+        </g>)}
+      </svg>
       {SLIDE_FUNCTIONS.map((item, i) => <div
         key={item.id} data-testid={`capability-${item.id}`}
         tabIndex={0} aria-describedby={`kpi-explanation-${item.id}`}
@@ -58,7 +76,7 @@ function OperatingSystem() {
 
 export default function OperatingModel() {
   return <Screen className="operating-screen">
-    <Headline title="How Shield AI India operates" sub="Clear ownership across six functions. Selected KPIs for the first six months." />
+    <Headline title="How Shield AI India operates" sub={`Clear ownership across six functions. Selected KPIs for the first six months. ${FX_NOTE}.`} />
     <OperatingSystem />
   </Screen>;
 }

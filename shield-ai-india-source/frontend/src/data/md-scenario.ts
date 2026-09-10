@@ -1,3 +1,5 @@
+import { FX_NOTE, formatInrCrore, formatUsdMillionsInInr } from '@/lib/currency';
+export { formatUsdMillionsInInr } from '@/lib/currency';
 // First-cut management scenario. User inputs and constructed dates are documented in ASSUMPTIONS.
 export const AS_OF = '2026-10-01';
 export const BASE_HEADCOUNT = 20;
@@ -6,8 +8,8 @@ export const SALARY_LAKH = 50;
 export const DAY = 86400000;
 export const days = (a: string, b: string) => Math.round((Date.parse(b) - Date.parse(a)) / DAY);
 export const date = (s: string) => new Date(`${s}T00:00:00Z`).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric', timeZone: 'UTC' });
-export const usd = (n: number) => `$${n.toLocaleString('en-US', { maximumFractionDigits: 1 })}M`;
-export const inr = (n: number) => `₹${n.toFixed(2)}Cr`;
+// Contract, opportunity, payment and revenue source amounts remain USD millions.
+export const inr = formatInrCrore;
 export type Area = 'Overview' | 'Business Development' | 'Operations' | 'Engineering' | 'HR' | 'Finance and Legal' | 'JSW Partnership';
 export const AREAS: Area[] = ['Overview', 'Business Development', 'Operations', 'Engineering', 'HR', 'Finance and Legal', 'JSW Partnership'];
 export type Segment = 'B2B' | 'B2G' | 'PSUs';
@@ -20,13 +22,13 @@ export interface Opportunity { id: string; customer: string; project: string; se
 export const OPPORTUNITIES: Opportunity[] = [
  { id: 'oem-isr', customer: 'Indian OEM A', project: 'ISR platform integration', segment: 'B2B', stage: 3, value: 4, close: '2027-10-01', decision: 'Approve evaluation scope', due: '2026-10-16', owner: 'BD + Engineering', risk: 'Platform access date', backed: true, route: 'Direct integration contract', commitment: 'Partner engineers and platform access committed; paid scope unsigned.' },
  { id: 'oem-autonomy', customer: 'Indian OEM B', project: 'Platform autonomy evaluation', segment: 'B2B', stage: 1, value: 6, close: '2027-12-15', decision: 'Confirm strategic sponsor', due: '2026-10-23', owner: 'BD', risk: 'Investment case unapproved', backed: false, route: 'Evaluation → integration agreement', commitment: 'Discovery underway; no resources committed.' },
- { id: 'army-follow', customer: 'Indian Army', project: 'Follow-on deployment', segment: 'B2G', stage: 0, value: 120, close: '2028-04-01', decision: 'Agree follow-on discovery', due: '2026-11-06', owner: 'BD + Programme lead', risk: 'Depends on initial acceptance', backed: false, route: 'Capital acquisition · proposed', commitment: 'Separate future scope; excluded from the existing $20M order.' },
+ { id: 'army-follow', customer: 'Indian Army', project: 'Follow-on deployment', segment: 'B2G', stage: 0, value: 120, close: '2028-04-01', decision: 'Agree follow-on discovery', due: '2026-11-06', owner: 'BD + Programme lead', risk: 'Depends on initial acceptance', backed: false, route: 'Capital acquisition · proposed', commitment: `Separate future scope; excluded from the existing ${formatUsdMillionsInInr(20)} order.` },
  { id: 'maritime', customer: 'Maritime service', project: 'Maritime ISR programme', segment: 'B2G', stage: 1, value: 80, close: '2028-01-31', decision: 'Confirm RFP planning window', due: '2026-10-30', owner: 'Government BD', risk: 'RFP timing', backed: false, route: 'Capital acquisition · standard', commitment: 'Assumed AoN-stage pursuit; no Shield award or evaluation commitment.' },
  { id: 'psu-a', customer: 'Defence PSU A', project: 'Indigenous platform integration', segment: 'PSUs', stage: 2, value: 8, close: '2027-11-30', decision: 'Confirm tender scope', due: '2026-10-20', owner: 'Partner BD', risk: 'Source qualification', backed: false, route: 'PSU tender', commitment: 'Procurement route identified; technical scope awaiting agreement.' },
  { id: 'psu-b', customer: 'Defence PSU B', project: 'Autonomy development package', segment: 'PSUs', stage: 0, value: 12, close: '2028-03-31', decision: 'Nominate programme sponsor', due: '2026-11-13', owner: 'Partner BD', risk: 'Budget not confirmed', backed: false, route: 'Development procurement · proposed', commitment: 'Initial programme discussion; no commitment.' },
 ];
 export const nearClosure = (o: Opportunity) => o.stage >= STAGES[o.segment].length - 3 && days(AS_OF, o.close) >= 0 && days(AS_OF, o.close) <= 90;
-export const ARMY = { id: 'army', name: 'Indian Army · V-BAT + Hivemind', value: 20, start: '2026-10-01', end: '2029-09-30', entity: 'Shield contracting entity · USD', owner: 'Programme lead' };
+export const ARMY = { id: 'army', name: 'Indian Army · V-BAT + Hivemind', value: 20, start: '2026-10-01', end: '2029-09-30', entity: 'Shield contracting entity · INR equivalent', owner: 'Programme lead' };
 export interface Milestone { id: string; label: string; group: string; start: string; due: string; forecast: string; previous: string; progress: number; owner: string; dependency: string; project: string; receipt?: number; acceptedAt?: string; progressLabel?: string; forecastPending?: boolean }
 export const DELIVERY: Milestone[] = [
  { id: 'scope', label: 'Use case & integration scope', group: 'Army · first acceptance', start: '2026-10-01', due: '2026-10-30', forecast: '2026-11-06', previous: '2026-11-03', progress: 10, owner: 'Programme lead', dependency: 'Customer operating-scenario inputs', project: 'army' },
@@ -49,7 +51,7 @@ export interface Blocker { id: string; area: Area; project: string; milestone: s
 export const BLOCKERS: Blocker[] = [
  { id: 'customer-input', area: 'Operations', project: 'army', milestone: 'scope', label: 'Customer scenario inputs', owner: 'Programme lead', opened: '2026-09-21', due: '2026-10-05', impact: 'Scope forecast +7 days', action: 'Agree the missing inputs with the customer sponsor.' },
  { id: 'hq-access', area: 'Engineering', project: 'army', milestone: 'environment', label: 'HQ environment access', owner: 'Engineering lead', opened: '2026-09-26', due: '2026-10-08', impact: '2 scenarios awaiting inputs', action: 'Confirm configuration and environment access.' },
- { id: 'platform', area: 'Business Development', project: 'oem-isr', milestone: '', label: 'OEM platform availability', owner: 'Partner BD', opened: '2026-09-24', due: '2026-10-16', impact: '$4M scope decision', action: 'Secure the platform-access window for the agreed evaluation.' },
+ { id: 'platform', area: 'Business Development', project: 'oem-isr', milestone: '', label: 'OEM platform availability', owner: 'Partner BD', opened: '2026-09-24', due: '2026-10-16', impact: `${formatUsdMillionsInInr(4)} scope decision`, action: 'Secure the platform-access window for the agreed evaluation.' },
  { id: 'tooling', area: 'JSW Partnership', project: 'jsw', milestone: 'tooling', label: 'Long-lead tooling approval', owner: 'JSW procurement lead', opened: '2026-09-23', due: '2026-10-09', impact: 'Tooling readiness +10 days', action: 'Confirm supplier choice and release approval.' },
 ];
 export const SCENARIOS = [
@@ -121,28 +123,42 @@ export const CURRENT_HEADCOUNT = BASE_HEADCOUNT + ROLES.reduce((s,r)=>s+r.joined
 export const MONTHLY_PAYROLL = CURRENT_HEADCOUNT * SALARY_LAKH / 100 / 12;
 export const OVERHEAD_RATE = .25;
 export const FIXED_MONTHLY = .30;
-export const CURRENT_BURN = MONTHLY_PAYROLL * (1 + OVERHEAD_RATE) + FIXED_MONTHLY;
+// Illustrative total expenditure; actuals exist only for closed months.
+export const MONTHLY_EXPENDITURE: { label: string; plan: number; actual?: number }[] = [
+ { label: 'Apr 26', plan: 5.00, actual: 4.95 },
+ { label: 'May 26', plan: 5.25, actual: 5.30 },
+ { label: 'Jun 26', plan: 5.50, actual: 5.45 },
+ { label: 'Jul 26', plan: 5.75, actual: 5.80 },
+ { label: 'Aug 26', plan: 6.00, actual: 6.10 },
+ { label: 'Sep 26', plan: 6.25, actual: 6.35 },
+ { label: 'Oct 26', plan: 6.50 },
+ { label: 'Nov 26', plan: 6.75 },
+ { label: 'Dec 26', plan: 7.00 },
+ { label: 'Jan 27', plan: 7.25 },
+ { label: 'Feb 27', plan: 7.50 },
+ { label: 'Mar 27', plan: 7.75 },
+];
+export const LAST_CLOSED_EXPENDITURE = MONTHLY_EXPENDITURE.filter(m => m.actual !== undefined).slice(-1)[0];
+export const CURRENT_BURN = LAST_CLOSED_EXPENDITURE.actual!;
 export const CURRENT_CASH = 10; // INR crore, India entity only
 export const CASH_FORECAST = Array.from({ length: 18 }, (_, i) => {
  const headcount = Math.min(25+i*5, TARGET_HEADCOUNT);
  const payroll = headcount * SALARY_LAKH / 100 / 12;
  const d = new Date(Date.UTC(2026,9+i,1));
- return { month: d.toLocaleDateString('en-GB',{month:'short',year:'2-digit',timeZone:'UTC'}), headcount, payroll, overhead: payroll * OVERHEAD_RATE + FIXED_MONTHLY, burn: payroll * (1+OVERHEAD_RATE) + FIXED_MONTHLY };
+ return { month: d.toLocaleDateString('en-GB',{month:'short',year:'2-digit',timeZone:'UTC'}), headcount, payroll, overhead: payroll * OVERHEAD_RATE + FIXED_MONTHLY, burn: MONTHLY_EXPENDITURE[Math.min(6+i, 11)].plan };
 });
 export const REQUIRED_FUNDING = CASH_FORECAST.reduce((s,m)=>s+m.burn,0);
 export const CONFIRMED_FUNDING = REQUIRED_FUNDING - CURRENT_CASH;
-export const FUNDING_EVENTS = [{ date: '2026-12-01', amount: CONFIRMED_FUNDING, label: 'HQ funding transfer' }];
+export const FUNDING_EVENTS = [{ date: '2026-10-01', amount: CONFIRMED_FUNDING, label: 'HQ funding transfer' }];
 let cash = CURRENT_CASH;
 export const CASH_CURVE = CASH_FORECAST.map((m,i)=>{
- cash += i===2 ? CONFIRMED_FUNDING : 0;
+ cash += i===0 ? CONFIRMED_FUNDING : 0;
  cash -= m.burn;
  return { ...m, balance: Math.abs(cash) < 1e-8 ? 0 : cash };
 });
 export const FUNDING_COVERAGE = CASH_CURVE.filter((_,i)=>CASH_CURVE.slice(0,i+1).every(m=>m.balance >= 0)).length;
 export const COSTS = [
- { label: 'Salaries', budget: MONTHLY_PAYROLL, actual: MONTHLY_PAYROLL },
- { label: 'Benefits / people overhead', budget: MONTHLY_PAYROLL * OVERHEAD_RATE, actual: MONTHLY_PAYROLL * OVERHEAD_RATE },
- { label: 'Facilities / tools / travel', budget: FIXED_MONTHLY, actual: FIXED_MONTHLY + .04 },
+ { label: 'Total expenditure', budget: LAST_CLOSED_EXPENDITURE.plan, actual: CURRENT_BURN },
 ];
 export const PAYMENTS = [
  { id: 'A-01', milestone: 'advance', label: 'Contract advance', amount: 2, invoice: '2026-09-30', due: '2026-09-30', received: true },
@@ -198,12 +214,13 @@ export const JSW: Milestone[] = [
  { ...jswMilestone('mro-capability', 'Local MRO capability', '2027-12-31', '2027-12-31', 'JSW service + Shield', 'Repair scope and demonstrated local capability to be agreed; proposed target only.', 'Later phase · forecast TBD'), start: '2027-04-01', forecastPending: true },
 ];
 export const ASSUMPTIONS = [
+ { label:'Display currency', value:FX_NOTE, detail:'Source contract values are retained in USD and converted for display. Native INR budgets are not converted. This reporting conversion does not imply an India cash transfer.' },
  { label:'Engineering commitments', value:'Army 4 / 5 delivered on time', detail:'Illustrative preparation outputs for 01 Sep–01 Oct 2026, separate from customer delivery milestones. Four outputs accepted by their original due dates; the interface fix remains outstanding. Future commitments are excluded from attainment. Critical dependencies link to the existing blocker register; their age uses the dashboard snapshot date. Scenario checks remain supporting detail.' },
  { label:'Reporting date & roadmap', value:`${date(AS_OF)} · planning snapshot`, detail:'Roadmap anchors: October 2026 baseline; January 2027 engineering environment and initial production; April 2027 first acceptance; October 2027 first paid expansion; April 2028 Army follow-on. These are proposed month-level checkpoints. Exact days and programme durations below are constructed assumptions, not verified contract dates.' },
- { label:'Army order', value:'$20M · 3 years', detail:'Order value corrected to $20M by the user. Payment and revenue schedules remain constructed planning assumptions. Assumed term 01 Oct 2026–30 Sep 2029, signed 30 Sep 2026. Payment shares 10%, 20%, 30%, 30%, 10%; advance received $2M. Remaining receipts follow acceptance by 30 days. No revenue recognised at the initial snapshot; customer advance is not earned revenue. Constructed performance allocations: $4M first acceptance, $6M year two, $6M year three and $4M final handover, recognising $20M in total. Finance must validate entity attribution and revenue recognition.' },
+ { label:'Army order', value:`${formatUsdMillionsInInr(20)} · 3 years`, detail:`Order value corrected to ${formatUsdMillionsInInr(20)} by the user. Payment and revenue schedules remain constructed planning assumptions. Assumed term 01 Oct 2026–30 Sep 2029, signed 30 Sep 2026. Payment shares 10%, 20%, 30%, 30%, 10%; advance received ${formatUsdMillionsInInr(2)}. Remaining receipts follow acceptance by 30 days. No revenue recognised at the initial snapshot; customer advance is not earned revenue. Constructed performance allocations: ${formatUsdMillionsInInr(4)} first acceptance, ${formatUsdMillionsInInr(6)} year two, ${formatUsdMillionsInInr(6)} year three and ${formatUsdMillionsInInr(4)} final handover, recognising ${formatUsdMillionsInInr(20)} in total. Finance must validate entity attribution and revenue recognition.` },
  { label:'Headcount & salaries', value:'20 → 50 · ₹50L per person/year', detail:'Latest user input supersedes the earlier 45-person target. Adds 30 people in six monthly cohorts of five, at each month end, with no exits. Conservative cash forecast charges each forecast month at its ending headcount. Annual salary: 20 × ₹50L = ₹10Cr; 50 × ₹50L = ₹25Cr. The salary assumption is treated as cash salary; add-on costs are separately assumed.' },
- { label:'Operating expenditure', value:'25% people overhead + ₹0.30Cr/month', detail:'Constructed allowance for benefits and related people overhead at 25% of salary plus ₹30L monthly facilities, tools and travel. September actuals contain ₹4L additional setup expense. All India operating figures are INR crore; contract values are USD millions. No FX conversion or cross-entity cash aggregation.' },
- { label:'Funding coverage', value:`18 months · ${inr(REQUIRED_FUNDING)}`, detail:`Assume ${inr(CURRENT_CASH)} accessible India cash and ${inr(CONFIRMED_FUNDING)} confirmed HQ funding arriving 01 Dec 2026. Funding is constructed to meet the 18-month growing-team expenditure forecast. Target >15 months; an additional decision is needed before the threshold is reached. Army receipts are held by the contracting entity and excluded from India funding.` },
+ { label:'Operating expenditure', value:'April ₹5 Cr → March ₹7.75 Cr monthly plan', detail:'User-directed illustrative total expenditure scenario for FY 2026–27. Plan rises by ₹0.25Cr each month from April 2026. Illustrative actuals through September: ₹4.95Cr, ₹5.30Cr, ₹5.45Cr, ₹5.80Cr, ₹6.10Cr, ₹6.35Cr; future actuals are unavailable. Total expenditure supersedes the earlier salary-plus-overhead burn estimate. Payroll remains a staffing assumption within the total, not additional expenditure. The cash forecast uses October–March plans, then holds ₹7.75Cr/month for its remaining horizon. India expenditure is native INR; contracting-entity receipts remain separate.' },
+ { label:'Funding coverage', value:`18 months · ${inr(REQUIRED_FUNDING)}`, detail:`Assume ${inr(CURRENT_CASH)} accessible India cash and ${inr(CONFIRMED_FUNDING)} confirmed HQ funding arriving 01 Oct 2026 before October expenditure. Funding is constructed to meet the 18-month total expenditure forecast. Target >15 months; an additional decision is needed before the threshold is reached. Army receipts are held by the contracting entity and excluded from India funding.` },
  { label:'BD and hiring samples', value:'6 opportunities · 30 vacancies', detail:'OEM A/B and PSU A/B are fictional placeholders. All scopes, values, stages, candidates and dates are constructed. Near closure requires a commercial-stage opportunity and a forecast signature within 90 days. No current opportunity qualifies; zero is intentional. Five critical openings are due 31 Oct: two autonomy and one integration candidate have confirmed dates in October; one autonomy and one integration opening forecast November without confirmed joins. These are part of the 30 vacancies, not additional posts. Candidate current-stage counts are mutually exclusive; applications are cumulative. Customer-backed target: two new programmes in six months; Army follow-on tracked separately.' },
  { label:'Engineering & JSW', value:'6 Army scenarios · 8 transfer items', detail:'Early simulation work is exploratory against a proposed baseline and does not constitute contractual or flight acceptance. Two OEM scenarios are approved presales work, not an order. JSW has accepted six of eight example transfer items. Joint Gantt progress is estimated work completion, distinct from receiving-owner acceptance. JSW owns facility and procurement actions; Shield supports supplier identification, technical qualification and onboarding. Eight illustrative vendor capability areas: three onboarded, two evaluating, two qualifying and one selected. Coverage counts areas, not unique vendors or supplies delivered. Localisation scope requires agreement. Supplier enablement is 3/5 accepted (one overdue); MRO enablement 0/6 (none due). Factory and service readiness checks use separate denominators. Two MD decisions and the 29 Oct capability review are constructed. Facility checks 3/5; tooling 2/4 commissioned; JSW roles 6/8 staffed; personnel 4/6 qualified. These denominators are separate. Local MRO has a proposed target only; no agreed forecast. Procurement and capital spending are not India operating expenditure.' },
  { label:'Procurement routes', value:'B2B · B2G · PSUs', detail:'Stages are management templates, not universal legal gates. Use the actual tender route; emergency procurement is a route, not a mandatory pre-AoN stage. PSU procurement follows the specific organisation. Paid pilots move to Operations when signed; the follow-on remains in BD.' },
