@@ -1,9 +1,11 @@
 import { useState } from 'react';
-import { ArrowUpRight, ChevronRight, FileText } from 'lucide-react';
+import { ChevronRight, FileText } from 'lucide-react';
 import { SourceButton } from '@/components/Evidence';
 import { MARKET_TREE, type BudgetNode } from '@/data/budget';
+import { AREA_FUNDING, PROGRAMME_FUNDING, formatCrore, programmeFundingTotal } from '@/data/market-funding';
 import { budgetPath } from '@/lib/market-drilldown';
 import { Headline } from '@/components/ui';
+import { useStore } from '@/store';
 import './market.css';
 
 const AREAS = [
@@ -25,44 +27,55 @@ function status(n: BudgetNode) {
 function programmeTitle(n: BudgetNode) {
   return n.id === 'future-space-satellites' ? 'SBS-III · 52 surveillance satellites' : n.title;
 }
-function ProgrammeDetail({ node, owner }: { node: BudgetNode; owner: string }) {
-  const path = budgetPath(MARKET_TREE, node.id).filter(n => n.id !== 'market-root');
-  const budgetNodes = path.filter(n => n.value?.includes('₹'));
-  return <aside className="market-detail" aria-label="Programme details" data-testid="market-programme-detail">
-    <div className="market-detail-top"><span className="market-eyebrow">Selected opportunity</span><SourceButton claimIds={node.claimIds} title={node.title} /></div>
-    <span className={`market-status ${node.cls}`}>{status(node)}</span>
-    <h3>{programmeTitle(node)}</h3>
-    <p>{node.why}</p>
-    {owner === 'future-drdo' && <p className="market-detail-note">iDEX / ADITI are related DIO / DDP routes. TDF is executed by DRDO.</p>}
-    <div className="market-detail-evidence"><FileText size={14} /><span>Programme evidence and sources</span><SourceButton claimIds={node.claimIds} title={node.title} /></div>
-    <details className="market-budget-context" key={node.id}>
-      <summary>Funding context <ChevronRight size={14} /></summary>
-      <p>Related budget context only. The funding route and addressable content need to be established programme by programme.</p>
-      {budgetNodes.length ? budgetNodes.map(n => <div key={n.id} className="market-budget-row"><span>{n.title}</span><div><span>{n.value}</span><SourceButton claimIds={n.claimIds} title={n.title} /></div><small>{n.tag}</small></div>) : <p>No separable funding value established.</p>}
-      <p>Annual budgets and programme values may overlap. These figures are not Shield-addressable spend.</p>
+function BudgetNotes({ owner }: { owner: string }) {
+  const pool = AREA_FUNDING[owner];
+  const totals = programmeFundingTotal(rowsFor(owner).map(n => n.id));
+  return (
+    <details className="market-budget-context market-calculation market-budget-notes" key={`totals-${owner}`}>
+      <summary>Budget notes <ChevronRight size={14} /></summary>
+      <div className="market-budget-row"><span>{owner === 'mod' ? 'Other Equipment funding pool' : 'Relevant funding pool'}</span><div><span>{formatCrore(pool.crore)}</span><SourceButton claimIds={pool.claimIds} title={`${owner} · funding pool`} /></div><small>{pool.period}</small></div>
+      <p>{pool.scope}</p>
+      <div className="market-budget-row"><span>Programme total · gross</span><div><span>{totals.counted ? formatCrore(totals.total, totals.qualifier) : 'Value undisclosed'}</span>{totals.claimIds.length > 0 && <SourceButton claimIds={totals.claimIds} title={`${owner} · programme total`} />}</div></div>
+      <dl><div><dt>Contracted · reported</dt><dd>{totals.contracted ? formatCrore(totals.contracted) : 'None identified'}</dd></div><div><dt>Sanctioned · disclosed</dt><dd>{totals.sanctioned ? formatCrore(totals.sanctioned) : 'None identified'}</dd></div><div><dt>Estimates / reported values</dt><dd>{totals.estimated ? formatCrore(totals.estimated, totals.qualifier) : 'None identified'}</dd></div></dl>
+      <p>{totals.counted} valued programmes included · {totals.undisclosed} undisclosed{totals.overlapping > 0 && ` · ${totals.overlapping} potentially overlapping pipeline included`}. Undisclosed values are not zero.</p>
+      {rowsFor(owner).filter(n => PROGRAMME_FUNDING[n.id]?.overlapNote).map(n => <p key={n.id}>{n.title}: {PROGRAMME_FUNDING[n.id].overlapNote}</p>)}
+      <p>Programme values span mixed periods. Do not add them to annual funding pools or interpret them as Shield revenue.</p>
     </details>
-  </aside>;
+  );
 }
 export default function Money() {
   const [area, setArea] = useState('mod');
-  const [selectedByArea, setSelectedByArea] = useState<Record<string, string>>({});
+  const { openEvidence } = useStore();
   const owner = AREAS.find(a => a.id === area)!;
   const programmes = rowsFor(area);
-  const selected = programmes.find(n => n.id === selectedByArea[area]) ?? programmes[0];
+  const pool = AREA_FUNDING[area];
+  const totals = programmeFundingTotal(programmes.map(n => n.id));
   return <section className="market-page" data-testid="market-page">
     <Headline title="Where is India investing in defence capability?" sub="Programmes, procurement activity and capability needs across defence and security." />
-    <div className="market-workspace">
+    <div className="market-workspace market-workspace--references">
       <nav className="market-area-list" aria-label="Market opportunity areas">
         <div className="market-eyebrow market-area-label">Opportunity areas</div>
-        {AREAS.map((a, i) => <button key={a.id} data-testid={`market-area-${a.id}`} aria-pressed={area === a.id} onClick={() => setArea(a.id)} className={area === a.id ? 'selected' : ''}><span className="market-area-number">{String(i + 1).padStart(2, '0')}</span><span><strong>{a.title}</strong></span><ChevronRight size={14} /></button>)}
+        {AREAS.map((a, i) => <button key={a.id} data-testid={`market-area-${a.id}`} aria-pressed={area === a.id} onClick={() => setArea(a.id)} className={area === a.id ? 'selected' : ''}><span className="market-area-number">{String(i + 1).padStart(2, '0')}</span><span><strong>{a.title}</strong><small className="market-area-amount">{formatCrore(AREA_FUNDING[a.id].crore)}</small></span><ChevronRight size={14} /></button>)}
       </nav>
       <div className="market-programme-panel">
         <header><span className="market-eyebrow">{owner.title}</span><h2>Programmes & capability needs</h2><p>{owner.intro}</p></header>
-        <div className="market-programme-grid" aria-label={`${owner.title} programmes`}>
-          {programmes.map(n => <button key={n.id} data-testid={`market-programme-${n.id}`} className={`market-programme-card ${selected?.id === n.id ? 'selected' : ''}`} aria-pressed={selected?.id === n.id} onClick={() => setSelectedByArea(prev => ({ ...prev, [area]: n.id }))}><span className={`market-status ${n.cls}`}>{status(n)}</span><strong>{programmeTitle(n)}</strong><ArrowUpRight size={16} /></button>)}
+        <div className="market-budget-strip" aria-label="Funding summary">
+          <div data-testid="market-pool-summary"><span>{area === 'mod' ? 'Other Equipment funding pool' : 'Relevant funding pool'} <SourceButton claimIds={pool.claimIds} title={`${owner.title} · funding pool`} /></span><strong>{formatCrore(pool.crore)}</strong><small>{pool.period}</small></div>
+          <div data-testid="market-programme-totals"><span>Programme total · gross {totals.claimIds.length > 0 && <SourceButton claimIds={totals.claimIds} title={`${owner.title} · programme total`} />}</span><strong className={totals.counted ? '' : 'is-undisclosed'}>{totals.counted ? formatCrore(totals.total, totals.qualifier) : 'Value undisclosed'}</strong><small>{totals.counted ? (totals.overlapping ? 'Sum of shown values · overlap possible' : 'Sum of shown values · mixed periods') : 'No disclosed programme values'}</small></div>
         </div>
+        <div className="market-programme-grid" aria-label={`${owner.title} programmes`}>
+          {programmes.map(n => {
+            const funding = PROGRAMME_FUNDING[n.id];
+            const claimIds = [...new Set([...n.claimIds, ...(funding?.claimIds ?? [])])];
+            return <button type="button" key={n.id} data-testid={`market-programme-${n.id}`} className="market-programme-card" aria-label={`${programmeTitle(n)} — show references`} onClick={() => openEvidence(claimIds, programmeTitle(n))}>
+              <span className={`market-status ${n.cls}`}>{status(n)}</span>
+              <strong>{programmeTitle(n)}</strong>
+              <span className="market-card-footer"><span className={`market-programme-amount ${funding ? '' : 'is-undisclosed'}`}>{funding ? formatCrore(funding.crore, funding.qualifier) : 'Value undisclosed'}</span><span className="market-card-references"><FileText size={13} /> References <span>{claimIds.length}</span></span></span>
+            </button>;
+          })}
+        </div>
+        <BudgetNotes key={area} owner={area} />
       </div>
-      {selected && <ProgrammeDetail node={selected} owner={area} />}
     </div>
   </section>;
 }
