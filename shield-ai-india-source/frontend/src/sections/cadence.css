@@ -32,7 +32,7 @@
 .show-click-cue .is-selected .cadence-click-cue { animation: none; }
 .show-click-cue .cue-milestone { animation-delay: 500ms; }
 .show-click-cue .cue-weekly { animation-delay: 1100ms; }
-.show-click-cue .cue-fortnightly { animation-delay: 1700ms; }
+.show-click-cue .cue-monthly { animation-delay: 1700ms; }
 @keyframes cadence-invite {
   0%, 100% { opacity: 0; }
   40% { opacity: .85; }
@@ -50,8 +50,8 @@
   .show-click-cue .cadence-click-cue { animation: none; }
 }
 
-.show-click-cue .cue-monthly { animation-delay: 2300ms; }
-.show-click-cue .cue-quarterly { animation-delay: 2900ms; }
+.show-click-cue .cue-quarterly { animation-delay: 2300ms; }
+.show-click-cue .cue-yearly { animation-delay: 2900ms; }
 
 .cadence-panel-period { font-size: 13px; color: var(--text-secondary); margin-top: 6px; }
 
@@ -60,3 +60,5 @@
 .cadence-panel-decisions { border-top: 1px solid var(--border, #303a49); padding-top: 18px; }
 .cadence-decision-labels { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
 .cadence-decision-labels span { padding: 5px 9px; border: 1px solid #80b4fa55; border-radius: 4px; font-size: 12px; line-height: 1.5; color: var(--text-primary); }
+
+.cadence-panel-format { font-size: 14px; line-height: 1.5; color: var(--text-secondary); margin-top: 12px; }

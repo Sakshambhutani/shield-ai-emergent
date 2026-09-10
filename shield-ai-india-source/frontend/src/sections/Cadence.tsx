@@ -5,105 +5,97 @@ import './cadence.css';
 
 const LAYERS = [
   {
-    "id": "milestone",
-    "name": "VALIDATE",
-    "cadence": "At agreed milestones",
-    "outer": 110,
-    "inner": 0,
-    "labelY": 490,
-    "measures": [
-      "Deliverables completed",
-      "Validation results",
-      "Open acceptance items"
+    id: 'milestone',
+    name: 'VALIDATE',
+    period: 'Programme milestones',
+    cadence: 'At agreed programme milestones',
+    format: 'Programme-specific checkpoints for Army, maritime, JSW partnership and other customer, partner or HQ commitments.',
+    outer: 110,
+    inner: 0,
+    labelY: 490,
+    measures: [
+      'Deliverables and timelines against programme commitments',
+      'Customer, partner and HQ acceptance criteria',
+      'Open gaps and readiness for the next milestone',
     ],
-    "decisions": [
-      "Accept",
-      "Close gaps",
-      "Confirm handover"
-    ]
+    decisions: ['Accept deliverables', 'Agree recovery dates', 'Confirm next milestone'],
   },
   {
-    "id": "weekly",
-    "name": "OPERATE",
-    "cadence": "Typically weekly",
-    "outer": 200,
-    "inner": 110,
-    "labelY": 338,
-    "measures": [
-      "Milestone movement",
-      "Open blockers",
-      "Critical joining gaps",
-      "Near-term cash exceptions"
+    id: 'weekly',
+    name: 'OPERATE',
+    period: 'Weekly',
+    cadence: 'Weekly · brief operational touchpoint',
+    format: 'Bring functions together to prioritise the week’s most important tasks and unblock delivery.',
+    outer: 200,
+    inner: 110,
+    labelY: 338,
+    measures: [
+      'Progress on last week’s commitments',
+      'Urgent blockers and cross-functional dependencies',
+      'Priority tasks and capacity for the coming week',
     ],
-    "decisions": [
-      "Recover",
-      "Assign ownership",
-      "Escalate"
-    ]
+    decisions: ['Prioritise the week', 'Assign owners and dates', 'Unblock or escalate'],
   },
   {
-    "id": "fortnightly",
-    "name": "ALIGN",
-    "cadence": "Fortnightly / as needed",
-    "outer": 290,
-    "inner": 200,
-    "labelY": 248,
-    "measures": [
-      "Shared dependencies",
-      "Engineering capacity",
-      "Customer and partner commitments"
+    id: 'monthly',
+    name: 'ALIGN',
+    period: 'Monthly',
+    cadence: 'Monthly · a couple of checkpoint meetings',
+    format: 'Check that quarterly goals remain achievable and coordinate operational fixes across functions.',
+    outer: 290,
+    inner: 200,
+    labelY: 248,
+    measures: [
+      'Progress and risks against quarterly goals',
+      'Operational roadblocks and shared dependencies',
+      'Resource gaps and follow-through on agreed actions',
     ],
-    "decisions": [
-      "Agree owners and dates",
-      "Resolve resource conflicts"
-    ]
+    decisions: ['Resolve roadblocks', 'Rebalance resources', 'Confirm corrective actions'],
   },
   {
-    "id": "monthly",
-    "name": "REVIEW",
-    "cadence": "Typically monthly",
-    "outer": 380,
-    "inner": 290,
-    "labelY": 158,
-    "measures": [
-      "Functional KPI trends",
-      "Hiring versus plan",
-      "Budget variance",
-      "Funding coverage",
-      "BD progression"
+    id: 'quarterly',
+    name: 'REVIEW',
+    period: 'Quarterly',
+    cadence: 'Quarterly · discussions across roughly one week',
+    format: 'Focused functional and cross-functional roadmap sessions connect the quarter’s results to the next quarter’s milestones.',
+    outer: 380,
+    inner: 290,
+    labelY: 158,
+    measures: [
+      'Quarterly goals achieved, missed and lessons learned',
+      'Functional KPIs and milestone gaps',
+      'Roadmap priorities and dependencies by function',
+      'Capacity and resources needed for the next quarter',
     ],
-    "decisions": [
-      "Correct performance",
-      "Update forecasts"
-    ]
+    decisions: ['Set quarterly goals', 'Sequence the roadmap', 'Commit milestone owners and dates'],
   },
   {
-    "id": "quarterly",
-    "name": "STEER",
-    "cadence": "Quarterly / when priorities change",
-    "outer": 470,
-    "inner": 380,
-    "labelY": 68,
-    "measures": [
-      "New-business potential",
-      "Army follow-on",
-      "Delivery capacity",
-      "Hiring and funding outlook"
+    id: 'yearly',
+    name: 'STEER',
+    period: 'Yearly',
+    cadence: 'Yearly · planning cycle over roughly two weeks',
+    format: 'Leadership-led planning with in-person / offsite working sessions, reconciling the past year and setting direction for the next.',
+    outer: 470,
+    inner: 380,
+    labelY: 68,
+    measures: [
+      'Prior-year results, shortfalls and lessons learned',
+      'Annual operating plan and business plan',
+      'Financial plan, budgets and funding needs',
+      'Yearly targets, high-level goals and KPIs',
+      'Annual hiring and organisational capacity plans',
+      'Major milestones, future opportunities and strategic bets',
     ],
-    "decisions": [
-      "Invest",
-      "Prioritise",
-      "Defer"
-    ]
-  }
+    decisions: ['Approve annual plans', 'Allocate budgets and funds', 'Set targets and hiring plans', 'Commit strategic bets'],
+  },
 ] as const;
 
 type LayerId = typeof LAYERS[number]['id'];
 const RING_QUESTIONS: Partial<Record<LayerId, { text: string; y: number }>> = {
-  weekly: { text: 'What needs attention now?', y: 661 },
-  fortnightly: { text: 'What needs cross-team resolution?', y: 751 },
-  monthly: { text: 'Are we delivering against plan?', y: 841 },
-  quarterly: { text: 'What should change?', y: 931 },
+  weekly: { text: 'What matters most this week?', y: 661 },
+  monthly: { text: 'Are quarterly goals on track?', y: 751 },
+  quarterly: { text: 'What must the next quarter deliver?', y: 841 },
+  yearly: { text: 'Where do we go next year?', y: 931 },
 };
 
 // Separate annular hit areas keep selection and highlighting on exactly one layer.
@@ -134,7 +126,7 @@ export default function Cadence() {
   }, [selected]);
 
   return <Screen className="cadence-screen">
-    <Headline title="A rhythm for delivery and growth" sub="Resolve immediate issues, align teams and steer the India business." />
+    <Headline title="A rhythm for delivery and growth" sub="Operate weekly, align monthly, review quarterly and steer yearly — with programme milestones throughout." />
     <div className={`cadence-layout${active ? ' has-selection' : ''}${hasInteracted ? '' : ' show-click-cue'}`}>
       <svg className="cadence-circles" viewBox="0 0 1000 1000" role="group" aria-label="Cadence layers" data-testid="decision-rhythm">
         {LAYERS.map(layer => <g key={layer.id} ref={node => { ringRefs.current[layer.id] = node; }}
@@ -155,6 +147,7 @@ export default function Cadence() {
           <path d={ringPath(layer.outer, layer.inner)} fillRule="evenodd" className={`cadence-click-cue cue-${layer.id}`} aria-hidden="true" />
           <g textAnchor="middle" className="cadence-ring-copy">
             <text x="500" y={layer.labelY} className="cadence-horizon-name">{layer.name}</text>
+            <text x="500" y={layer.labelY + 26} className="cadence-period">{layer.period}</text>
             <text x="500" y={RING_QUESTIONS[layer.id]?.y} className="cadence-question">{RING_QUESTIONS[layer.id]?.text}</text>
           </g>
         </g>)}
@@ -165,6 +158,7 @@ export default function Cadence() {
           <button type="button" onClick={close} aria-label="Close cadence details"><X size={18} /></button>
         </div>
         <p className="cadence-panel-period">{active.cadence}</p>
+        <p className="cadence-panel-format">{active.format}</p>
         <section className="cadence-panel-section" aria-labelledby="cadence-review-title">
           <h3 id="cadence-review-title">Review</h3>
           <ul>{active.measures.map(measure => <li key={measure}>{measure}</li>)}</ul>
