@@ -1,41 +1,37 @@
+.opportunity-landscape { --radar-blue:#6dcaff; }
 .radar-body { @apply flex-1 min-h-0 overflow-auto; }
-.opportunity-radar { @apply h-full flex flex-col; min-height:590px; min-width:1100px; }
-.radar-routes { @apply relative shrink-0; height:52px; }
-.radar-routes h2 { position:absolute; top:28px; transform:translateX(-50%); white-space:nowrap; }
-.radar-routes h2:nth-child(1) { left:20%; }
-.radar-routes h2:nth-child(2) { left:80%; }
-.radar-routes h2 { @apply font-mono text-lg uppercase tracking-[0.18em] text-sig-blue text-center; }
-.radar-routes h2 span { @apply text-paper-3 text-lg tracking-wider; }
+.opportunity-radar { @apply h-full flex flex-col; min-height:490px; min-width:960px; }
+.radar-routes { @apply relative shrink-0; height:70px; }
+.radar-routes h2 { position:absolute; top:25px; margin:0; color:var(--radar-blue); font-family:'IBM Plex Mono',monospace; font-size:12px; font-weight:400; text-transform:uppercase; letter-spacing:.14em; white-space:nowrap; }
+.radar-routes h2:first-child { left:.3%; }
+.radar-routes h2:last-child { left:66%; }
 .radar-field { @apply relative flex-1 min-h-0; }
-.radar-geometry { @apply absolute inset-0 w-full h-full; }
-.radar-arc { fill:none; stroke:theme('colors.sig.blue'); stroke-opacity:.3; stroke-width:1; vector-effect:non-scaling-stroke; }
-.radar-outer { stroke-opacity:.22; }
-.radar-inner { stroke-opacity:.38; }
-.radar-divider { fill:none; stroke:theme('colors.line.2'); stroke-dasharray:4 8; stroke-width:1; vector-effect:non-scaling-stroke; }
-.radar-node { @apply absolute text-center rounded-md px-3 py-2; transform:translate(-50%,-50%); width:24%; background:theme('colors.ink.DEFAULT'); border:1px solid transparent; animation:radar-reveal 300ms ease-out both; }
-.radar-node h3 { @apply text-paper font-medium tracking-tight leading-snug; font-size:clamp(14px,1.1vw,17px); }
-.radar-node p { @apply text-paper-3 leading-relaxed mt-1; font-size:11px; }
-.radar-node-next { border-color:rgba(59,130,246,.18); background:theme('colors.ink.1'); }
-.radar-node-future { border-color:rgba(59,130,246,.18); background:theme('colors.ink.1'); }
-.radar-node-future h3 { @apply text-paper; }
-.radar-node-now { @apply border-sig-blue bg-ink-2; width:34%; box-shadow:0 0 35px rgba(59,130,246,.13); }
-.radar-node-now h3 { @apply text-paper font-semibold; }
-.radar-node-now p { @apply text-paper-2; }
-.radar-node-airforce, .radar-node-defence-space, .radar-node-maritime-isr, .radar-node-integrators { width:18%; max-width:280px; height:68px; display:flex; flex-direction:column; justify-content:center; }
-.radar-node-airborne, .radar-node-maritime-autonomy, .radar-node-space { width:24%; max-width:360px; height:68px; display:flex; flex-direction:column; justify-content:center; }
-.radar-node-now { width:22%; max-width:300px; height:68px; display:flex; flex-direction:column; justify-content:center; }
-.radar-gcc { left:53%; top:44%; width:18%; max-width:280px; height:68px; display:flex; flex-direction:column; justify-content:center; padding:8px 12px; border-color:rgba(59,130,246,.35); }
-.radar-foundation { left:53%; top:91%; width:20%; max-width:260px; border-color:theme('colors.sig.blue'); background:theme('colors.ink.2'); box-shadow:0 0 35px rgba(59,130,246,.13); }
-.radar-branch { fill:none; stroke:theme('colors.sig.blue'); stroke-opacity:.35; stroke-width:1; vector-effect:non-scaling-stroke; }
-.radar-horizon { @apply absolute font-mono text-lg uppercase tracking-[0.18em] text-paper-3; }
-.radar-horizon-now { left:50%; bottom:0; transform:translateX(-50%); }
-.radar-horizon-next { left:9%; top:33%; }
-.radar-horizon-future { left:9%; top:4%; }
-button.radar-node { @apply cursor-pointer transition-colors duration-200 hover:border-sig-blue; }
-button.radar-node:focus-visible { @apply outline outline-2 outline-offset-4 outline-sig-blue; }
-@media(max-width:900px){.radar-body{min-height:440px}.radar-node h3{font-size:15px}.radar-routes h2,.radar-routes h2 span{font-size:14px}}
-@media(prefers-reduced-motion:reduce){.radar-node{animation:none!important;transition:none!important}}
-
-@keyframes radar-reveal{from{opacity:0}to{opacity:1}}
-
-.radar-caption { @apply shrink-0 text-xs text-paper-2 leading-relaxed; }
+.radar-geometry { @apply absolute inset-0 w-full h-full; pointer-events:none; }
+.radar-arc { fill:none; stroke:#449ed3; stroke-opacity:.15; stroke-width:1; vector-effect:non-scaling-stroke; }
+.radar-arc-dashed { stroke-dasharray:7 4; stroke-opacity:.2; }
+.radar-divider { fill:none; stroke:#4296cc; stroke-opacity:.25; stroke-dasharray:4 4; vector-effect:non-scaling-stroke; }
+.radar-branch { fill:none; stroke:#7acbff; stroke-opacity:.8; stroke-width:1; vector-effect:non-scaling-stroke; }
+.radar-exploration-anchor { position:absolute; left:60.25%; top:90%; width:39.25%; height:0; }
+.radar-explore-link { position:absolute; left:0; top:0; width:35.03%; border-top:1px dashed #afc6df; }
+.radar-blip { fill:#57b9ff; }
+.radar-blip-cross { stroke:#57b9ff; stroke-opacity:.6; vector-effect:non-scaling-stroke; }
+.radar-node { @apply absolute text-center rounded-md px-3 py-2; transform:translate(-50%,-50%); width:21%; height:clamp(64px,8.5vh,82px); display:flex; flex-direction:column; justify-content:center; background:linear-gradient(115deg,#0e1419,#0b1015); border:1px solid #20374c; animation:radar-reveal 300ms ease-out both; }
+.radar-node h3 { @apply text-paper font-medium tracking-tight leading-snug; font-size:16px; }
+.radar-node p { @apply text-paper-3 leading-relaxed mt-1; font-size:12px; white-space:normal; }
+.radar-node-established, .radar-foundation { border-color:var(--radar-blue); box-shadow:inset 0 0 0 1px #6dcaff15,0 0 22px #218dcc08; }
+.radar-node-army { width:22%; }
+.radar-node-airborne { width:25%; }
+.radar-node-airborne p { white-space:nowrap; }
+.radar-foundation { left:50%; top:90%; width:20.5%; height:clamp(56px,7.2vh,70px); box-shadow:0 0 35px #228ddd15; }
+.radar-foundation h3 { font-size:18px; }
+.radar-exploration { position:absolute; left:35.03%; top:0; transform:translateY(-80%); width:64.97%; padding:10px 13px; border:1px dashed #b1c5de; border-radius:10px; background:transparent; }
+.radar-exploration h3 { color:var(--radar-blue); font-family:'IBM Plex Mono',monospace; font-size:12px; font-weight:400; text-transform:uppercase; letter-spacing:.16em; margin:0 0 5px 4px; }
+.radar-exploration ul { list-style:none; margin:0; padding:0; display:grid; gap:3px; }
+.radar-exploration li { display:flex; justify-content:space-between; align-items:center; gap:6px; border:1px solid #1c2c3980; border-radius:6px; padding:4px 8px; color:#b6c2cf; font-size:12px; line-height:1.35; }
+.radar-exploration li span:last-child { color:var(--radar-blue); }
+button.radar-node { @apply cursor-pointer transition-colors duration-200; }
+button.radar-node:hover { border-color:var(--radar-blue); }
+button.radar-node:focus-visible { outline:2px solid var(--radar-blue); outline-offset:4px; }
+@media(max-width:1100px) { .radar-body { min-height:490px; } .radar-exploration { padding:8px; } }
+@media(prefers-reduced-motion:reduce) { .radar-node { animation:none; transition:none; } }
+@keyframes radar-reveal { from { opacity:0; } to { opacity:1; } }

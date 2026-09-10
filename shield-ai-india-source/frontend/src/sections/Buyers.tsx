@@ -29,14 +29,19 @@ function ResearchDrawer({ arena, onClose }: { arena: OpportunityArena | null; on
 }
 
 const RADAR_NODES = [
-  { id: 'army', title: 'Army ISR', sub: 'V-BAT · Hivemind SDK', x: 20, y: 70, horizon: 'Now' },
-  { id: 'maritime-isr', title: 'Maritime ISR', sub: 'Indian Navy · Coast Guard', x: 9, y: 44, horizon: 'Next' },
-  { id: 'airforce', title: 'Air Force Teaming', sub: 'Swarms · Collaborative aircraft', x: 9, y: 18, horizon: 'Next' },
-  { id: 'defence-space', title: 'Defence Space', sub: 'Defence Space Agency', x: 31, y: 18, horizon: 'Future' },
-  { id: 'airborne', title: 'Airborne Autonomy', sub: 'MALE · HAPS · CCA', examples: 'Tata · Mahindra · Bharat Forge', x: 80, y: 70, horizon: 'Next' },
-  { id: 'maritime-autonomy', title: 'Maritime Autonomy', sub: 'Surface · Undersea', examples: 'Saga Defence · L&T · Adani', x: 80, y: 44, horizon: 'Next' },
-  { id: 'integrators', title: 'Defence PSUs', sub: 'BEL · HAL · Goa Shipyard · GRSE · Mazagon', x: 31, y: 44, horizon: 'Next' },
-  { id: 'space', title: 'Space Autonomy', sub: 'Satellite OEMs', examples: 'Ananth · Centum', x: 80, y: 18, horizon: 'Future' },
+  { id: 'maritime-isr', title: 'Indian Navy · Coast Guard', sub: 'Shipborne ISR · Maritime surveillance', x: 11, y: 14, established: false },
+  { id: 'airforce', title: 'Indian Air Force', sub: 'Aircraft autonomy · Teaming · Training', x: 35.5, y: 16, established: false },
+  { id: 'army', title: 'Indian Army', sub: 'ISR · V-BAT · Hivemind', x: 12.5, y: 44, established: true },
+  { id: 'airborne', title: 'Aircraft & UAV OEMs', sub: 'Onboard autonomy · Aircraft integration', x: 64, y: 14, established: false },
+  { id: 'integrators', title: 'Defence primes', sub: 'Mission systems · Command & control', x: 89.5, y: 14, established: false },
+];
+
+const EXPLORATION_AREAS = [
+  'Simulation & training integrators · Aechelon',
+  'India engineering for global programmes',
+  'Collaborative aircraft & swarms',
+  'Surface & undersea autonomy',
+  'Space autonomy',
 ];
 
 export default function Buyers() {
@@ -49,36 +54,56 @@ export default function Buyers() {
   const openResearch = (id: string) => { lastTrigger.current = document.activeElement as HTMLElement; setSelected(OPPORTUNITY_ARENAS.find((arena) => arena.id === id) ?? null); };
 
   return <Screen className="opportunity-landscape">
-    <Headline title="Where can Shield AI India create value?" sub="Domestic opportunities for Hivemind, V-BAT, ViDAR and Aechelon, alongside India-based engineering for global programmes." />
+    <Headline title="India go-to-market ecosystem" sub="Government customers and industry partners for ISR, autonomy and simulation." />
     <div className="radar-body" data-testid={explore ? 'opportunity-explore' : 'opportunity-story'}>
-      <div className="opportunity-radar" data-testid="opportunity-landscape-map" aria-label="Opportunity radar: government and PSUs on the left, global capability in the centre, platform partners on the right; Shield AI India at the base">
-        <div className="radar-routes"><h2>B2G</h2><h2>B2B2G</h2></div>
+      <div className="opportunity-radar" data-testid="opportunity-landscape-map" aria-label="Opportunity radar: government customers on the left and industry partners on the right, connected to Shield AI India; areas to explore at the lower right">
+        <div className="radar-routes"><h2>Government customers</h2><h2>Industry partners</h2></div>
         <div className="radar-field">
           <svg className="radar-geometry" viewBox="0 0 1200 560" preserveAspectRatio="none" aria-hidden="true">
-            <defs><radialGradient id="radar-glow" cx="50%" cy="90%" r="50%"><stop offset="0%" stopColor="#3B82F6" stopOpacity=".13" /><stop offset="65%" stopColor="#3B82F6" stopOpacity="0" /></radialGradient></defs>
-            <rect width="1200" height="560" fill="url(#radar-glow)" />
-            <path className="radar-arc radar-outer" d="M 70 40 A 530 480 0 0 0 1130 40" />
-            <path className="radar-arc" d="M 220 180 A 380 340 0 0 0 980 180" />
-            <path className="radar-arc radar-inner" d="M 390 330 A 210 190 0 0 0 810 330" />
-            <path className="radar-divider" d="M 636 510 L 636 246" />
-            <path className="radar-branch" d="M 636 510 Q 240 510 240 392 M 636 510 Q 960 510 960 392" />
+            <defs>
+              <radialGradient id="radar-glow" cx="48%" cy="90%" r="43%">
+                <stop offset="0%" stopColor="#299fff" stopOpacity=".2" />
+                <stop offset="75%" stopColor="#1471ae" stopOpacity=".025" />
+                <stop offset="100%" stopColor="#1471ae" stopOpacity="0" />
+              </radialGradient>
+              <linearGradient id="radar-sweep" x1="0" y1="1" x2="0" y2="0">
+                <stop offset="0%" stopColor="#359ee9" stopOpacity=".19" />
+                <stop offset="100%" stopColor="#359ee9" stopOpacity="0" />
+              </linearGradient>
+              <linearGradient id="radar-glow-fade" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="75%" stopColor="white" />
+                <stop offset="100%" stopColor="black" />
+              </linearGradient>
+              <mask id="radar-glow-mask"><rect width="1200" height="560" fill="url(#radar-glow-fade)" /></mask>
+            </defs>
+            <rect width="1200" height="560" fill="url(#radar-glow)" mask="url(#radar-glow-mask)" />
+            <path d="M 570 504 L 435 120 A 370 370 0 0 1 715 125 Z" fill="url(#radar-sweep)" />
+            {[90, 140, 190, 215, 265, 330, 395].map((radius, i) =>
+              <path key={radius} className={`radar-arc ${i % 2 ? 'radar-arc-dashed' : ''}`} d={`M ${570-radius} 504 A ${radius} ${radius} 0 0 1 ${570+radius} 504`} />
+            )}
+            <path className="radar-divider" d="M 570 504 V 88" />
+            <path className="radar-branch" d="M 132 78 C 135 330 310 431 600 504 M 426 90 C 425 277 456 401 600 504 M 768 78 C 765 269 718 399 600 504 M 1074 78 C 1074 205 860 180 860 280 C 860 390 740 455 600 504" />
+            {[[348, 330], [420, 215], [660, 350], [738, 186], [366, 241]].map(([x,y]) => <path key={`${x}-${y}`} className="radar-blip-cross" d={`M ${x-3} ${y} h 6 M ${x} ${y-3} v 6`} />)}
+            {[[422, 362], [495, 302], [478, 179], [820, 350]].map(([cx,cy]) => <circle key={`${cx}-${cy}`} className="radar-blip" cx={cx} cy={cy} r="2" />)}
           </svg>
-          <article className="radar-node radar-node-next radar-gcc" aria-label="Global Capability Centre">
-            <h3>Global Engineering</h3>
-            <p>India engineering for global programmes</p>
-          </article>
           <article className="radar-node radar-foundation"><h3>Shield AI India</h3></article>
           {RADAR_NODES.map((node) => {
-            const content = <><h3>{node.title}</h3>{node.sub && <p>{node.sub}{'examples' in node && ` (${node.examples})`}</p>}</>;
-            const className = `radar-node radar-node-${node.horizon.toLowerCase()} radar-node-${node.id}`;
+            const content = <><h3>{node.title}</h3><p>{node.sub}</p></>;
+            const className = `radar-node ${node.established ? 'radar-node-established' : ''} radar-node-${node.id}`;
             const style = { left: `${node.x}%`, top: `${node.y}%` };
             return explore ? <button key={node.id} data-testid={`arena-${node.id}`} className={className} style={style} onClick={() => openResearch(node.id)} aria-label={`Explore ${node.title}`}>{content}</button>
               : <article key={node.id} data-testid={`arena-${node.id}`} className={className} style={style}>{content}</article>;
           })}
+          <div className="radar-exploration-anchor">
+            <div className="radar-explore-link" aria-hidden="true" />
+          <aside className="radar-exploration" aria-label="Areas to explore">
+            <h3>Areas to explore</h3>
+            <ul>{EXPLORATION_AREAS.map((area) => <li key={area}><span>{area}</span><span aria-hidden="true">?</span></li>)}</ul>
+          </aside>
+          </div>
         </div>
       </div>
     </div>
-    {explore && <p className="radar-caption">Select an opportunity to explore the research. GCC represents a proposed global engineering role.</p>}
     <ResearchDrawer arena={selected} onClose={closeResearch} />
   </Screen>;
 }
