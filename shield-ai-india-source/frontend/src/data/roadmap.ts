@@ -18,12 +18,14 @@ export const MILESTONES = [
     "label": "October 2026",
     "title": "October 2026 milestones",
     "lines": [
-      "Army programme underway; Delhi office operational.",
-      "Bengaluru opening targeted; engineering budget approved."
+      "Army delivery underway; Delhi office operational",
+      "Bengaluru setup and hiring budget approved",
+      "Catalyst partners shortlisted"
     ],
     "details": [
-      "Army programme underway; Delhi office operational.",
-      "Bengaluru opening targeted; engineering budget approved."
+      "Army delivery underway; Delhi office operational",
+      "Bengaluru setup and hiring budget approved",
+      "Catalyst partners shortlisted"
     ],
     "assumption": "October 2026 is the proposed baseline, using the current internal planning position.",
     "note": "Starting position based on internal planning; confirm Bengaluru opening and hiring status."
@@ -33,12 +35,14 @@ export const MILESTONES = [
     "label": "January 2027",
     "title": "January 2027 milestones",
     "lines": [
-      "Core India team and engineering environment operational.",
-      "JSW joint readiness checkpoint: transfer, vendor onboarding, facility, tooling and team capability reviewed."
+      "Bengaluru engineering team operational",
+      "First three-month Catalyst engagement launched",
+      "JSW facility, tooling and supplier readiness reviewed"
     ],
     "details": [
-      "Core India team and engineering environment operational.",
-      "JSW joint readiness checkpoint: transfer, vendor onboarding, facility, tooling and team capability reviewed."
+      "Bengaluru engineering team operational",
+      "First three-month Catalyst engagement launched",
+      "JSW facility, tooling and supplier readiness reviewed"
     ],
     "assumption": "Proposed planning target, subject to customer schedules, staffing, approvals and programme dependencies.",
     "note": "Q4 2026 announced production target; confirm actual commencement separately from joint capability-readiness checkpoints."
@@ -48,12 +52,14 @@ export const MILESTONES = [
     "label": "April 2027",
     "title": "April 2027 milestones",
     "lines": [
-      "Army delivery and acceptance checkpoint completed; initial JSW customer support ready before delivery.",
-      "First India-led Hivemind integration demonstrated."
+      "Army acceptance milestones met; field support ready",
+      "First Catalyst demonstration completed",
+      "Follow-on autonomy scope agreed"
     ],
     "details": [
-      "Army delivery and acceptance checkpoint completed; initial JSW customer support ready before delivery.",
-      "First India-led Hivemind integration demonstrated."
+      "Army acceptance milestones met; field support ready",
+      "First Catalyst demonstration completed",
+      "Follow-on autonomy scope agreed"
     ],
     "assumption": "Proposed planning target, subject to customer schedules, staffing, approvals and programme dependencies.",
     "note": "The Army checkpoint follows the agreed customer delivery and acceptance schedule."
@@ -63,42 +69,48 @@ export const MILESTONES = [
     "label": "July 2027",
     "title": "July 2027 milestones",
     "lines": [
-      "Selected government and partner pursuits reach trials or proposals.",
-      "Army follow-on requirements defined."
+      "First Catalyst converted into a larger contract",
+      "Naval trials or proposals underway",
+      "Army follow-on requirements defined"
     ],
     "details": [
-      "Selected government and partner pursuits reach trials or proposals.",
-      "Army follow-on requirements defined."
+      "First Catalyst converted into a larger contract",
+      "Naval trials or proposals underway",
+      "Army follow-on requirements defined"
     ],
     "assumption": "Proposed planning target, subject to customer schedules, staffing, approvals and programme dependencies.",
-    "note": "Pursuits may span V-BAT, Hivemind, Aechelon and ViDAR; no service or product is preselected."
+    "note": "Catalyst conversion and naval pursuits depend on partner engagement and customer schedules."
   },
   {
     "month": 12,
     "label": "October 2027",
     "title": "October 2027 milestones",
     "lines": [
-      "First paid engagement beyond the existing Army programme secured.",
-      "India team delivers a Hivemind integration for an Indian platform partner."
+      "First contracted autonomy integration delivered",
+      "Second Catalyst demonstration completed",
+      "JSW production qualification milestones met"
     ],
     "details": [
-      "First paid engagement beyond the existing Army programme secured.",
-      "India team delivers a Hivemind integration for an Indian platform partner."
+      "First contracted autonomy integration delivered",
+      "Second Catalyst demonstration completed",
+      "JSW production qualification milestones met"
     ],
     "assumption": "Proposed planning target, subject to customer schedules, staffing, approvals and programme dependencies.",
-    "note": "A paid engagement may be a scoped project rather than a full procurement award."
+    "note": "Autonomy integration and production qualification follow agreed contract scope and acceptance criteria."
   },
   {
     "month": 15,
     "label": "January 2028",
     "title": "January 2028 milestones",
     "lines": [
-      "First global engineering work package delivered from India.",
-      "Expanded JSW local MRO capability targeted; acceptance scope and forecast to be agreed."
+      "Additional autonomy programme secured",
+      "First sponsored global engineering package delivered",
+      "Local repair and spares capability expanded"
     ],
     "details": [
-      "First global engineering work package delivered from India.",
-      "Expanded JSW local MRO capability targeted; acceptance scope and forecast to be agreed."
+      "Additional autonomy programme secured",
+      "First sponsored global engineering package delivered",
+      "Local repair and spares capability expanded"
     ],
     "assumption": "Proposed planning target, subject to customer schedules, staffing, approvals and programme dependencies.",
     "note": "Global programme scope and local support responsibilities will be agreed with headquarters and partners."
@@ -108,12 +120,14 @@ export const MILESTONES = [
     "label": "April 2028",
     "title": "April 2028 milestones",
     "lines": [
-      "Army follow-on business secured.",
-      "India team supports multiple revenue-generating programmes."
+      "Army repeat order secured; naval procurement advanced",
+      "Multiple autonomy programmes in delivery",
+      "Production and staffing aligned with orders"
     ],
     "details": [
-      "Army follow-on business secured.",
-      "India team supports multiple revenue-generating programmes."
+      "Army repeat order secured; naval procurement advanced",
+      "Multiple autonomy programmes in delivery",
+      "Production and staffing aligned with orders"
     ],
     "assumption": "Proposed planning target, subject to customer schedules, staffing, approvals and programme dependencies.",
     "note": "Commercial dates will be refined against customer schedules."
