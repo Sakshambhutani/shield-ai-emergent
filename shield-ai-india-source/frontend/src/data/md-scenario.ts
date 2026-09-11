@@ -1,4 +1,4 @@
-import { FX_NOTE, formatInrCrore, formatUsdMillionsInInr } from '@/lib/currency';
+import { formatInrCrore, formatUsdMillionsInInr } from '@/lib/currency';
 export { formatUsdMillionsInInr } from '@/lib/currency';
 // First-cut management scenario. User inputs and constructed dates are documented in ASSUMPTIONS.
 export const AS_OF = '2026-10-01';
@@ -214,7 +214,7 @@ export const JSW: Milestone[] = [
  { ...jswMilestone('mro-capability', 'Local MRO capability', '2027-12-31', '2027-12-31', 'JSW service + Shield', 'Repair scope and demonstrated local capability to be agreed; proposed target only.', 'Later phase · forecast TBD'), start: '2027-04-01', forecastPending: true },
 ];
 export const ASSUMPTIONS = [
- { label:'Display currency', value:FX_NOTE, detail:'Source contract values are retained in USD and converted for display. Native INR budgets are not converted. This reporting conversion does not imply an India cash transfer.' },
+ { label:'Display currency', value:'INR', detail:'Source contract values are retained in USD and converted for display. Native INR budgets are not converted. This reporting conversion does not imply an India cash transfer.' },
  { label:'Engineering commitments', value:'Army 4 / 5 delivered on time', detail:'Illustrative preparation outputs for 01 Sep–01 Oct 2026, separate from customer delivery milestones. Four outputs accepted by their original due dates; the interface fix remains outstanding. Future commitments are excluded from attainment. Critical dependencies link to the existing blocker register; their age uses the dashboard snapshot date. Scenario checks remain supporting detail.' },
  { label:'Reporting date & roadmap', value:`${date(AS_OF)} · planning snapshot`, detail:'Roadmap anchors: October 2026 baseline; January 2027 engineering environment and initial production; April 2027 first acceptance; October 2027 first paid expansion; April 2028 Army follow-on. These are proposed month-level checkpoints. Exact days and programme durations below are constructed assumptions, not verified contract dates.' },
  { label:'Army order', value:`${formatUsdMillionsInInr(20)} · 3 years`, detail:`Order value corrected to ${formatUsdMillionsInInr(20)} by the user. Payment and revenue schedules remain constructed planning assumptions. Assumed term 01 Oct 2026–30 Sep 2029, signed 30 Sep 2026. Payment shares 10%, 20%, 30%, 30%, 10%; advance received ${formatUsdMillionsInInr(2)}. Remaining receipts follow acceptance by 30 days. No revenue recognised at the initial snapshot; customer advance is not earned revenue. Constructed performance allocations: ${formatUsdMillionsInInr(4)} first acceptance, ${formatUsdMillionsInInr(6)} year two, ${formatUsdMillionsInInr(6)} year three and ${formatUsdMillionsInInr(4)} final handover, recognising ${formatUsdMillionsInInr(20)} in total. Finance must validate entity attribution and revenue recognition.` },

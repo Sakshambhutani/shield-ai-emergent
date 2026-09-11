@@ -1,5 +1,4 @@
 import { useLayoutEffect, useRef, useState } from 'react';
-import { FX_NOTE } from '@/lib/currency';
 import { Headline, Screen } from '@/components/ui';
 import { OPERATING_FUNCTIONS, OPERATING_MODEL_KPIS, OPERATING_MODEL_SUMMARIES } from '@/data/operating-model';
 import './operating-model.css';
@@ -76,7 +75,7 @@ function OperatingSystem() {
 
 export default function OperatingModel() {
   return <Screen className="operating-screen">
-    <Headline title="How Shield AI India operates" sub={`Clear ownership across six functions. Selected KPIs for the first six months. ${FX_NOTE}.`} />
+    <Headline title="How Shield AI India operates" sub="Clear ownership across six functions. Selected KPIs for the first six months." />
     <OperatingSystem />
   </Screen>;
 }

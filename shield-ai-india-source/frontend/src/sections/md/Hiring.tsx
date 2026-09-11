@@ -76,7 +76,7 @@ export default function Hiring({ initial = 'All' }: { initial?: string }) {
     <div id="hr-onboarding" ref={onboardingRef} tabIndex={-1} style={{scrollMarginTop:16}}>
       <Panel title="Onboarding readiness" aside={<><></><button className="mc-link" aria-expanded={showReady} onClick={() => setShowReady(!showReady)}>{showReady ? 'Hide ready' : `Show ready (${PEOPLE_READY})`}</button></>}>
         <Table headers={['Role / starter', 'Start date', 'Readiness due', 'Status', 'Blocker', 'Owner']}>
-          {PEOPLE_STARTERS.filter(s => showReady || !s.ready).map(s => <tr key={s.id}><th scope="row"><span >{s.role}<small>{s.id}</small></span></th><td>{date(s.start)}</td><td>{date(s.due)}</td><td><Badge tone={s.ready ? 'green' : 'amber'}>{s.ready ? 'Ready' : 'Overdue'}</Badge></td><td>{s.blocker || '—'}</td><td>{s.owner}</td></tr>)}
+          {PEOPLE_STARTERS.filter(s => showReady || !s.ready).map(s => <tr key={s.id}><th scope="row"><span >{s.role}<small>{s.id}</small></span></th><td>{date(s.start)}</td><td>{date(s.due)}</td><td><Badge tone={s.ready ? 'green' : 'amber'}>{s.ready ? 'Ready' : 'Overdue'}</Badge></td><td>{s.blocker || 'None'}</td><td>{s.owner}</td></tr>)}
         </Table>
       </Panel>
     </div>

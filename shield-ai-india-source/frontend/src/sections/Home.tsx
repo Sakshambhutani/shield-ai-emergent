@@ -84,7 +84,7 @@ export default function Home() {
           <div className="thesis-move-list">
             {STEPS.map(({ number, title, copy, icon: Icon }) => (
               <article className="thesis-move" key={number} data-testid={`strategy-step-${number.slice(1)}`}>
-                <div className="thesis-move-copy"><span className="thesis-step-number">{number} —</span><h2>{title}</h2><p>{copy}</p></div>
+                <div className="thesis-move-copy"><span className="thesis-step-number">{number}.</span><h2>{title}</h2><p>{copy}</p></div>
                 <div className="thesis-move-node"><Icon /></div>
               </article>
             ))}

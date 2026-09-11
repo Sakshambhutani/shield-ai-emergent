@@ -67,7 +67,7 @@ function Entry({ c }: { c: Claim }) {
             </div>) : null; })}
         </div>
       )}
-      {c.sourceIds.length === 0 && <div className="mt-2 text-xs text-paper-3 font-mono">Management judgement — not a reported company fact.</div>}
+      {c.sourceIds.length === 0 && <div className="mt-2 text-xs text-paper-3 font-mono">Management judgement, not a reported company fact.</div>}
     </div>
   );
 }

@@ -16,18 +16,18 @@ export default function Finance() {
  const jump=useSectionLink('Finance and Legal');
  const selectYear=(fy:Year)=>{const next=new URLSearchParams(params);next.set('fy',fy);navigate({pathname:location.pathname,search:next.toString(),hash:''});};
  const variance=spending.variance;
- const varianceText=variance===null?'—':`${inr(Math.abs(variance))} ${variance>0?'over':variance<0?'under':'on budget'}`;
+ const varianceText=variance===null?'N/A':`${inr(Math.abs(variance))} ${variance>0?'over':variance<0?'under':'on budget'}`;
  return <>
  <nav className="mc-controls" aria-label="Finance financial year"><div className="mc-choices">{YEARS.map(fy=><button key={fy} aria-pressed={year===fy} onClick={()=>selectYear(fy)}>{fy}</button>)}</div></nav>
  <Cards>
 <Metric onClick={()=>jump('finance-variance',{fy:year})} label="Budget variance" value={varianceText} sub={variance===null?'No spending yet':`Against ${inr(spending.periodBudget!)} period budget`} tone={variance!==null&&variance>0?'mc-amber':''}/>
-<Metric onClick={()=>jump('finance-spending',{fy:year})} label="Spent to date" value={spending.spent===null?'—':inr(spending.spent)} sub={spending.spent===null?'Future year':`Estimated · ${spending.period}`}/>
+<Metric onClick={()=>jump('finance-spending',{fy:year})} label="Spent to date" value={spending.spent===null?'N/A':inr(spending.spent)} sub={spending.spent===null?'Future year':`Estimated · ${spending.period}`}/>
 <Metric onClick={()=>jump('finance-spending',{fy:year})} label="Expense budget" value={inr(spending.planned)} sub={`${inr(plan.opex)} opex + ${inr(plan.execution)} execution`}/>
 <Metric onClick={()=>jump('finance-revenue',{fy:year})} label="Earnings plan" value={inr(plan.revenue+plan.tot)} sub={`${inr(plan.revenue)} revenue + ${inr(plan.tot)} ToT`}/>
 </Cards>
  <Panel collapsible={false} id="finance-spending" title="Spending by FY"><div id="finance-variance" tabIndex={-1} style={{scrollMarginTop:16}} className="mc-strip">
   <span>{year} · {spending.spent===null?'plan only':spending.period}</span>
-  <span>Period budget <b>{spending.periodBudget===null?'—':inr(spending.periodBudget)}</b></span>
+  <span>Period budget <b>{spending.periodBudget===null?'N/A':inr(spending.periodBudget)}</b></span>
   <span>Variance <b style={{color:variance!==null&&variance>0?'#d5b17a':undefined}}>{varianceText}{variance!==null&&spending.periodBudget?` (${(Math.abs(variance)/spending.periodBudget*100).toFixed(1)}%)`:''}</b></span>
  </div><Bars data={ANNUAL_SPENDING} unit="Cr" series={[
   {key:'planned',name:'Planned',color:'#53677f'},

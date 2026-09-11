@@ -31,7 +31,7 @@ export default function Overview({ navigate }: { navigate: (area: Area, filter?:
  </Panel>
  <Panel title="Upcoming commitments">
   <Table headers={['Milestone','Agreed','Forecast','Weekly change']}>
-   {milestones.map(m=><tr key={m.id}><th scope="row"><button className="mc-link" onClick={()=>navigate(m.project==='jsw'?'JSW Partnership':'Operations')}>{m.label}</button></th><td>{date(m.due)}</td><td>{date(m.forecast)}</td><td><Badge tone={days(m.previous,m.forecast)>0?'amber':''}>{days(m.previous,m.forecast)===0?'—':`${signed(days(m.previous,m.forecast))} days`}</Badge></td></tr>)}
+   {milestones.map(m=><tr key={m.id}><th scope="row"><button className="mc-link" onClick={()=>navigate(m.project==='jsw'?'JSW Partnership':'Operations')}>{m.label}</button></th><td>{date(m.due)}</td><td>{date(m.forecast)}</td><td><Badge tone={days(m.previous,m.forecast)>0?'amber':''}>{days(m.previous,m.forecast)===0?'No change':`${signed(days(m.previous,m.forecast))} days`}</Badge></td></tr>)}
   </Table>
  </Panel>
  </>;

@@ -1,6 +1,5 @@
 // Fixed planning assumption, not a live exchange rate.
 export const USD_TO_INR = 95;
-export const FX_NOTE = `Amounts in INR · USD converted at ₹${USD_TO_INR}/$ (assumed)`;
 const number = (value: number) => value.toLocaleString('en-IN', { maximumFractionDigits: 2 });
 
 /** Convert source amounts in USD millions to INR crore exactly once. */

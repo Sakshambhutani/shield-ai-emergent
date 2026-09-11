@@ -126,7 +126,7 @@ export default function Cadence() {
   }, [selected]);
 
   return <Screen className="cadence-screen">
-    <Headline title="A rhythm for delivery and growth" sub="Operate weekly, align monthly, review quarterly and steer yearly — with programme milestones throughout." />
+    <Headline title="A rhythm for delivery and growth" sub="Operate weekly, align monthly, review quarterly and steer yearly, with programme milestones throughout." />
     <div className={`cadence-layout${active ? ' has-selection' : ''}${hasInteracted ? '' : ' show-click-cue'}`}>
       <svg className="cadence-circles" viewBox="0 0 1000 1000" role="group" aria-label="Cadence layers" data-testid="decision-rhythm">
         {LAYERS.map(layer => <g key={layer.id} ref={node => { ringRefs.current[layer.id] = node; }}

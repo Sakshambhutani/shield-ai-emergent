@@ -67,7 +67,7 @@ export default function Money() {
           {programmes.map(n => {
             const funding = PROGRAMME_FUNDING[n.id];
             const claimIds = [...new Set([...n.claimIds, ...(funding?.claimIds ?? [])])];
-            return <button type="button" key={n.id} data-testid={`market-programme-${n.id}`} className="market-programme-card" aria-label={`${programmeTitle(n)} — show references`} onClick={() => openEvidence(claimIds, programmeTitle(n))}>
+            return <button type="button" key={n.id} data-testid={`market-programme-${n.id}`} className="market-programme-card" aria-label={`${programmeTitle(n)}: show references`} onClick={() => openEvidence(claimIds, programmeTitle(n))}>
               <span className={`market-status ${n.cls}`}>{status(n)}</span>
               <strong>{programmeTitle(n)}</strong>
               <span className="market-card-footer"><span className={`market-programme-amount ${funding ? '' : 'is-undisclosed'}`}>{funding ? formatCrore(funding.crore, funding.qualifier) : 'Value undisclosed'}</span><span className="market-card-references"><FileText size={13} /> References <span>{claimIds.length}</span></span></span>
