@@ -98,7 +98,7 @@ export default function Buyers() {
             <div className="radar-explore-link" aria-hidden="true" />
           <aside className="radar-exploration" aria-label="Areas to explore">
             <h3>Areas to explore</h3>
-            <ul>{EXPLORATION_AREAS.map((area) => <li key={area}><span>{area}</span><span aria-hidden="true">?</span></li>)}</ul>
+            <ul>{EXPLORATION_AREAS.map((area) => <li key={area}><span>{area}</span></li>)}</ul>
           </aside>
           </div>
         </div>

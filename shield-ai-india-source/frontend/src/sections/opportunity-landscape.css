@@ -28,7 +28,6 @@
 .radar-exploration h3 { color:var(--radar-blue); font-family:'IBM Plex Mono',monospace; font-size:12px; font-weight:400; text-transform:uppercase; letter-spacing:.16em; margin:0 0 5px 4px; }
 .radar-exploration ul { list-style:none; margin:0; padding:0; display:grid; gap:3px; }
 .radar-exploration li { display:flex; justify-content:space-between; align-items:center; gap:6px; border:1px solid #1c2c3980; border-radius:6px; padding:4px 8px; color:#b6c2cf; font-size:12px; line-height:1.35; }
-.radar-exploration li span:last-child { color:var(--radar-blue); }
 button.radar-node { @apply cursor-pointer transition-colors duration-200; }
 button.radar-node:hover { border-color:var(--radar-blue); }
 button.radar-node:focus-visible { outline:2px solid var(--radar-blue); outline-offset:4px; }

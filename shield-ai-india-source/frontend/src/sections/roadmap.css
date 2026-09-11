@@ -20,17 +20,17 @@
 .company-milestone-copy { position: absolute; width: max-content; left: 0; transform: translateX(-50%); text-align: left; padding: 14px 14px; border: 1px solid #283448; border-radius: 5px; background: linear-gradient(135deg, #151e2b, #10151c); }
 .company-milestone.above .company-milestone-copy { bottom: 24px; }
 .company-milestone.below .company-milestone-copy { top: 40px; }
-.company-milestone.first .company-milestone-copy { left: -60px; transform: none; }
-.company-milestone:nth-child(3) .company-milestone-copy { left: 60px; transform: translateX(-100%); }
+.company-milestone.first .company-milestone-copy { left: -100px; transform: none; }
+.company-milestone:nth-child(3) .company-milestone-copy { left: 100px; transform: translateX(-100%); }
 .company-milestone.last .company-milestone-copy { left: 20px; transform: translateX(-100%); border-color: #80b4fa45; background: linear-gradient(135deg, #151e2b, #10151c); }
 button.company-milestone-copy { cursor: pointer; transition: border-color .18s, box-shadow .18s; }
 button.company-milestone-copy:hover, .selected .company-milestone-copy { border-color: #60a5fa; box-shadow: 0 0 20px #3b82f615; }
 button.company-milestone-copy:focus-visible { outline: 2px solid #60a5fa; outline-offset: 4px; }
-.company-month { display: flex; justify-content: space-between; align-items: center; color: #60a5fa; font: 14px/1.4 'IBM Plex Mono', monospace; letter-spacing: .06em; }
+.company-month { display: flex; justify-content: space-between; align-items: center; color: #60a5fa; font: 18px/1.4 'IBM Plex Mono', monospace; letter-spacing: .06em; }
 .company-month svg { width: 13px; height: 13px; }
 .company-milestone h3 { font-size: 16px; line-height: 1.4; font-weight: 600; letter-spacing: -.025em; margin: 5px 0 7px; }
 .company-milestone-copy ul { list-style: disc; margin: 12px 0 0; padding-left: 16px; }
-.company-milestone-copy li { color: var(--text-secondary); font-size: 14px; line-height: 1.5; white-space: nowrap; letter-spacing: -.015em; }
+.company-milestone-copy li { color: var(--text-primary); font-size: 18px; line-height: 1.5; white-space: nowrap; letter-spacing: -.015em; }
 .company-milestone-copy li + li { margin-top: 8px; }
 .company-milestone-copy li::marker { color: #60a5fa; }
 .company-milestone.last h3, .company-milestone.last .company-month { color: #80b4fa; }
