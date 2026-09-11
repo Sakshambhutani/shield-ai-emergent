@@ -16,7 +16,7 @@ export function Headline({ title, sub, right }: { title: string; sub?: string; r
   return (
     <header className="screen-heading" data-testid="screen-heading">
       <div className="screen-heading-copy">
-        <div className="eyebrow">{s.num} · {s.label}</div>
+        <div className="eyebrow">{s.label}</div>
         <h1 data-testid="screen-headline" className="screen-title">{title}</h1>
         {sub && <p data-testid="screen-subhead" className="screen-subhead">{sub}</p>}
       </div>

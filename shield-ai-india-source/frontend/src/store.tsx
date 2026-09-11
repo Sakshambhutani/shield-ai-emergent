@@ -57,7 +57,7 @@ export function StoreProvider({ children }: { children: ReactNode }) {
       if (isEditable(e.target)) return;
       if (e.key === 'ArrowRight') go(sectionIndex + 1);
       else if (e.key === 'ArrowLeft') go(sectionIndex - 1);
-      else if (e.key === 'Escape') { closeEvidence(); setAccount(null); }
+      else if (e.key === 'Escape') { closeEvidence(); setAccount(null); setPresent(false); }
       else if (e.key === 'p' || e.key === 'P') setPresent((p) => !p);
     };
     window.addEventListener('keydown', onKey);

@@ -58,3 +58,10 @@ button, a, summary, input { -webkit-tap-highlight-color: transparent; }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
 }
+
+/* Corner controls share the existing heading space without a separate bar. */
+.shell-content .screen-heading .eyebrow { min-height:28px; padding-right:240px; }
+@media (max-width: 600px) {
+  .shell-content .screen-heading { padding-top:36px; }
+  .shell-content .screen-heading .eyebrow { min-height:0; padding-right:0; }
+}
