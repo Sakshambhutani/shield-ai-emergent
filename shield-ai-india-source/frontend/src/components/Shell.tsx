@@ -13,7 +13,7 @@ function Nav() {
     <nav aria-label="Main navigation" data-testid="side-nav" className="relative z-[60] hidden md:flex w-60 shrink-0 flex-col border-r border-line bg-ink-1 p-4 overflow-y-auto">
       <div className="mb-6">
         <div className="eyebrow text-sig-blue">Shield AI India</div>
-         <div className="text-sm font-medium leading-tight mt-1">India Strategy &amp; Operating System</div>
+         <div className="text-sm font-medium leading-tight mt-1">Strategy &amp; Operating System</div>
       </div>
       <div className="flex flex-col gap-0.5">
         {SECTIONS.map((s, i) => (
