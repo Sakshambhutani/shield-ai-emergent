@@ -28,7 +28,7 @@ const SNAPSHOTS: Record<string, KpiSnapshot[]> = {
         },
         {
           "label": "Army follow-on",
-          "text": "Tracked separately from new programmes. No additional Army follow-on award assumed in this example."
+          "text": "Tracked separately from new programmes. No additional Army follow-on award included in this example."
         },
         {
           "label": "Target basis",

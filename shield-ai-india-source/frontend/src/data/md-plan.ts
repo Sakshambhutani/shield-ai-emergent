@@ -10,7 +10,7 @@ export const ANNUAL = YEARS.map((year, i) => ({ year, start: `${2025+i}-04-01`, 
  employeeRate: .7, opex: [30,45,70,90][i], tot: [50,75,50,0][i], execution: [5,12,6,2][i],
 }));
 export const COST_HEADS = [
- {id:'employee',name:'Employee compensation',owner:'HR',values:[10.5,19.25,40.25,61.25]},
+ {id:'employee',name:'Employee compensation',owner:'People and Culture',values:[10.5,19.25,40.25,61.25]},
  {id:'office',name:'Office / facilities',owner:'Finance',values:[1.5,2,3,4]},
  {id:'travel',name:'Travel / customer engagement',owner:'Finance',values:[4,5,6,5]},
  {id:'training',name:'General training / engineering support',owner:'Finance',values:[1.5,2,2.5,2.5]},

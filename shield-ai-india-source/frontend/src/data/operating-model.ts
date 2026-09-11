@@ -278,7 +278,7 @@ export const OPERATING_FUNCTIONS: OperatingFunction[] = [
 },
 {
   "id": "people",
-  "name": "People & HR",
+  "name": "People and Culture",
   "mandate": "Put qualified people on dated commitments without double-booking India and HQ teams.",
   "owner": "India People lead with Engineering managers",
   "kpis": [
@@ -386,7 +386,7 @@ export const OPERATING_MODEL_SUMMARIES: Record<string, string> = {
   "growth": "Tracks tangible customer or partner commitment to the next business beyond the Army foothold.",
   "programmes": "Tracks the next milestone forecast and on-time acceptance of milestones due.",
   "autonomy": "Tracks delivery of agreed engineering outputs and critical dependencies threatening upcoming commitments.",
-  "people": "Illustrative month-two HR review: 20 to 45 people; tracks hiring against plan, critical role coverage, new-joiner readiness and capabilities without backup.",
+  "people": "Illustrative month-two People and Culture review: 20 to 45 people; tracks hiring against plan, critical role coverage, new-joiner readiness and capabilities without backup.",
   "finance": "Tracks 18 months of assumed funding coverage against a target above 15 months, and actual spending against budget.",
   "industrialisation": "Tracks production transfer acceptance, vendor onboarding coverage and Shield supplier-enablement commitments. MRO readiness follows delivery gates and the longer-term capability plan."
 };

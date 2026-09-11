@@ -1,0 +1,40 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import { createServer } from 'vite';
+import { createElement } from 'react';
+import { renderToStaticMarkup } from 'react-dom/server';
+import { MemoryRouter } from 'react-router-dom';
+test('position budgets reconcile and premiums use agreed or proposed costs',async()=>{
+ const server=await createServer({server:{middlewareMode:true},appType:'custom'});
+ try {
+  const {HIRING_COSTS,hiringCostSummary,hiringCostTone,HR_FY_EXITS}=await server.ssrLoadModule('/src/data/md-hiring-costs.ts');
+  const {PEOPLE_ROLES,PEOPLE_JOINED}=await server.ssrLoadModule('/src/data/md-people.ts');
+  assert.equal(HIRING_COSTS.length,PEOPLE_ROLES.reduce((s,r)=>s+r.count,0));
+  assert.equal(new Set(HIRING_COSTS.map(r=>r.id)).size,HIRING_COSTS.length);
+  assert.equal(HIRING_COSTS.filter(r=>r.stage==='Joined').length,PEOPLE_JOINED);
+  assert.ok(new Set(HIRING_COSTS.map(r=>r.budget)).size>1);
+  const row={id:'test',role:'Engineer',budget:50,latest:null,stage:'Vacant'};
+  assert.deepEqual(hiringCostSummary([row]),{budget:50,forecast:50,variance:0,tone:'green'});
+  assert.equal(hiringCostTone(row),'');
+  assert.equal(hiringCostSummary([{...row,latest:60,stage:'Offer'}]).tone,'amber');
+  assert.equal(hiringCostSummary([{...row,latest:60,stage:'Joined'},{...row,latest:40,stage:'Joined'}]).tone,'red');
+  assert.equal(hiringCostSummary([{...row,latest:0,stage:'Joined'}]).forecast,0);
+  assert.equal(row.budget,50);
+  assert.equal(HR_FY_EXITS.length,1);
+  const {PEOPLE_HEADCOUNT}=await server.ssrLoadModule('/src/data/md-people.ts');
+  assert.equal(PEOPLE_HEADCOUNT,20);
+  const {default:Hiring}=await server.ssrLoadModule('/src/sections/md/Hiring.tsx');
+  const html=renderToStaticMarkup(createElement(MemoryRouter,null,createElement(Hiring)));
+  for(const label of ['Hiring cost / budget · annual','Hiring cost by position','Attrition · exits this FY'])assert.ok(html.includes(label));
+  assert.ok(html.includes('BD account manager'));
+  assert.ok(html.includes('Offer accepted'));
+  assert.ok(!html.includes('<dialog'));
+  const ids=['hr-plan','hr-joining','hr-critical','hr-capability','hr-onboarding','hr-hiring-cost','hr-attrition'];
+  const indices=ids.map(id=>html.indexOf(`id="${id}"`));
+  assert.ok(indices.every((n,i)=>n>=0&&(i===0||n>indices[i-1])));
+  assert.ok(html.indexOf('Headcount plan')<indices[0]);
+  const costTable=html.slice(indices[5],indices[6]);
+  assert.ok(costTable.includes('Remaining positions (22)'));
+  assert.equal((costTable.match(/<tr/g)||[]).length,6);
+ } finally {await server.close();}
+});

@@ -1,7 +1,7 @@
 import { ANNUAL, type Year } from './md-plan';
 // User-authorised estimate for the dashboard review; not recorded expenditure.
 export const JSW_SPEND_ESTIMATE = { year: 'FY26–27' as Year, asOf: '2026-09-30', amount: 6 };
-export const JSW_FINANCE_BASIS = 'FY26–27 execution spend is estimated at ₹6 Cr through 30 September 2026, assuming half of the ₹12 Cr annual budget has been used. This is a user-authorised planning assumption, not recorded expenditure. FY25–26 execution spending is estimated at its full ₹5 Cr budget, consistent with the Finance spending scenario. Cumulative estimated spend is ₹11 Cr against an assumed ₹11 Cr phased budget through September. No future-year spend or actual earnings are inferred.';
+export const JSW_FINANCE_BASIS = 'FY26–27 execution spend is estimated at ₹6 Cr through 30 September 2026, assuming half of the ₹12 Cr annual budget has been used. This is a user-authorised planning assumption, not recorded expenditure. FY25–26 execution spending is estimated at its full ₹5 Cr budget, consistent with the Finance spending scenario. Cumulative estimated spend is ₹11 Cr against a ₹11 Cr phased budget through September. No future-year spend or actual earnings are inferred.';
 export const JSW_COST_WEIGHTS = [
  ['US engineering support',6],['India-to-US training',4],['QA / QC',4],['Vendor qualification',3],['Documentation',3],['Initial production support',3],['Compliance',2],
 ] as const;

@@ -4,7 +4,7 @@ import { SOURCE_URL } from '@/data/md-plan';
 import { PEOPLE_AS_OF } from '@/data/md-people';
 import { useSearchParams, useNavigate, useLocation } from 'react-router-dom';
 import { Headline } from '@/components/ui';
-import { AREAS, AS_OF, date, type Area } from '@/data/md-scenario';
+import { AREA_LABELS, AREAS, AS_OF, date, type Area } from '@/data/md-scenario';
 import Overview from './Overview';
 import BusinessDevelopment from './BusinessDevelopment';
 import Delivery from './Delivery';
@@ -31,9 +31,9 @@ export default function Dashboard() {
  <header><h2 id="mc-assumptions-title">Assumptions</h2><button autoFocus aria-label="Close assumptions" onClick={()=>assumptionsRef.current?.close()}>Close</button></header>
  <div className="md-detail-body"><p><a className="mc-link" href={SOURCE_URL} target="_blank" rel="noopener noreferrer">Annual operating model ↗</a></p><details className="md-register-section"><summary>Business Development · estimate basis</summary><p>{BD_SCENARIO_BASIS}</p></details></div>
  </dialog><div className="mc-header"><Headline title="MD Dashboard"/><div className="mc-toolbar"><span><time dateTime={area === 'HR' ? PEOPLE_AS_OF : AS_OF}>{date(area === 'HR' ? PEOPLE_AS_OF : AS_OF)}</time>{area === 'HR' && ' · Illustrative review'}</span><button className="mc-link" onClick={()=>assumptionsRef.current?.showModal()}>Assumptions ↗</button></div>
- <nav className="mc-nav" aria-label="MD dashboard areas">{AREAS.map(a=><button key={a} aria-current={a===area?'page':undefined} onClick={()=>navigate(a)}>{a}</button>)}</nav>
+ <nav className="mc-nav" aria-label="MD dashboard areas">{AREAS.map(a=><button key={a} aria-current={a===area?'page':undefined} onClick={()=>navigate(a)}>{AREA_LABELS[a]}</button>)}</nav>
  </div>
- <div className="mc-view" key={area+initial} aria-label={area}>
+ <div className="mc-view" key={area+initial} aria-label={AREA_LABELS[area]}>
  {area==='Overview'&&<Overview navigate={navigate}/>}
  {area==='Business Development'&&<BusinessDevelopment initial={initial}/>}
  {area==='Operations'&&<Delivery initial={initial}/>}
